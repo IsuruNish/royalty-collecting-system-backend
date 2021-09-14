@@ -17,4 +17,8 @@ public class peopleService {
     public ArrayList<people>getPeople() throws SQLException, ClassNotFoundException {
         return pplDAO.getAllPeople();
     }
+
+    public boolean addPeople(people ppl) throws SQLException, ClassNotFoundException {
+        return pplDAO.addPeople(ppl);
+    }
 }
