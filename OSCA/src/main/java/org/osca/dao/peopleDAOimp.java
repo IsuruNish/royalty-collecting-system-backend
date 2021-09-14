@@ -32,4 +32,18 @@ public class peopleDAOimp implements peopleDAO{
         }
         return ppl;
     }
+
+
+    public boolean addPeople(people ppl) throws SQLException, ClassNotFoundException {
+
+        Connection connection = DBcon.getObj().getConnecton();
+        String query = "INSERT INTO people VALUE(?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1,ppl.getId());
+        preparedStatement.setString(2,ppl.getName());
+        preparedStatement.setString(3,ppl.getUni());
+
+        return preparedStatement.executeUpdate() > 0;
+
+    }
 }
