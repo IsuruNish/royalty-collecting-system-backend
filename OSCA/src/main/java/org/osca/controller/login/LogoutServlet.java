@@ -21,6 +21,8 @@ public class LogoutServlet extends HttpServlet {
         session.invalidate();
 
         out.println("Successfully sign out...");
+        response.sendRedirect("LoginServlet");
+//        system.out.println("");
 
     }
 }
