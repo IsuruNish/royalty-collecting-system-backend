@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
@@ -32,14 +33,18 @@ public class LoginServlet extends HttpServlet {
 
         String email=request.getParameter("email");
         String password=request.getParameter("password");
+        System.out.println(email);
+        System.out.println(password);
          //1256
         //password hashed - SHA256
         String hashedPW=doHash(password);
         UserLoginModel userLoginModel=new UserLoginModel();
         userLoginModel.setEmail(email);
-        userLoginModel.setPassword(hashedPW);
 
-        boolean checked = false;
+        //use hased password here
+        userLoginModel.setPassword(password);
+
+//        boolean checked = false;
         LoginService service = new LoginService();
 
         try {
@@ -55,16 +60,14 @@ public class LoginServlet extends HttpServlet {
             out.println("Credentials are not matched !");
         }else {
 
-            //token
-            JWebToken token = new JWebToken(userLoginModel.getFirstName(), userLoginModel.getLastName(), userLoginModel.getEmail(), userLoginModel.getUserType());
-
-
-            //Session
             int userType=userLoginModel.getUserType();
 
+            System.out.println(userLoginModel);
+            System.out.println(userType);
             switch (userType) {
                 case 1:     // Super Admin
                     out.println("1");
+                    System.out.println("hello nish");
                     break;
 
                 case 2:     // Admin
@@ -88,12 +91,12 @@ public class LoginServlet extends HttpServlet {
                     out.println("You can't log now..");
             }
 
-            Gson gson = new Gson();
-            String tokenJSON =gson.toJson(token);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-
-            response.getWriter().println(tokenJSON);
+//            Gson gson = new Gson();
+//            String tokenJSON =gson.toJson(userType);
+//            response.setContentType("application/json");
+//            response.setCharacterEncoding("UTF-8");
+////
+//            response.getWriter().println(tokenJSON);
 
         }
     }
@@ -102,7 +105,45 @@ public class LoginServlet extends HttpServlet {
 
 
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String email=request.getParameter("email");
+        String password=request.getParameter("password");
+
+        String hashedPW=doHash(password);
+        UserLoginModel userLoginModel=new UserLoginModel();
+        userLoginModel.setEmail(email);
+
+        userLoginModel.setPassword(password);
+
+        LoginService service = new LoginService();
+
+        try {
+            userLoginModel = service.getUser(userLoginModel);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String token = new JWebToken(userLoginModel.getFirstName(), userLoginModel.getLastName(), userLoginModel.getEmail(), userLoginModel.getUserType()).toString();
+
+//        ArrayList<String> list = new ArrayList<>();
+//
+//        list.add(token);
+//        list.add(String.valueOf(userLoginModel.getUserType()));
+
+        Gson gson = new Gson();
+        String tokenJSON =gson.toJson(token);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        response.getWriter().println(tokenJSON);
 
     }
 
