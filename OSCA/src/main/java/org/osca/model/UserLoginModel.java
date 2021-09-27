@@ -3,18 +3,18 @@ package org.osca.model;
 public class UserLoginModel {
     private int id;
     private String email;
-    private String username;
+    private String firstName;
+    private String lastName;
     private String password;
     private int userType;
 
     public UserLoginModel() {
     }
 
-    public UserLoginModel(int id, String email, String username, String password, int userType) {
-        this.id = id;
+    public UserLoginModel(String email, String firstName, String lastName, int userType) {
         this.email = email;
-        this.username = username;
-        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.userType = userType;
     }
 
@@ -34,12 +34,20 @@ public class UserLoginModel {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -57,5 +65,4 @@ public class UserLoginModel {
     public void setUserType(int userType) {
         this.userType = userType;
     }
-
 }
