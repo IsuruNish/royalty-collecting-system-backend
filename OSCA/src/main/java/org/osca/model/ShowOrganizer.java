@@ -8,9 +8,9 @@ public class ShowOrganizer {
     private String phone;
     private String email;
     private String password;
-    private String deleteStatus;
-    private String userType;
-    private String deletedBy;
+    private int deleteStatus;
+    private int userType;
+    private int deletedBy;
     private String deletedOn;
 
 
@@ -25,6 +25,7 @@ public class ShowOrganizer {
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.userType = 5;
     }
 
     public int getUid() {
@@ -83,27 +84,27 @@ public class ShowOrganizer {
         this.password = password;
     }
 
-    public String getDeleteStatus() {
+    public int getDeleteStatus() {
         return deleteStatus;
     }
 
-    public void setDeleteStatus(String deleteStatus) {
+    public void setDeleteStatus(int deleteStatus) {
         this.deleteStatus = deleteStatus;
     }
 
-    public String getUserType() {
+    public int getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(int userType) {
         this.userType = userType;
     }
 
-    public String getDeletedBy() {
+    public int getDeletedBy() {
         return deletedBy;
     }
 
-    public void setDeletedBy(String deletedBy) {
+    public void setDeletedBy(int deletedBy) {
         this.deletedBy = deletedBy;
     }
 
