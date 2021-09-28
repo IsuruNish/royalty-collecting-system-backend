@@ -40,11 +40,10 @@ public class JWebToken {
         payload.put("last name", lname);
         payload.put("email", email);
         payload.put("user type", userType);
-        payload.put("exp", now + 2);
+        payload.put("exp", now + 3600);
         payload.put("iat", now );
         payload.put("jti", UUID.randomUUID().toString());
         signature = hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY);
-
     }
 
 
@@ -70,19 +69,27 @@ public class JWebToken {
         signature = parts[2];
     }
 
+    public int getUserType(String token){
+        String[] parts = token.split("\\.");
+
+        String tempPayload = decode(parts[1]);
+        parts = tempPayload.split("\\,");
+        return Integer.parseInt(String.valueOf(parts[2].charAt(parts[2].length()-1)));
+    }
+
     @Override
     public String toString() {
         return encodedHeader + "." + encode(payload) + "." + signature;
     }
 
-    public boolean isBothValid() {
+    public boolean isValid() {
         return payload.getLong("exp") > (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))//token not expired
                 && signature.equals(hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY)); //signature matched
     }
 
-    public boolean isValid() {
-        return signature.equals(hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY)); //signature matched
-    }
+//    public boolean isValid() {
+//        return signature.equals(hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY)); //signature matched
+//    }
 
     private static String encode(JSONObject obj) {
         return encode(obj.toString().getBytes(StandardCharsets.UTF_8));
@@ -119,8 +126,8 @@ public class JWebToken {
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
 
-//        System.out.println(new JWebToken("isuru","nish","123@abc@g.com",1));
-        System.out.println(new JWebToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0IG5hbWUiOiJuaXNoIiwiZmlyc3QgbmFtZSI6ImlzdXJ1IiwidXNlciB0eXBlIjoxLCJleHAiOjE2MzI1ODY2NzcsImlhdCI6MTYzMjU4NjY3NSwiZW1haWwiOiIxMjNAYWJjQGcuY29tIiwianRpIjoiMmI5NzFiNzQtY2VjZC00NjUwLWEyMDctNjYwZTNmMmNlYTlhIn0.PJU-gBnu_ImVAcOA_wm7sFJ6I-gwVB2ik6OdKV2Azqg").isBothValid());
+        System.out.println(new JWebToken("isuru","nish","123@abc@g.com",1));
+//        System.out.println(new JWebToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0IG5hbWUiOiJuaXNoIiwiZmlyc3QgbmFtZSI6ImlzdXJ1IiwidXNlciB0eXBlIjoxLCJleHAiOjE2MzI1ODY2NzcsImlhdCI6MTYzMjU4NjY3NSwiZW1haWwiOiIxMjNAYWJjQGcuY29tIiwianRpIjoiMmI5NzFiNzQtY2VjZC00NjUwLWEyMDctNjYwZTNmMmNlYTlhIn0.PJU-gBnu_ImVAcOA_wm7sFJ6I-gwVB2ik6OdKV2Azqg").isBothValid());
     }
 
 }
