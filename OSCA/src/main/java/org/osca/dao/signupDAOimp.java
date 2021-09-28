@@ -34,7 +34,7 @@ public class signupDAOimp implements signupDAO {
 
         Connection connection = DBConnection.getObj().getConnection();
 
-        String query = "INSERT INTO basic_user (NIC, First_Name, Last_Name, Phone_Number, Email, Delete_Status,Password, User_Type) VALUE(?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO basic_users (NIC, First_Name, Last_Name, Phone_Number, Email, Delete_Status,Password, User_Type) VALUE(?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 //        preparedStatement.setInt(1,ppl.getId());
 //        preparedStatement.setInt(1,NULL);

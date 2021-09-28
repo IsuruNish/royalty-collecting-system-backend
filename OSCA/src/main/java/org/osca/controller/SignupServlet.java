@@ -6,13 +6,14 @@ import org.osca.model.ShowOrganizer;
 import org.osca.service.signupService;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-
+@WebServlet(name = "SignupServlet", value = "/SignupServlet")
 public class SignupServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
