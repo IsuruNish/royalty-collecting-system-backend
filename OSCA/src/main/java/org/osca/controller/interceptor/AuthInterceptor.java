@@ -27,8 +27,6 @@ public class AuthInterceptor implements Filter {
 
 
         if (!url.equals("/OSCA_war_exploded/LoginServlet") && !url.equals("/OSCA_war_exploded/SignupServlet") ) {
-            System.out.println(req.getParameter("osca"));
-            System.out.println("hell");
 
             String token = req.getParameter("osca");
             int ut = 401;

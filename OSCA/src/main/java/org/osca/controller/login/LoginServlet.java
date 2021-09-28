@@ -33,8 +33,8 @@ public class LoginServlet extends HttpServlet {
 
         String email=request.getParameter("email");
         String password=request.getParameter("password");
-        System.out.println(email);
-        System.out.println(password);
+//        System.out.println(email);
+//        System.out.println(password);
          //1256
         //password hashed - SHA256
         String hashedPW=doHash(password);
@@ -54,15 +54,12 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-
         if(userLoginModel==null){
             out.println("Credentials are not matched !");
         }else {
 
             int userType=userLoginModel.getUserType();
 
-//            System.out.println(userLoginModel);
-//            System.out.println(userType);
             switch (userType) {
                 case 1:     // Super Admin
                     out.println("1");

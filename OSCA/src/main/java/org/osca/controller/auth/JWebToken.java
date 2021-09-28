@@ -5,10 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.Mac;
@@ -74,7 +71,36 @@ public class JWebToken {
 
         String tempPayload = decode(parts[1]);
         parts = tempPayload.split("\\,");
+//        System.out.println(Arrays.toString(parts));
         return Integer.parseInt(String.valueOf(parts[2].charAt(parts[2].length()-1)));
+    }
+
+    public String getFirstName(String token){
+        String[] parts = token.split("\\.");
+
+        String tempPayload = decode(parts[1]);
+        parts = tempPayload.split("\\,");
+        parts = parts[1].split("\\:");
+        return (parts[1].substring(1,parts[1].length()-1));
+    }
+
+    public String getLastName(String token){
+        String[] parts = token.split("\\.");
+
+        String tempPayload = decode(parts[1]);
+        parts = tempPayload.split("\\,");
+        parts = parts[0].split("\\:");
+        return (parts[1].substring(1,parts[1].length()-1));
+    }
+
+    public String getEmail(String token){
+        String[] parts = token.split("\\.");
+
+        String tempPayload = decode(parts[1]);
+        parts = tempPayload.split("\\,");
+//        System.out.println(Arrays.toString(parts));
+        parts = parts[5].split("\\:");
+        return (parts[1].substring(1,parts[1].length()-1));
     }
 
     @Override
@@ -125,8 +151,10 @@ public class JWebToken {
 
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
+        JWebToken k = new JWebToken("isuru","nish","123@abc@g.com",1);
 
-        System.out.println(new JWebToken("isuru","nish","123@abc@g.com",1));
+//        System.out.println(k.getEmail(k.toString()));
+//        System.out.println(new JWebToken("isuru","nish","123@abc@g.com",1).toString());
 //        System.out.println(new JWebToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0IG5hbWUiOiJuaXNoIiwiZmlyc3QgbmFtZSI6ImlzdXJ1IiwidXNlciB0eXBlIjoxLCJleHAiOjE2MzI1ODY2NzcsImlhdCI6MTYzMjU4NjY3NSwiZW1haWwiOiIxMjNAYWJjQGcuY29tIiwianRpIjoiMmI5NzFiNzQtY2VjZC00NjUwLWEyMDctNjYwZTNmMmNlYTlhIn0.PJU-gBnu_ImVAcOA_wm7sFJ6I-gwVB2ik6OdKV2Azqg").isBothValid());
     }
 
