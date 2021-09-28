@@ -6,14 +6,29 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
+    private final String host = "localhost";
+    private final String port = "3306";
+    private final String database = "osca_database";
+    private final String username = "root";
+    private final String passdword = "";
+
     private static Connection connection;
-    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+    private static DBConnection dbcon;
 
-        if(connection==null){
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/tutorials","root","password");
+    private DBConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String url = "jdbc:mysql://"+host+":"+port+"/"+database;
+        connection = DriverManager.getConnection(url, username, passdword);
+    }
 
-        }
+    public static DBConnection getObj() throws SQLException, ClassNotFoundException {
+        if(dbcon == null) dbcon = new DBConnection();
+
+        return dbcon;
+    }
+
+    public static Connection getConnection(){
         return connection;
     }
 }
+
