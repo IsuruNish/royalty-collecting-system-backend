@@ -21,8 +21,6 @@ public class UserDAOImpl implements UserDAO {
             resultSet = DBConnection.getConnection().createStatement().executeQuery("SELECT * FROM users");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
         while (true){
             try {

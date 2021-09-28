@@ -41,8 +41,7 @@ public class LoginServlet extends HttpServlet {
         UserLoginModel userLoginModel=new UserLoginModel();
         userLoginModel.setEmail(email);
 
-        //use hased password here
-        userLoginModel.setPassword(password);
+        userLoginModel.setPassword(hashedPW);
 
 //        boolean checked = false;
         LoginService service = new LoginService();
@@ -62,12 +61,12 @@ public class LoginServlet extends HttpServlet {
 
             int userType=userLoginModel.getUserType();
 
-            System.out.println(userLoginModel);
-            System.out.println(userType);
+//            System.out.println(userLoginModel);
+//            System.out.println(userType);
             switch (userType) {
                 case 1:     // Super Admin
                     out.println("1");
-                    System.out.println("hello nish");
+//                    System.out.println("hello nish");
                     break;
 
                 case 2:     // Admin
@@ -120,7 +119,7 @@ public class LoginServlet extends HttpServlet {
         UserLoginModel userLoginModel=new UserLoginModel();
         userLoginModel.setEmail(email);
 
-        userLoginModel.setPassword(password);
+        userLoginModel.setPassword(hashedPW);
 
         LoginService service = new LoginService();
 
@@ -132,11 +131,6 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
         String token = new JWebToken(userLoginModel.getFirstName(), userLoginModel.getLastName(), userLoginModel.getEmail(), userLoginModel.getUserType()).toString();
-
-//        ArrayList<String> list = new ArrayList<>();
-//
-//        list.add(token);
-//        list.add(String.valueOf(userLoginModel.getUserType()));
 
         Gson gson = new Gson();
         String tokenJSON =gson.toJson(token);

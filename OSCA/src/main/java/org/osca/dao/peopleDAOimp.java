@@ -1,6 +1,6 @@
 package org.osca.dao;
 
-import org.osca.database.DBcon;
+import org.osca.database.DBConnection;
 import org.osca.model.people;
 
 import java.sql.Connection;
@@ -14,7 +14,7 @@ public class peopleDAOimp implements peopleDAO{
     public ArrayList<people> getAllPeople() throws SQLException, ClassNotFoundException {
         ArrayList<people> ppl = new ArrayList<>();
 
-        Connection connection = DBcon.getObj().getConnecton();
+        Connection connection = DBConnection.getObj().getConnection();
         String query = "SELECT * FROM people";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -36,7 +36,7 @@ public class peopleDAOimp implements peopleDAO{
 
     public boolean addPeople(people ppl) throws SQLException, ClassNotFoundException {
 
-        Connection connection = DBcon.getObj().getConnecton();
+        Connection connection = DBConnection.getObj().getConnection();
         String query = "INSERT INTO people VALUE(?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1,ppl.getId());
