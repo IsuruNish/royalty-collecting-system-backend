@@ -98,6 +98,11 @@
             <version>1.4.7</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>9.4.9.v20180320</version>
+        </dependency>
 
 
     </dependencies>

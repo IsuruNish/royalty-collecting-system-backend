@@ -29,7 +29,7 @@ public class AuthInterceptor implements Filter {
         if (!url.equals("/OSCA_war_exploded/LoginServlet") && !url.equals("/OSCA_war_exploded/SignupServlet") ) {
 
             String token = req.getParameter("osca");
-            int ut = 401;
+            int ut = 404;
 
             if (token != null) {
                 JWebToken jwtObj = null;
@@ -47,7 +47,7 @@ public class AuthInterceptor implements Filter {
             }
 
 
-            if (ut == 401) {
+            if (ut == 404) {
                 out.println(ut);
             }
             else{

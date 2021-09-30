@@ -2,27 +2,32 @@ package org.osca.controller.login;
 
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
-import org.osca.dao.*;
-import org.osca.dao.LoginDAOImpl;
-import org.osca.dao.LoginDAO;
 import org.osca.model.UserLoginModel;
 import org.osca.service.LoginService;
+import org.osca.controller.httpRequest.HeaderAndBody;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        HeaderAndBody data = new HeaderAndBody();
+
+        String header = data.getHeader(request);
+        String body = data.getBody(request);
+
+        UserLoginModel user = new UserLoginModel();
+
+        Gson gson = new Gson();
+        user = gson.fromJson(body, UserLoginModel.class);
 
         PrintWriter out = null;
         try {
@@ -31,69 +36,34 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String email=request.getParameter("email");
-        String password=request.getParameter("password");
-//        System.out.println(email);
-//        System.out.println(password);
-         //1256
-        //password hashed - SHA256
-        String hashedPW=doHash(password);
-        UserLoginModel userLoginModel=new UserLoginModel();
-        userLoginModel.setEmail(email);
+        String email= user.getEmail();
+        String password= user.getPassword();
 
-        userLoginModel.setPassword(hashedPW);
-
-//        boolean checked = false;
         LoginService service = new LoginService();
+        UserLoginModel RealUser = new UserLoginModel();
 
         try {
-            userLoginModel = service.getUser(userLoginModel);
+            RealUser = service.getUser(user);
+            RealUser.setEmail(user.getEmail());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        if(userLoginModel==null){
+        if(RealUser==null){
             out.println("Credentials are not matched !");
-        }else {
+        }
 
-            int userType=userLoginModel.getUserType();
-
-            switch (userType) {
-                case 1:     // Super Admin
-                    out.println("1");
-//                    System.out.println("hello nish");
-                    break;
-
-                case 2:     // Admin
-                    out.println("2");
-                    break;
-
-                case 3:     // OSCA official
-
-                    out.println("3");
-                    break;
-
-                case 4:     // member
-                    out.println("4");
-                    break;
-
-                case 5:    //show organizer
-                    out.println("5");
-                    break;
-
-                default:
-                    out.println("You can't log now..");
-            }
-
-//            Gson gson = new Gson();
-//            String tokenJSON =gson.toJson(userType);
-//            response.setContentType("application/json");
-//            response.setCharacterEncoding("UTF-8");
-////
-//            response.getWriter().println(tokenJSON);
-
+        else{
+            String token = new JWebToken(RealUser.getFirstName(), RealUser.getLastName(), RealUser.getEmail(), RealUser.getUserType()).toString();
+            RealUser.setToken(token);
+            Gson g = new Gson();
+            String ut =g.toJson(new UserLoginModel(RealUser.getUserType(), RealUser.getToken()));
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("Authorization", "Bearer "+token);
+            response.getWriter().println(ut);
         }
     }
 
@@ -102,39 +72,6 @@ public class LoginServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PrintWriter out = null;
-        try {
-            out = response.getWriter();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String email=request.getParameter("email");
-        String password=request.getParameter("password");
-
-        String hashedPW=doHash(password);
-        UserLoginModel userLoginModel=new UserLoginModel();
-        userLoginModel.setEmail(email);
-
-        userLoginModel.setPassword(hashedPW);
-
-        LoginService service = new LoginService();
-
-        try {
-            userLoginModel = service.getUser(userLoginModel);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        String token = new JWebToken(userLoginModel.getFirstName(), userLoginModel.getLastName(), userLoginModel.getEmail(), userLoginModel.getUserType()).toString();
-
-        Gson gson = new Gson();
-        String tokenJSON =gson.toJson(token);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        response.getWriter().println(tokenJSON);
 
     }
 

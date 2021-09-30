@@ -7,8 +7,19 @@ public class UserLoginModel {
     private String lastName;
     private String password;
     private int userType;
+    private String token;
 
     public UserLoginModel() {
+    }
+
+    public UserLoginModel(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public UserLoginModel(int userType, String token) {
+        this.userType = userType;
+        this.token = token;
     }
 
     public UserLoginModel(String email, String firstName, String lastName, int userType) {
@@ -20,6 +31,14 @@ public class UserLoginModel {
 
     public int getId() {
         return id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public void setId(int id) {
@@ -64,5 +83,17 @@ public class UserLoginModel {
 
     public void setUserType(int userType) {
         this.userType = userType;
+    }
+
+    @Override
+    public String toString() {
+        return "UserLoginModel{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", userType=" + userType +
+                '}';
     }
 }

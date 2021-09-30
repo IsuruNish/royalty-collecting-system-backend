@@ -14,9 +14,9 @@ public class testServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        System.out.println("helllow from the otgher side");
         System.out.println(request);
         System.out.println(request.getHeader(String.valueOf(request)));
+        System.out.println(request.getParameter("name"));
     }
+
 }

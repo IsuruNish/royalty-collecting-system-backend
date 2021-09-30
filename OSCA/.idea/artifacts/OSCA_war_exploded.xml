@@ -22,6 +22,11 @@
           <element id="library" level="project" name="Maven: javax.interceptor:javax.interceptor-api:1.2" />
           <element id="library" level="project" name="Maven: javax.mail:mail:1.4.7" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-servlets:9.4.9.v20180320" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-continuation:9.4.9.v20180320" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-http:9.4.9.v20180320" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-util:9.4.9.v20180320" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-io:9.4.9.v20180320" />
         </element>
       </element>
       <element id="directory" name="META-INF">

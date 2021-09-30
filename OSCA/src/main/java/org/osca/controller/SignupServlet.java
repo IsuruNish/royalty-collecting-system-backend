@@ -2,7 +2,9 @@ package org.osca.controller;
 
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
+import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.ShowOrganizer;
+import org.osca.model.UserLoginModel;
 import org.osca.service.signupService;
 
 import javax.servlet.*;
@@ -21,24 +23,24 @@ public class SignupServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
-        String fname = req.getParameter("fname");
-        String lname = req.getParameter("lname");
-        String nic = req.getParameter("nic");
-        String phone = req.getParameter("phone");
-        String email = req.getParameter("email");
-        String pw = req.getParameter("pw");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String hashedPW = doHash(pw);
+        HeaderAndBody data = new HeaderAndBody();
 
+        String header = data.getHeader(request);
+        String body = data.getBody(request);
+//        System.out.println(body);
 
+        ShowOrganizer basicUser;
+        Gson gson = new Gson();
+        basicUser = gson.fromJson(body, ShowOrganizer.class);
+        basicUser.setUserType(5);
         signupService service = new signupService();
-        
+
         boolean added = false;
 
-        ShowOrganizer buser = new ShowOrganizer(fname,lname,phone,nic, email, hashedPW);
         try {
-            added = service.addShowOrganizers(buser);
+            added = service.addShowOrganizers(basicUser);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -46,14 +48,16 @@ public class SignupServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String token = new JWebToken(buser.getFname(), buser.getLname(), buser.getEmail(), buser.getUserType()).toString();
+        String token = new JWebToken(basicUser.getFname(), basicUser.getLname(), basicUser.getEmail(), basicUser.getUserType()).toString();
+        System.out.println(basicUser.getUserType());
 
-        Gson gson = new Gson();
-        String tokenJSON =gson.toJson(token);
+        ShowOrganizer RealUser = new ShowOrganizer(basicUser.getUserType(), token);
+        Gson g = new Gson();
+        String res =g.toJson(RealUser);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        response.getWriter().println(tokenJSON);
+        response.getWriter().println(res);
 
     }
 
