@@ -54,6 +54,7 @@ public class AuthInterceptor implements Filter {
                 }
 
             } else {
+                System.out.println("oshadhae");
                 out.println(404);
             }
         }
