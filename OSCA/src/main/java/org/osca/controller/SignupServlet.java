@@ -27,7 +27,7 @@ public class SignupServlet extends HttpServlet {
 
         HeaderAndBody data = new HeaderAndBody();
 
-        String header = data.getHeader(request);
+        String header = data.getAuthenticationHeader(request);
         String body = data.getBody(request);
 //        System.out.println(body);
 

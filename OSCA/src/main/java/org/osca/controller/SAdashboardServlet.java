@@ -2,6 +2,7 @@ package org.osca.controller;
 
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
+import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.SuperAdminDashboard;
 import org.osca.model.UserLoginModel;
 import org.osca.service.LoginService;
@@ -19,7 +20,10 @@ import java.util.ArrayList;
 public class SAdashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String token =request.getParameter("osca");
+        HeaderAndBody data = new HeaderAndBody();
+        String header = data.getAuthenticationHeader(request);
+        String token = header.substring(7);
+
         JWebToken tokennObj = null;
         try {
             tokennObj = new JWebToken(token);
@@ -57,10 +61,10 @@ public class SAdashboardServlet extends HttpServlet {
                 Double.parseDouble(details.get(8)));
 
             Gson gson = new Gson();
+            System.out.println(sa);
             String saobj =gson.toJson(sa);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-//
             response.getWriter().println(saobj);
 
     }

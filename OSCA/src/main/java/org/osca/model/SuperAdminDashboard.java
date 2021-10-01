@@ -33,8 +33,9 @@ public class SuperAdminDashboard {
 
     @Override
     public String toString() {
-        return "SuperAdmin{" +
-                "id=" + id +
+        return "SuperAdminDashboard{" +
+                "utype=" + utype +
+                ", id=" + id +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 ", email='" + email + '\'' +

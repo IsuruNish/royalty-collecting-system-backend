@@ -2,6 +2,7 @@ package org.osca.controller.interceptor;
 
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
+import org.osca.controller.httpRequest.HeaderAndBody;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
@@ -13,11 +14,6 @@ import java.security.NoSuchAlgorithmException;
 
 @WebFilter("/*")
 public class AuthInterceptor implements Filter {
-//    public void init(FilterConfig config) throws ServletException {
-//    }
-//
-//    public void destroy() {
-//    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -25,35 +21,43 @@ public class AuthInterceptor implements Filter {
         String url = ((HttpServletRequest) request).getRequestURI();
         PrintWriter out = response.getWriter();
 
-
         if (!url.equals("/OSCA_war_exploded/LoginServlet") && !url.equals("/OSCA_war_exploded/SignupServlet") ) {
+            HeaderAndBody data = new HeaderAndBody();
+            String header = data.getAuthenticationHeader(req);
 
-            String token = req.getParameter("osca");
-            int ut = 404;
+            if (header != null) {
+                String token = header.substring(7);
 
-            if (token != null) {
-                JWebToken jwtObj = null;
+                int ut = 404;
 
-                try {
-                    jwtObj = new JWebToken(token);
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
+                if (token != null) {
+                    JWebToken jwtObj = null;
+
+                    try {
+                        jwtObj = new JWebToken(token);
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                    if (jwtObj.isValid()) {
+                        ut = jwtObj.getUserType(token);
+                    }
                 }
 
-
-                if (jwtObj.isValid()) {
-                    ut = jwtObj.getUserType(token);
+                if (ut == 404) {
+                    out.println(ut);
                 }
-            }
+                else {
+                    chain.doFilter(request, response);
+                }
 
-
-            if (ut == 404) {
-                out.println(ut);
-            }
-            else{
-                chain.doFilter(request, response);
+            } else {
+                out.println(404);
             }
         }
+
         else {
             chain.doFilter(request, response);
         }

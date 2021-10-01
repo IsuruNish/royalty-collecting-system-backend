@@ -1,8 +1,5 @@
 package org.osca.controller.httpRequest;
 
-import com.google.gson.Gson;
-
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,8 +7,8 @@ import java.io.IOException;
 
 public class HeaderAndBody {
 
-    public String getHeader(HttpServletRequest request){
-        return request.getHeader("authorization");
+    public String getAuthenticationHeader(HttpServletRequest request){
+        return request.getHeader("Authorization");
     }
 
     public String getBody(HttpServletRequest request) throws IOException {
