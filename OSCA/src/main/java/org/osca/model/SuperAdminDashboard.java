@@ -31,6 +31,10 @@ public class SuperAdminDashboard {
         this.oscaIncome = oscaIncome;
     }
 
+    public SuperAdminDashboard(int utype) {
+        this.utype = utype;
+    }
+
     @Override
     public String toString() {
         return "SuperAdminDashboard{" +
