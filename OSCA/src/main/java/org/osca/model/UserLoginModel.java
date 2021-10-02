@@ -12,6 +12,10 @@ public class UserLoginModel {
     public UserLoginModel() {
     }
 
+    public UserLoginModel(int userType) {
+        this.userType = userType;
+    }
+
     public UserLoginModel(String email, String password) {
         this.email = email;
         this.password = password;

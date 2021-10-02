@@ -20,11 +20,13 @@ public class SARemoveSODAOImpl implements SARemoveSODAO {
 
         ArrayList<ShowOrganizer> users = new ArrayList<>();
 
-        if(resultSet.next()){
-            users.add(new ShowOrganizer(
-                    resultSet.getString(1),
-                    resultSet.getString(2)
-            ));
+        while(resultSet.next()) {
+            if (resultSet != null) {
+                users.add(new ShowOrganizer(
+                        resultSet.getString(1),
+                        resultSet.getString(2)
+                ));
+            }
         }
 
         return users;

@@ -19,7 +19,6 @@ public class LoginServlet extends HttpServlet {
 
         HeaderAndBody data = new HeaderAndBody();
 
-        String header = data.getAuthenticationHeader(request);
         String body = data.getBody(request);
 
         UserLoginModel user = new UserLoginModel();
@@ -42,7 +41,6 @@ public class LoginServlet extends HttpServlet {
 
         try {
             RealUser = service.getUser(user);
-            RealUser.setEmail(email);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -50,7 +48,11 @@ public class LoginServlet extends HttpServlet {
         }
 
         if(RealUser==null){
-            out.println("Credentials are not matched !");
+            Gson g = new Gson();
+            String ut =g.toJson(new UserLoginModel(0));
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println(ut);
         }
 
         else{

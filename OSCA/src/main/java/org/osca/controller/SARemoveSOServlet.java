@@ -43,12 +43,12 @@ public class SARemoveSOServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        ShowOrganizer so = new ShowOrganizer(1, fname);
+        ShowOrganizer so = new ShowOrganizer(fname,1);
         details.add(0,so);
 
         Gson gson = new Gson();
-        System.out.println(so);
-        String saobj =gson.toJson(so);
+//        System.out.println(so);
+        String saobj =gson.toJson(details);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().println(saobj);
