@@ -44,6 +44,16 @@ public class ShowOrganizer {
         this.token = token;
     }
 
+    public ShowOrganizer(String fname, String lname) {
+        this.fname = fname;
+        this.lname = lname;
+    }
+
+    public ShowOrganizer(String fname, int userType) {
+        this.fname = fname;
+        this.userType = userType;
+    }
+
     public int getUid() {
         return uid;
     }
