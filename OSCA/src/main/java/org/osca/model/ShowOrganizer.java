@@ -19,6 +19,14 @@ public class ShowOrganizer {
     public ShowOrganizer() {
     }
 
+    public ShowOrganizer(int uid, String fname, String lname, String phone, String email) {
+        this.uid = uid;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.email = email;
+    }
+
     public ShowOrganizer(String fname, String lname, String nic, String phone, String email, String password, String token) {
         this.fname = fname;
         this.lname = lname;

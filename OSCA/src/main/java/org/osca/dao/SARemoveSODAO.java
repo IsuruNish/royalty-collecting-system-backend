@@ -7,4 +7,6 @@ import java.util.ArrayList;
 
 public interface SARemoveSODAO {
     public ArrayList<ShowOrganizer> getShowOrganizers() throws SQLException, ClassNotFoundException;
-    }
+
+    public boolean delShowOrganizers(ShowOrganizer so, int uid) throws SQLException, ClassNotFoundException;
+}

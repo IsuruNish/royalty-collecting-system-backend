@@ -14,6 +14,10 @@ public class SARemoveSOService {
         saRDAO = new SARemoveSODAOImpl();
     }
 
+    public boolean deleteShowOrganizers(ShowOrganizer so, int uid) throws SQLException, ClassNotFoundException {
+        return saRDAO.delShowOrganizers(so,uid);
+    }
+
     public ArrayList<ShowOrganizer> getShowOrganizersToRemove() throws SQLException, ClassNotFoundException {
         return saRDAO.getShowOrganizers();
     }
