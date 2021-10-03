@@ -79,14 +79,15 @@ public class SARemoveSOServlet extends HttpServlet {
         }
 
         String fname = tokennObj.getFirstName(token);
+        String lname = tokennObj.getLastName(token);
+        String email = tokennObj.getEmail(token);
         int userType = tokennObj.getUserType(token);
 
         SARemoveSOService saRemoveSOserivice=new SARemoveSOService();
         ArrayList<ShowOrganizer> details = new ArrayList<>();
         boolean updated = false;
         try {
-            updated = saRemoveSOserivice.deleteShowOrganizers(basicUser, userType);
-            details = saRemoveSOserivice.getShowOrganizersToRemove();
+            updated = saRemoveSOserivice.deleteShowOrganizers(basicUser, fname, lname, email, userType);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -98,7 +99,6 @@ public class SARemoveSOServlet extends HttpServlet {
             details.add(0, so);
 
             Gson gson = new Gson();
-//        System.out.println(so);
             String saobj = gson.toJson(details);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
