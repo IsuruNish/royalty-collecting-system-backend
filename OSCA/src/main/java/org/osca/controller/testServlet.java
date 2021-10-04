@@ -27,11 +27,7 @@ public class testServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-//        for(Part p: request.getParts()){
-//            p.write("C:\Users\Asus\Desktop\be\osca-royalty-collector-backend\OSCA\src\main\webapp\ProfilePhotos\"+p.getSubmittedFileName());
-//        }
-//        String path = "{path: C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\resources\\ProfilePics\\isuru.jpg}";
+        
     }
 
 }

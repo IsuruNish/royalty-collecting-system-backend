@@ -14,8 +14,9 @@ public class SuperAdminDashboard {
     Double memberIncome;
     int concerts;
     Double oscaIncome;
+    String DPpath;
 
-    public SuperAdminDashboard(int utype,int id, String fname, String lname, String email, String phoneNo, int SOnum, int mnum, int licenseReqnum, int songReqnum, Double memberIncome, int concerts, Double oscaIncome) {
+    public SuperAdminDashboard(int utype, int id, String fname, String lname, String email, String phoneNo, int SOnum, int mnum, int licenseReqnum, int songReqnum, Double memberIncome, int concerts, Double oscaIncome, String DPpath) {
         this.utype = utype;
         this.id = id;
         this.fname = fname;
@@ -29,6 +30,7 @@ public class SuperAdminDashboard {
         this.memberIncome = memberIncome;
         this.concerts = concerts;
         this.oscaIncome = oscaIncome;
+        this.DPpath = DPpath;
     }
 
     public SuperAdminDashboard(int utype) {

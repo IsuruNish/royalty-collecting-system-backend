@@ -3,6 +3,7 @@ package org.osca.controller;
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
+import org.osca.controller.image.Images;
 import org.osca.model.SuperAdminDashboard;
 import org.osca.model.UserLoginModel;
 import org.osca.service.LoginService;
@@ -45,6 +46,9 @@ public class SAdashboardServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        Images dp = new Images();
+        String path = dp.getImagePath(Integer.parseInt(details.get(0)));
+
         SuperAdminDashboard sa = new SuperAdminDashboard(
                 1,
                 Integer.parseInt(details.get(0)),
@@ -58,7 +62,8 @@ public class SAdashboardServlet extends HttpServlet {
                 Integer.parseInt(details.get(5)),
                 Double.parseDouble(details.get(6)),
                 Integer.parseInt(details.get(7)),
-                Double.parseDouble(details.get(8)));
+                Double.parseDouble(details.get(8)),
+                path);
 
             Gson gson = new Gson();
             System.out.println(sa);
