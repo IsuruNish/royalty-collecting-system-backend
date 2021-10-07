@@ -14,9 +14,14 @@ public class ShowOrganizer {
     private String deletedOn;
 
     private String token;
+    private String DPpath;
 
 
     public ShowOrganizer() {
+    }
+
+    public ShowOrganizer(int userType) {
+        this.userType = userType;
     }
 
     public ShowOrganizer(int uid, String fname, String lname, String phone, String email) {
@@ -45,6 +50,12 @@ public class ShowOrganizer {
         this.phone = phone;
         this.email = email;
         this.password = password;
+    }
+
+    public ShowOrganizer(String fname, int utype, String DPpath) {
+        this.fname = fname;
+        this.userType = utype;
+        this.DPpath = DPpath;
     }
 
     public ShowOrganizer(int userType, String token) {
@@ -156,6 +167,14 @@ public class ShowOrganizer {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getDPpath() {
+        return DPpath;
+    }
+
+    public void setDPpath(String DPpath) {
+        this.DPpath = DPpath;
     }
 
     @Override

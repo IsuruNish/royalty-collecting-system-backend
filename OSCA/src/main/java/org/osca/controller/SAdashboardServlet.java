@@ -3,10 +3,8 @@ package org.osca.controller;
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
-import org.osca.controller.image.Images;
 import org.osca.model.SuperAdminDashboard;
-import org.osca.model.UserLoginModel;
-import org.osca.service.LoginService;
+import org.osca.service.ImageService;
 import org.osca.service.SAdashboardService;
 
 import javax.servlet.*;
@@ -31,38 +29,47 @@ public class SAdashboardServlet extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        String fname = tokennObj.getFirstName(token);
-        String lname = tokennObj.getLastName(token);
-        String email = tokennObj.getEmail(token);
+//        String fname = tokennObj.getFirstName(token);
+//        String lname = tokennObj.getLastName(token);
+//        String email = tokennObj.getEmail(token);
+        assert tokennObj != null;
+        int uid = tokennObj.getUserID(token);
         int userType = tokennObj.getUserType(token);
 
         SAdashboardService SAserivice=new SAdashboardService();
         ArrayList<String> details = new ArrayList<>();
         try {
-            details = SAserivice.getDashboardDetails(fname,lname,email);
+            details = SAserivice.getDashboardDetails(uid);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        Images dp = new Images();
-        String path = dp.getImagePath(Integer.parseInt(details.get(0)));
+        ImageService dp = new ImageService();
+        String path = null;
+        try {
+            path = dp.getEmpDP(uid);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         SuperAdminDashboard sa = new SuperAdminDashboard(
                 1,
-                Integer.parseInt(details.get(0)),
-                fname,
-                lname,
-                email,
+                uid,
+                details.get(0),
                 details.get(1),
-                Integer.parseInt(details.get(2)),
-                Integer.parseInt(details.get(3)),
+                details.get(2),
+                details.get(3),
                 Integer.parseInt(details.get(4)),
                 Integer.parseInt(details.get(5)),
-                Double.parseDouble(details.get(6)),
+                Integer.parseInt(details.get(6)),
                 Integer.parseInt(details.get(7)),
                 Double.parseDouble(details.get(8)),
+                Integer.parseInt(details.get(9)),
+                Double.parseDouble(details.get(10)),
                 path);
 
             Gson gson = new Gson();

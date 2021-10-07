@@ -3,6 +3,7 @@ package org.osca.model;
 public class SuperAdminDashboard {
     int utype;
     int id;
+    String nic;
     String fname;
     String lname;
     String email;
@@ -15,6 +16,12 @@ public class SuperAdminDashboard {
     int concerts;
     Double oscaIncome;
     String DPpath;
+
+    public SuperAdminDashboard(int utype, String fname, String DPpath) {
+        this.utype = utype;
+        this.fname = fname;
+        this.DPpath = DPpath;
+    }
 
     public SuperAdminDashboard(int utype, int id, String fname, String lname, String email, String phoneNo, int SOnum, int mnum, int licenseReqnum, int songReqnum, Double memberIncome, int concerts, Double oscaIncome, String DPpath) {
         this.utype = utype;
@@ -30,6 +37,16 @@ public class SuperAdminDashboard {
         this.memberIncome = memberIncome;
         this.concerts = concerts;
         this.oscaIncome = oscaIncome;
+        this.DPpath = DPpath;
+    }
+
+    public SuperAdminDashboard(int utype, String fname, String lname, String nic, String email, String phoneNo, String DPpath) {
+        this.utype = utype;
+        this.nic = nic;
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.phoneNo = phoneNo;
         this.DPpath = DPpath;
     }
 
@@ -54,6 +71,30 @@ public class SuperAdminDashboard {
                 ", concerts=" + concerts +
                 ", oscaIncome=" + oscaIncome +
                 '}';
+    }
+
+    public int getUtype() {
+        return utype;
+    }
+
+    public void setUtype(int utype) {
+        this.utype = utype;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getDPpath() {
+        return DPpath;
+    }
+
+    public void setDPpath(String DPpath) {
+        this.DPpath = DPpath;
     }
 
     public int getId() {

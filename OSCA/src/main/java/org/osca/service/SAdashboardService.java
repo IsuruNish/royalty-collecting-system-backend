@@ -15,7 +15,11 @@ public class SAdashboardService {
         sadbDAO = new SAdbDAOImpl();
     }
 
-    public ArrayList<String> getDashboardDetails(String fname, String lname, String email) throws SQLException, ClassNotFoundException {
-        return sadbDAO.getDetails(fname, lname, email);
+    public ArrayList<String> getDashboardDetails(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getDetails(uid);
+    }
+
+    public String getSuperadminName(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getSAName(uid);
     }
 }

@@ -38,9 +38,11 @@ public class SignupServlet extends HttpServlet {
         signupService service = new signupService();
 
         boolean added = false;
+        int uid = 0;
 
         try {
             added = service.addShowOrganizers(basicUser);
+            uid = service.getUid(basicUser);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -48,32 +50,44 @@ public class SignupServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String token = new JWebToken(basicUser.getFname(), basicUser.getLname(), basicUser.getEmail(), basicUser.getUserType()).toString();
-        System.out.println(basicUser.getUserType());
+        if (added) {
 
-        ShowOrganizer RealUser = new ShowOrganizer(basicUser.getUserType(), token);
-        Gson g = new Gson();
-        String res =g.toJson(RealUser);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+            String token = new JWebToken(uid, basicUser.getUserType()).toString();
+            System.out.println(basicUser.getUserType());
 
-        response.getWriter().println(res);
+            ShowOrganizer RealUser = new ShowOrganizer(basicUser.getUserType(), token);
+            Gson g = new Gson();
+            String res = g.toJson(RealUser);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
-    }
-
-    public String doHash(String password){
-        try {
-            MessageDigest messageDigest=MessageDigest.getInstance("SHA-256");
-            messageDigest.update(password.getBytes());
-            byte[] hashedByte=messageDigest.digest();
-            StringBuilder sb=new StringBuilder();
-            for(byte b:hashedByte){
-                sb.append(String.format("%02x",b));
-            }
-            return  sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            response.getWriter().println(res);
         }
-        return "";
+        else{
+            ShowOrganizer RealUser = new ShowOrganizer(-1);
+            Gson g = new Gson();
+            String res = g.toJson(RealUser);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
+            response.getWriter().println(res);
+
+        }
     }
+
+//    public String doHash(String password){
+//        try {
+//            MessageDigest messageDigest=MessageDigest.getInstance("SHA-256");
+//            messageDigest.update(password.getBytes());
+//            byte[] hashedByte=messageDigest.digest();
+//            StringBuilder sb=new StringBuilder();
+//            for(byte b:hashedByte){
+//                sb.append(String.format("%02x",b));
+//            }
+//            return  sb.toString();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        return "";
+//    }
 }

@@ -10,22 +10,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SAdbDAOImpl implements SAdbDAO {
-    public ArrayList<String> getDetails(String fname, String lname, String email) throws SQLException, ClassNotFoundException {
+    public ArrayList<String> getDetails(int uid) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT emp_id,phone_number FROM officials WHERE email=? AND first_name=? AND last_name=? ;";
+        String q = "SELECT first_name,last_name, email, phone_number FROM officials WHERE Emp_id =?;";
+
         PreparedStatement stmt = connection.prepareStatement(q);
 
-        stmt.setString(1,email);
-        stmt.setString(2, fname);
-        stmt.setString(3,lname);
+        stmt.setInt(1,uid);
 
         ResultSet resultSet = stmt.executeQuery();
 
         ArrayList<String> x = new ArrayList<>();
 
         if(resultSet.next()){
-            x.add(String.valueOf(resultSet.getInt(1)));
+            x.add(resultSet.getString(1));
             x.add(resultSet.getString(2));
+            x.add(resultSet.getString(3));
+            x.add(resultSet.getString(4));
         }
 
 
@@ -114,4 +115,23 @@ public class SAdbDAOImpl implements SAdbDAO {
         x.add(String.valueOf(tot));
         return x;
     }
+
+    public String getSAName(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT first_name FROM officials WHERE Emp_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+        }
+        return x;
+    }
+
 }

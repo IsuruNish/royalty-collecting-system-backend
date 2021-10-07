@@ -16,4 +16,8 @@ public class LoginService {
     public UserLoginModel getUser(UserLoginModel userLoginModel) throws SQLException, ClassNotFoundException {
         return loginDAO.login(userLoginModel);
     }
+
+    public int getID(UserLoginModel userLoginModel) throws SQLException, ClassNotFoundException {
+        return loginDAO.getUserID(userLoginModel);
+    }
 }

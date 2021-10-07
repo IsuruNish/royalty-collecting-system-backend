@@ -14,8 +14,8 @@ public class SARemoveSOService {
         saRDAO = new SARemoveSODAOImpl();
     }
 
-    public boolean deleteShowOrganizers(ShowOrganizer so, String fname, String lname, String email, int uid) throws SQLException, ClassNotFoundException {
-        return saRDAO.delShowOrganizers(so,fname, lname, email, uid);
+    public boolean deleteShowOrganizers(ShowOrganizer so, int uid, int utype) throws SQLException, ClassNotFoundException {
+        return saRDAO.delShowOrganizers(so,uid, utype);
     }
 
     public ArrayList<ShowOrganizer> getShowOrganizersToRemove() throws SQLException, ClassNotFoundException {

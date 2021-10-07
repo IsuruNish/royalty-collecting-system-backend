@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.ShowOrganizer;
-import org.osca.model.SuperAdminDashboard;
+import org.osca.service.ImageService;
 import org.osca.service.SARemoveSOService;
-import org.osca.service.signupService;
+import org.osca.service.SAdashboardService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -31,24 +31,36 @@ public class SARemoveSOServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String fname = tokennObj.getFirstName(token);
-        int userType = tokennObj.getUserType(token);
+        int uid = tokennObj.getUserID(token);
 
         SARemoveSOService saRemoveSOserivice=new SARemoveSOService();
+        SAdashboardService saSerivice=new SAdashboardService();
         ArrayList<ShowOrganizer> details = new ArrayList<>();
+        String name = null;
         try {
             details = saRemoveSOserivice.getShowOrganizersToRemove();
+            name = saSerivice.getSuperadminName(uid);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        ShowOrganizer so = new ShowOrganizer(fname,1);
+
+        ImageService dp = new ImageService();
+        String path = null;
+        try {
+            path = dp.getEmpDP(uid);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ShowOrganizer so = new ShowOrganizer(name,tokennObj.getUserType(token), path);
         details.add(0,so);
 
         Gson gson = new Gson();
-//        System.out.println(so);
         String saobj =gson.toJson(details);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -78,16 +90,20 @@ public class SARemoveSOServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        String fname = tokennObj.getFirstName(token);
-        String lname = tokennObj.getLastName(token);
-        String email = tokennObj.getEmail(token);
+        assert tokennObj != null;
+        int uid = tokennObj.getUserID(token);
         int userType = tokennObj.getUserType(token);
 
         SARemoveSOService saRemoveSOserivice=new SARemoveSOService();
+        SAdashboardService saSerivice=new SAdashboardService();
         ArrayList<ShowOrganizer> details = new ArrayList<>();
         boolean updated = false;
+        String name = null;
+
         try {
-            updated = saRemoveSOserivice.deleteShowOrganizers(basicUser, fname, lname, email, userType);
+            updated = saRemoveSOserivice.deleteShowOrganizers(basicUser, uid, userType);
+            name = saSerivice.getSuperadminName(uid);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -95,7 +111,7 @@ public class SARemoveSOServlet extends HttpServlet {
         }
 
         if(updated) {
-            ShowOrganizer so = new ShowOrganizer(fname, 1);
+            ShowOrganizer so = new ShowOrganizer(name, userType);
             details.add(0, so);
 
             Gson gson = new Gson();

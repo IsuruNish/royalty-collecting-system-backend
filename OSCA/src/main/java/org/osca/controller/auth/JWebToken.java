@@ -28,17 +28,30 @@ public class JWebToken {
         encodedHeader = encode(new JSONObject(JWT_HEADER));
     }
 
-    public JWebToken(String fname, String lname, String email, int userType){
+//    public JWebToken(String fname, String lname, String email, int userType){
+//        this();
+//
+//        Long now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+//
+//        payload.put("first name", fname);
+//        payload.put("last name", lname);
+//        payload.put("email", email);
+//        payload.put("user type", userType);
+//        payload.put("exp", now + 3600);
+//        payload.put("iat", now );
+//        payload.put("jti", UUID.randomUUID().toString());
+//        signature = hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY);
+//    }
+
+    public JWebToken(int uid, int userType){
         this();
 
         Long now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
 
-        payload.put("first name", fname);
-        payload.put("last name", lname);
-        payload.put("email", email);
+        payload.put("user ID", uid);
         payload.put("user type", userType);
-        payload.put("exp", now + 3600);
         payload.put("iat", now );
+        payload.put("exp", now + 3600);
         payload.put("jti", UUID.randomUUID().toString());
         signature = hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY);
     }
@@ -66,42 +79,55 @@ public class JWebToken {
         signature = parts[2];
     }
 
+    public int getUserID(String token){
+        String[] parts = token.split("\\.");
+//        System.out.println(decode(parts[1]));
+
+        String tempPayload = decode(parts[1]);
+        parts = tempPayload.split("\\,");
+
+        parts = parts[0].split("\\:");
+        return Integer.parseInt(parts[1]);
+    }
+
+
     public int getUserType(String token){
         String[] parts = token.split("\\.");
 
         String tempPayload = decode(parts[1]);
         parts = tempPayload.split("\\,");
-//        System.out.println(Arrays.toString(parts));
-        return Integer.parseInt(String.valueOf(parts[2].charAt(parts[2].length()-1)));
-    }
 
-    public String getFirstName(String token){
-        String[] parts = token.split("\\.");
-
-        String tempPayload = decode(parts[1]);
-        parts = tempPayload.split("\\,");
         parts = parts[1].split("\\:");
-        return (parts[1].substring(1,parts[1].length()-1));
+        return Integer.parseInt(parts[1]);
     }
 
-    public String getLastName(String token){
-        String[] parts = token.split("\\.");
-
-        String tempPayload = decode(parts[1]);
-        parts = tempPayload.split("\\,");
-        parts = parts[0].split("\\:");
-        return (parts[1].substring(1,parts[1].length()-1));
-    }
-
-    public String getEmail(String token){
-        String[] parts = token.split("\\.");
-
-        String tempPayload = decode(parts[1]);
-        parts = tempPayload.split("\\,");
-//        System.out.println(Arrays.toString(parts));
-        parts = parts[5].split("\\:");
-        return (parts[1].substring(1,parts[1].length()-1));
-    }
+//    public String getFirstName(String token){
+//        String[] parts = token.split("\\.");
+//
+//        String tempPayload = decode(parts[1]);
+//        parts = tempPayload.split("\\,");
+//        parts = parts[1].split("\\:");
+//        return (parts[1].substring(1,parts[1].length()-1));
+//    }
+//
+//    public String getLastName(String token){
+//        String[] parts = token.split("\\.");
+//
+//        String tempPayload = decode(parts[1]);
+//        parts = tempPayload.split("\\,");
+//        parts = parts[0].split("\\:");
+//        return (parts[1].substring(1,parts[1].length()-1));
+//    }
+//
+//    public String getEmail(String token){
+//        String[] parts = token.split("\\.");
+//
+//        String tempPayload = decode(parts[1]);
+//        parts = tempPayload.split("\\,");
+////        System.out.println(Arrays.toString(parts));
+//        parts = parts[5].split("\\:");
+//        return (parts[1].substring(1,parts[1].length()-1));
+//    }
 
     @Override
     public String toString() {
@@ -151,9 +177,10 @@ public class JWebToken {
 
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        JWebToken k = new JWebToken("isuru","nish","123@abc@g.com",1);
+        JWebToken k = new JWebToken(1000,1);
 
-//        System.out.println(k.getEmail(k.toString()));
+        System.out.println(k.getUserType(k.toString()));
+        System.out.println(k.getUserID(k.toString()));
 //        System.out.println(new JWebToken("isuru","nish","123@abc@g.com",1).toString());
 //        System.out.println(new JWebToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYXN0IG5hbWUiOiJuaXNoIiwiZmlyc3QgbmFtZSI6ImlzdXJ1IiwidXNlciB0eXBlIjoxLCJleHAiOjE2MzI1ODY2NzcsImlhdCI6MTYzMjU4NjY3NSwiZW1haWwiOiIxMjNAYWJjQGcuY29tIiwianRpIjoiMmI5NzFiNzQtY2VjZC00NjUwLWEyMDctNjYwZTNmMmNlYTlhIn0.PJU-gBnu_ImVAcOA_wm7sFJ6I-gwVB2ik6OdKV2Azqg").isBothValid());
     }

@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.SuperAdminDashboard;
+import org.osca.service.ImageService;
+import org.osca.service.SAdashboardService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 
 @WebServlet(name = "SARemoveUsersServlet", value = "/SARemoveUsersServlet")
@@ -28,9 +31,30 @@ public class SARemoveUsersServlet extends HttpServlet {
         }
 
         int userType = tokennObj.getUserType(token);
+        int uid = tokennObj.getUserID(token);
+
+        SAdashboardService SAserivice=new SAdashboardService();
+        String name = null;
+        try {
+            name = SAserivice.getSuperadminName(uid);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ImageService dp = new ImageService();
+        String path = null;
+        try {
+            path = dp.getEmpDP(uid);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
-        SuperAdminDashboard sa = new SuperAdminDashboard(1);
+        SuperAdminDashboard sa = new SuperAdminDashboard(userType,name, path);
 
         Gson gson = new Gson();
         System.out.println(sa);

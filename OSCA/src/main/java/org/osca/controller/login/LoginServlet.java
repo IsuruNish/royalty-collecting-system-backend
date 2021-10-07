@@ -39,8 +39,16 @@ public class LoginServlet extends HttpServlet {
         LoginService service = new LoginService();
         UserLoginModel RealUser = new UserLoginModel();
 
+        int id = 0;
         try {
             RealUser = service.getUser(user);
+            System.out.println(user);
+
+            id = service.getID(user);
+            System.out.println(id);
+
+            RealUser.setId(id);
+            System.out.println(RealUser);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -56,7 +64,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         else{
-            String token = new JWebToken(RealUser.getFirstName(), RealUser.getLastName(), RealUser.getEmail(), RealUser.getUserType()).toString();
+            String token = new JWebToken(RealUser.getId(), RealUser.getUserType()).toString();
             RealUser.setToken(token);
             Gson g = new Gson();
             String ut =g.toJson(new UserLoginModel(RealUser.getUserType(), RealUser.getToken()));

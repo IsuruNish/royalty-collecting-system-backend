@@ -16,4 +16,8 @@ public class signupService {
     public boolean addShowOrganizers(ShowOrganizer ppl) throws SQLException, ClassNotFoundException {
         return userDAO.addSOs(ppl);
     }
+
+    public int getUid(ShowOrganizer ppl) throws SQLException, ClassNotFoundException {
+        return userDAO.getBasicUserID(ppl);
+    }
 }
