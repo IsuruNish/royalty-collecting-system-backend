@@ -6,6 +6,8 @@ import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.CloudinaryImage;
 import org.osca.controller.httpRequest.HeaderAndBody;
 
+import org.osca.model.ChangeInfoUsers;
+import org.osca.model.ShowOrganizer;
 import org.osca.model.SuperAdminDashboard;
 import org.osca.service.ImageService;
 import org.osca.service.SAchangeinfoService;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -115,10 +118,8 @@ public class ChangeInfoServlet extends HttpServlet {
 //            }
 //        }
 
+        String typeOfRequest = request.getContentType().substring(0, 9);
 
-
-
-        Part p = request.getPart("file");
         HeaderAndBody data = new HeaderAndBody();
         String header = data.getAuthenticationHeader(request);
         String token = header.substring(7);
@@ -133,150 +134,75 @@ public class ChangeInfoServlet extends HttpServlet {
         assert tokennObj != null;
         int uid = tokennObj.getUserID(token);
         int userType = tokennObj.getUserType(token);
+        boolean done = false;
 
-        if (p != null) {
-            p.write("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.jpg");
-            File file = new File("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.jpg");
+        if (typeOfRequest.equals("multipart")) {
+            Part p = request.getPart("file");
+            if (p != null) {
+                p.write("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.jpg");
+                File file = new File("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.jpg");
 
-            String url = null;
-            CloudinaryImage obj = new CloudinaryImage();
-            url = obj.storeImage(file);
-            System.out.println(url);
-            SAchangeinfoService saService = new SAchangeinfoService();
-            boolean updated = false;
+                String url = null;
+                CloudinaryImage obj = new CloudinaryImage();
+                url = obj.storeImage(file);
+                SAchangeinfoService saService = new SAchangeinfoService();
 
-            try {
-                updated = saService.updateImagePath(uid, url);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                try {
+                    done = saService.updateImagePath(uid, url);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        } else {
+            String body = data.getBody(request);
+            String requestType = body.substring(9, 10);
+            SAchangeinfoService service = new SAchangeinfoService();
+            if (Integer.parseInt(requestType) == 1) {
+                try {
+                    done = service.daleteImagePath(uid);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (Integer.parseInt(requestType) == 2) {
+                done = changePersonalInfo("{" + body.substring(11), userType, uid);
+            }
+
+            else if (Integer.parseInt(requestType) == 3){
+                done = changePassword(body,uid);
+                System.out.println(done);
+
             }
         }
 
+        if (done){
+            ShowOrganizer RealUser = new ShowOrganizer(1);
+            Gson g = new Gson();
+            String res = g.toJson(RealUser);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
+            response.getWriter().println(res);
+        }
+        else{
 
-//        System.out.println("q");
-//        System.out.println(q);
-//
-////        System.out.println(p);
-//        Images dp = new Images();
-//        dp.storeImage(request);
-//        CloudinaryImage obj = new CloudinaryImage();
-//        String url = null;
-//        for (Part p : request.getParts()) {
-//            System.out.println(p.getSubmittedFileName());
-//            System.out.println(p.getClass().getSimpleName());
-////            System.out.println(((File) p).getClass().getSimpleName());
-//            System.out.println(p.getInputStream());
-////            url = obj.storeImage((File) p);
-//        }
-//
-//        System.out.println(url);
-//        response.setCharacterEncoding("UTF-8");
-//        response.getWriter().println(1);
+            ShowOrganizer RealUser = new ShowOrganizer(-1);
+            Gson g = new Gson();
+            String res = g.toJson(RealUser);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
-
-
-
-
-
-
-
-
-        //Storing personal information in the database
-//        if (changePersonalInfo(request,response)){
-//            response.setCharacterEncoding("UTF-8");
-//            response.getWriter().println(1);
-//
-//        }
-//        else{
-//            response.getWriter().println(0);
-//        }
-
-
-
-
-
-
-
-
-//        HeaderAndBody data = new HeaderAndBody();
-//        String header = data.getAuthenticationHeader(request);
-//        String body = data.getBody(request);
-//        String token = header.substring(7);
-//
-//        ShowOrganizer basicUser;
-//        Gson g = new Gson();
-//        basicUser = g.fromJson(body, ShowOrganizer.class);
-//        basicUser.setUserType(5);
-//
-//        String[] names = basicUser.getFname().split(" ");
-//        basicUser.setFname(names[0]);
-//        basicUser.setLname(names[1]);
-//
-//        JWebToken tokennObj = null;
-//        try {
-//            tokennObj = new JWebToken(token);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//
-//        String fname = tokennObj.getFirstName(token);
-//        String lname = tokennObj.getLastName(token);
-//        String email = tokennObj.getEmail(token);
-//        int userType = tokennObj.getUserType(token);
-//
-//        SARemoveSOService saRemoveSOserivice=new SARemoveSOService();
-//        ArrayList<ShowOrganizer> details = new ArrayList<>();
-//        boolean updated = false;
-//        try {
-//            updated = saRemoveSOserivice.deleteShowOrganizers(basicUser, fname, lname, email, userType);
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if(updated) {
-//            ShowOrganizer so = new ShowOrganizer(fname, 1);
-//            details.add(0, so);
-//
-//            Gson gson = new Gson();
-//            String saobj = gson.toJson(details);
-//            response.setContentType("application/json");
-//            response.setCharacterEncoding("UTF-8");
-//            response.getWriter().println(saobj);
-//        }
-//        else{
-//            response.getWriter().println(404);
-//        }
+            response.getWriter().println(res);
+        }
     }
 
-    public boolean changePersonalInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HeaderAndBody data = new HeaderAndBody();
-        String header = data.getAuthenticationHeader(request);
-        String body = data.getBody(request);
-        String token = header.substring(7);
 
-        JWebToken tokennObj = null;
-        try {
-            tokennObj = new JWebToken(token);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
 
-        assert tokennObj != null;
-        int uid = tokennObj.getUserID(token);
-        int userType = tokennObj.getUserType(token);
-
+    public boolean changePersonalInfo(String body, int userType, int  uid) throws IOException {
         SuperAdminDashboard user;
         Gson g = new Gson();
         user = g.fromJson(body, SuperAdminDashboard.class);
         user.setUtype(userType);
-        System.out.println("uefbrsjhfbskruhfskurghsrejtbsrf");
 
-        System.out.println(user);
         SAchangeinfoService saService = new SAchangeinfoService();
         boolean updated = false;
 
@@ -290,4 +216,24 @@ public class ChangeInfoServlet extends HttpServlet {
 
         return updated;
     }
+
+    public boolean changePassword(String body, int  uid) throws IOException {
+        ChangeInfoUsers user;
+        Gson g = new Gson();
+        user = g.fromJson(body, ChangeInfoUsers.class);
+
+        SAchangeinfoService saService = new SAchangeinfoService();
+        boolean updated = false;
+
+        try {
+            updated = saService.updatePass(uid, user.getPass(), user.getNewPass());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return updated;
+    }
+
 }
