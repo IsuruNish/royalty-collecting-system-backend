@@ -19,12 +19,11 @@ public class AuthInterceptor implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         String url = ((HttpServletRequest) request).getRequestURI();
+        PrintWriter out = response.getWriter();
 
-        if (!url.equals("/OSCA_war_exploded/LoginServlet") && !url.equals("/OSCA_war_exploded/SignupServlet")) {
-            System.out.println(url);
+        if (!url.equals("/OSCA_war_exploded/LoginServlet") && !url.equals("/OSCA_war_exploded/SignupServlet") && !url.equals("/OSCA_war_exploded/ForgetPasswordServlet") && !url.equals("/OSCA_war_exploded/ResetPasswordServlet")) {
             HeaderAndBody data = new HeaderAndBody();
             String header = data.getAuthenticationHeader(req);
-            PrintWriter out = response.getWriter();
 
             if (header != null) {
                 String token = header.substring(7);
@@ -55,6 +54,7 @@ public class AuthInterceptor implements Filter {
                 }
 
             } else {
+                System.out.println("oshadhae");
                 out.println(404);
             }
         }
