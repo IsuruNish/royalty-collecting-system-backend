@@ -1,7 +1,6 @@
 package org.osca.dao;
 
 import org.osca.database.DBConnection;
-import org.osca.model.people;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

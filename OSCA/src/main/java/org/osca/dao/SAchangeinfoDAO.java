@@ -13,4 +13,6 @@ public interface SAchangeinfoDAO {
     public boolean updateProflePic(int uid, String url) throws SQLException, ClassNotFoundException;
 
     public boolean daleteImage(int uid) throws SQLException, ClassNotFoundException;
+
+    public boolean updatePassword(int uid, String oldPass, String newPass) throws SQLException, ClassNotFoundException;
 }

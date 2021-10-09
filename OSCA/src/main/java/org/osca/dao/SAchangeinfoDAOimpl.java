@@ -73,4 +73,39 @@ public class SAchangeinfoDAOimpl implements SAchangeinfoDAO{
         return stmt.executeUpdate() > 0;
     }
 
+
+    public boolean updatePassword(int uid,  String oldPass, String newPass) throws SQLException, ClassNotFoundException{
+
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT password FROM officials WHERE emp_id = ?;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+
+        if(resultSet.next()) {
+            x = resultSet.getString(1);
+        }
+        else{
+            return false;
+        }
+
+        if (!x.equals(oldPass)){
+            return false;
+        }
+
+
+        String q1 = "UPDATE officials SET password = ? WHERE emp_id = ? ;";
+        stmt = connection.prepareStatement(q1);
+
+        stmt.setString(1,newPass);
+        stmt.setInt(2,uid);
+
+
+        return stmt.executeUpdate() > 0;
+    }
+
 }

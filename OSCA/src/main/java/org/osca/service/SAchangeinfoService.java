@@ -24,11 +24,15 @@ public class SAchangeinfoService {
         return saDAO.updateUserDetails(uid, user);
     }
 
+    public boolean updatePass(int uid, String oldPass, String newPass) throws SQLException, ClassNotFoundException {
+        return saDAO.updatePassword(uid, oldPass, newPass);
+    }
+
     public boolean updateImagePath(int uid, String url) throws SQLException, ClassNotFoundException {
         return saDAO.updateProflePic(uid, url);
     }
 
-    public boolean daleteImagePath(int uid, String url) throws SQLException, ClassNotFoundException {
+    public boolean daleteImagePath(int uid) throws SQLException, ClassNotFoundException {
         return saDAO.daleteImage(uid);
     }
 
