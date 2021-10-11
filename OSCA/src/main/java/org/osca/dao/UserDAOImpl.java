@@ -3,10 +3,12 @@ package org.osca.dao;
 import org.osca.database.DBConnection;
 import org.osca.model.User;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 
 public class UserDAOImpl implements UserDAO {
@@ -21,6 +23,10 @@ public class UserDAOImpl implements UserDAO {
             resultSet = DBConnection.getConnection().createStatement().executeQuery("SELECT * FROM users");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+
         }
         while (true){
             try {
@@ -36,6 +42,7 @@ public class UserDAOImpl implements UserDAO {
          }
         return users;
     }
+
 
     @Override
     public boolean isRegisteredUser(String email) throws SQLException, ClassNotFoundException {
@@ -98,4 +105,5 @@ public class UserDAOImpl implements UserDAO {
         return email;
 
     }
+
 }
