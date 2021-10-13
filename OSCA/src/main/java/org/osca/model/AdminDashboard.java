@@ -3,6 +3,7 @@ package org.osca.model;
 public class AdminDashboard {
     int utype;
     int id;
+    String nic;
     String fname;
     String lname;
     String email;
@@ -14,6 +15,24 @@ public class AdminDashboard {
     Double memberIncome;
     int concerts;
     Double oscaIncome;
+    String DPpath;
+
+    public AdminDashboard(int utype, int id, String fname, String lname, String email, String phoneNo, int SOnum, int mnum, int licenseReqnum, int songReqnum, Double memberIncome, int concerts, Double oscaIncome, String DPpath) {
+        this.utype = utype;
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.SOnum = SOnum;
+        Mnum = mnum;
+        LicenseReqnum = licenseReqnum;
+        SongReqnum = songReqnum;
+        this.memberIncome = memberIncome;
+        this.concerts = concerts;
+        this.oscaIncome = oscaIncome;
+        this.DPpath = DPpath;
+    }
 
     public AdminDashboard(int utype, int id, String fname, String lname, String email, String phoneNo, int SOnum, int mnum, int licenseReqnum, int songReqnum, Double memberIncome, int concerts, Double oscaIncome) {
         this.utype = utype;
