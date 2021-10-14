@@ -1,8 +1,10 @@
 package org.osca.dao;
 
+import org.osca.controller.login.Mail;
 import org.osca.database.DBConnection;
 import org.osca.model.ShowOrganizer;
 
+import javax.mail.MessagingException;
 import java.sql.*;
 
 public class signupDAOimp implements signupDAO {
@@ -54,7 +56,14 @@ public class signupDAOimp implements signupDAO {
 
         String query = "INSERT INTO basic_users (NIC, First_Name, Last_Name, Phone_Number, Email, Delete_Status,Password, User_Type) VALUE(?,?,?,?,?,?,?,?)";
         preparedStatement = connection.prepareStatement(query);
-
+        String s="Hi...   "+user.getFname();
+        Mail javaMailUtil=new Mail();
+        try {
+            javaMailUtil.welcome(s,""+user.getEmail());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        System.out.println("ok, this works");
         preparedStatement.setString(1,user.getNic());
         preparedStatement.setString(2,user.getFname());
         preparedStatement.setString(3,user.getLname());
@@ -63,6 +72,8 @@ public class signupDAOimp implements signupDAO {
         preparedStatement.setInt(6,0);
         preparedStatement.setString(7,user.getPassword());
         preparedStatement.setInt(8,5);
+
+
 //        preparedStatement.setInt(10,100);
 //        preparedStatement.setDate(11, Date.valueOf(java.time.LocalDate.now()));
 

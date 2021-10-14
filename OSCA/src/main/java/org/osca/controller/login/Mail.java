@@ -59,7 +59,36 @@ public class Mail {
 
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setContent("<h1>OSCA </h1><h3>Do not reply.</h3></br><b>"+msg+"</b>", "text/html");
+        mimeBodyPart.setContent("<h1>OSCA </h1><h3>Do not reply.</h3></br><h3>Please use this password to log into the system. </br>(Once you log in to the system please reset your password.)</h3></br><b>"+msg+"</b>", "text/html");
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+        message.setContent(multipart);
+        Transport.send(message);
+    }
+
+    public void welcome(String msg,String recipient) throws MessagingException {
+        Properties prop = new Properties();
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host","smtp.gmail.com");
+        prop.put("mail.smtp.port",587);
+        prop.put("mail.smtp.ssl.trust","smtp.gmail.com");
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("osca.g04@gmail.com", "OSCAinLK123");
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("osca.g04@gmail.com"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+        message.setSubject("OSCA");
+
+
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setContent("<h1>OSCA </h1><h3>Do not reply.</h3></br><h1>Welcome to OSCA!!!</br></h1>You have successfully created your account..<h3></h3></br><b>"+msg+"</b>", "text/html");
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
         message.setContent(multipart);
