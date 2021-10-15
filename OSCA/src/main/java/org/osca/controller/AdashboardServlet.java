@@ -7,10 +7,7 @@ import org.osca.controller.login.Mail;
 import org.osca.model.AdminDashboard;
 
 import org.osca.service.AdashboardService;
-<<<<<<< HEAD
-=======
 import org.osca.service.ImageService;
->>>>>>> 3a07c6542df774d5e9650669361b622cdc8bd429
 
 
 import javax.mail.MessagingException;
@@ -50,23 +47,14 @@ public class AdashboardServlet extends HttpServlet {
         AdashboardService SAserivice=new AdashboardService();
         ArrayList<String> details = new ArrayList<>();
         try {
-<<<<<<< HEAD
-            System.out.println("ok");
-            details = SAserivice.getDashboardDetails(uid);
-            System.out.println("nice");
-=======
             details = SAserivice.getDashboardDetails(uid);
             System.out.println(details);
->>>>>>> 3a07c6542df774d5e9650669361b622cdc8bd429
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-<<<<<<< HEAD
-=======
 
         ImageService dp = new ImageService();
         String path = null;
@@ -78,23 +66,13 @@ public class AdashboardServlet extends HttpServlet {
             e.printStackTrace();
         }
 
->>>>>>> 3a07c6542df774d5e9650669361b622cdc8bd429
         AdminDashboard sa = new AdminDashboard(
-                2,
+                Integer.parseInt(details.get(11)),
                 uid,
                 details.get(0),
                 details.get(1),
                 details.get(2),
                 details.get(3),
-<<<<<<< HEAD
-                Integer.parseInt(details.get(2)),
-                Integer.parseInt(details.get(3)),
-                Integer.parseInt(details.get(4)),
-                Integer.parseInt(details.get(5)),
-                Double.parseDouble(details.get(6)),
-                Integer.parseInt(details.get(7)),
-                Double.parseDouble(details.get(8)));
-=======
                 Integer.parseInt(details.get(4)),
                 Integer.parseInt(details.get(5)),
                 Integer.parseInt(details.get(6)),
@@ -104,8 +82,6 @@ public class AdashboardServlet extends HttpServlet {
                 Double.parseDouble(details.get(10)),
                 path);
 
-        System.out.println(sa);
->>>>>>> 3a07c6542df774d5e9650669361b622cdc8bd429
 
         Gson gson = new Gson();
         System.out.println(sa);

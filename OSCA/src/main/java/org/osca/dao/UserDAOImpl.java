@@ -24,9 +24,6 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-
         }
         while (true){
             try {

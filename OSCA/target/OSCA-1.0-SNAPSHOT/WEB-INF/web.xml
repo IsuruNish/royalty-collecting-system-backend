@@ -15,7 +15,6 @@
         <url-pattern>/mypeople</url-pattern>
     </servlet-mapping>
 
-
     <filter>
         <filter-name>cross-origin</filter-name>
         <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
