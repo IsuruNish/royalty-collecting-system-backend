@@ -57,7 +57,7 @@ public class SAdashboardServlet extends HttpServlet {
         }
 
         SuperAdminDashboard sa = new SuperAdminDashboard(
-                1,
+                Integer.parseInt(details.get(11)),
                 uid,
                 details.get(0),
                 details.get(1),

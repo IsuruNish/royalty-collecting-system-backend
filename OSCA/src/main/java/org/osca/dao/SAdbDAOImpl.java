@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class SAdbDAOImpl implements SAdbDAO {
     public ArrayList<String> getDetails(int uid) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT first_name,last_name, email, phone_number FROM officials WHERE Emp_id =?;";
+        String q = "SELECT user_type,first_name,last_name, email, phone_number FROM officials WHERE Emp_id =?;";
 
         PreparedStatement stmt = connection.prepareStatement(q);
 
@@ -20,12 +20,13 @@ public class SAdbDAOImpl implements SAdbDAO {
         ResultSet resultSet = stmt.executeQuery();
 
         ArrayList<String> x = new ArrayList<>();
-
+        int ut = 0;
         if(resultSet.next()){
-            x.add(resultSet.getString(1));
+            ut = resultSet.getInt(1);
             x.add(resultSet.getString(2));
             x.add(resultSet.getString(3));
             x.add(resultSet.getString(4));
+            x.add(resultSet.getString(5));
         }
 
 
@@ -112,6 +113,7 @@ public class SAdbDAOImpl implements SAdbDAO {
         }
 
         x.add(String.valueOf(tot));
+        x.add(String.valueOf(ut));
         return x;
     }
 
