@@ -72,7 +72,7 @@ public class ChangeInfoServlet extends HttpServlet {
         }
 
         SuperAdminDashboard sa = new SuperAdminDashboard(
-                1,
+                Integer.parseInt(details.get(5)),
                 details.get(0),
                 details.get(1),
                 details.get(3),
@@ -135,6 +135,7 @@ public class ChangeInfoServlet extends HttpServlet {
         int uid = tokennObj.getUserID(token);
         int userType = tokennObj.getUserType(token);
         boolean done = false;
+        int ifType = -1;
 
         if (typeOfRequest.equals("multipart")) {
             Part p = request.getPart("file");
@@ -152,6 +153,7 @@ public class ChangeInfoServlet extends HttpServlet {
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
+                ifType = 0;
             }
         } else {
             String body = data.getBody(request);
@@ -163,25 +165,60 @@ public class ChangeInfoServlet extends HttpServlet {
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
+                ifType = 1;
+
             } else if (Integer.parseInt(requestType) == 2) {
                 done = changePersonalInfo("{" + body.substring(11), userType, uid);
+                ifType = 2;
+
             }
 
             else if (Integer.parseInt(requestType) == 3){
                 done = changePassword(body,uid);
                 System.out.println(done);
+                ifType = 3;
 
             }
         }
 
         if (done){
-            ShowOrganizer RealUser = new ShowOrganizer(1);
-            Gson g = new Gson();
-            String res = g.toJson(RealUser);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+            if(ifType == 2){
+                SAchangeinfoService SAserivice=new SAchangeinfoService();
+                ArrayList<String> details = new ArrayList<>();
 
-            response.getWriter().println(res);
+
+                try {
+                    details = SAserivice.getCIDetails(uid);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                SuperAdminDashboard sa = new SuperAdminDashboard(
+                        Integer.parseInt(details.get(5)),
+                        details.get(3),
+                        details.get(0),
+                        details.get(1),
+                        details.get(2),
+                        details.get(4));
+
+
+                System.out.println(sa);
+                Gson g = new Gson();
+                String res = g.toJson(sa);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                response.getWriter().println(res);
+            }
+            else {
+                ShowOrganizer RealUser = new ShowOrganizer(userType);
+                Gson g = new Gson();
+                String res = g.toJson(RealUser);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                response.getWriter().println(res);
+            }
         }
         else{
 

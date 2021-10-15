@@ -13,7 +13,7 @@ public class SAchangeinfoDAOimpl implements SAchangeinfoDAO{
 
     public ArrayList<String> getUserDetails(int uid) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT first_name, last_name, email,nic,phone_number FROM officials WHERE emp_id = ?;";
+        String q = "SELECT user_type, first_name, last_name, email,nic,phone_number FROM officials WHERE emp_id = ?;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
         stmt.setInt(1,uid);
@@ -21,15 +21,16 @@ public class SAchangeinfoDAOimpl implements SAchangeinfoDAO{
         ResultSet resultSet = stmt.executeQuery();
 
         ArrayList<String> x = new ArrayList<>();
-
+        int ut = 0;
         if(resultSet.next()){
-            x.add(resultSet.getString(1));
+            ut = resultSet.getInt(1);
             x.add(resultSet.getString(2));
             x.add(resultSet.getString(3));
             x.add(resultSet.getString(4));
             x.add(resultSet.getString(5));
+            x.add(resultSet.getString(6));
         }
-
+        x.add(String.valueOf(ut));
         return x;
     }
 

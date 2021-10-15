@@ -50,6 +50,15 @@ public class SuperAdminDashboard {
         this.DPpath = DPpath;
     }
 
+    public SuperAdminDashboard(int utype, String nic, String fname, String lname, String email, String phoneNo) {
+        this.utype = utype;
+        this.nic = nic;
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.phoneNo = phoneNo;
+    }
+
     public SuperAdminDashboard(int utype) {
         this.utype = utype;
     }
