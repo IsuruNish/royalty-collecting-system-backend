@@ -79,9 +79,7 @@ public class SARemoveSOServlet extends HttpServlet {
         basicUser = g.fromJson(body, ShowOrganizer.class);
         basicUser.setUserType(5);
 
-        String[] names = basicUser.getFname().split(" ");
-        basicUser.setFname(names[0]);
-        basicUser.setLname(names[1]);
+        System.out.println(basicUser);
 
         JWebToken tokennObj = null;
         try {

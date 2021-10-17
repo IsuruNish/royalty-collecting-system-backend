@@ -67,7 +67,7 @@ public class SAchangeinfoDAOimpl implements SAchangeinfoDAO{
         String q = "UPDATE officials SET profile_pic = ? WHERE emp_id = ? ;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
-        stmt.setString(1,null);
+        stmt.setString(1,"https://res.cloudinary.com/osca-lk/image/upload/v1633546048/0_byxn7o.jpg");
         stmt.setInt(2,uid);
 
 

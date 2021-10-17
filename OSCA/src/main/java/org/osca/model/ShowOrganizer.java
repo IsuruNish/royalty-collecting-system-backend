@@ -24,12 +24,13 @@ public class ShowOrganizer {
         this.userType = userType;
     }
 
-    public ShowOrganizer(int uid, String fname, String lname, String phone, String email) {
+    public ShowOrganizer(int uid, String fname, String lname, String phone, String email, String DPpath) {
         this.uid = uid;
         this.fname = fname;
         this.lname = lname;
         this.phone = phone;
         this.email = email;
+        this.DPpath = DPpath;
     }
 
     public ShowOrganizer(String fname, String lname, String nic, String phone, String email, String password, String token) {
