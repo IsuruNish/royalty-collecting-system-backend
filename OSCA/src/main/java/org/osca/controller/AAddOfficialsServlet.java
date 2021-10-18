@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.AAddUsers;
+import org.osca.model.AdminDashboard;
 import org.osca.model.Respond;
 import org.osca.model.ShowOrganizer;
-import org.osca.service.AAddUsersService;
-import org.osca.service.signupService;
+import org.osca.service.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,12 +16,32 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-@WebServlet(name = "AAddUsersServlet", value = "/AAddUsersServlet")
-public class AAddUsersServlet extends HttpServlet {
+@WebServlet(name = "AAddOfficialsServlet", value = "/AAddOfficialsServlet")
+public class AAddOfficialsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HeaderAndBody data = new HeaderAndBody();
+        String header = data.getAuthenticationHeader(request);
+        String token = header.substring(7);
 
+        JWebToken tokennObj = null;
+        try {
+            tokennObj = new JWebToken(token);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        int utype = tokennObj.getUserType(token);
+
+        AdminDashboard a = new AdminDashboard();
+        a.setUtype(utype);
+        Gson gson = new Gson();
+        String saobj =gson.toJson(a);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().println(saobj);
 
 
     }

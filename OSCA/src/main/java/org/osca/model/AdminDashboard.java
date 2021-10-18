@@ -17,6 +17,9 @@ public class AdminDashboard {
     Double oscaIncome;
     String DPpath;
 
+    public AdminDashboard() {
+    }
+
     public AdminDashboard(int utype, int id, String fname, String lname, String email, String phoneNo, int SOnum, int mnum, int licenseReqnum, int songReqnum, Double memberIncome, int concerts, Double oscaIncome, String DPpath) {
         this.utype = utype;
         this.id = id;
