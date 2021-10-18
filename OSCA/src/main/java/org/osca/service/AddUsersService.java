@@ -3,6 +3,7 @@ package org.osca.service;
 import org.osca.dao.AddUsersDAO;
 import org.osca.dao.AddUsersDAOImpl;
 import org.osca.model.AAddUsers;
+import org.osca.model.MemberDashboard;
 
 import java.sql.SQLException;
 
@@ -18,8 +19,16 @@ public class AddUsersService {
         return userDAO.addEmptoSystem(user,uid, emp);
     }
 
-    public boolean addMembers(AAddUsers user,int uid) throws SQLException, ClassNotFoundException {
+    public boolean addMembers(MemberDashboard user,int uid) throws SQLException, ClassNotFoundException {
         return userDAO.addMtoSystem(user,uid);
+    }
+
+    public boolean checkMemberStatus(MemberDashboard user) throws SQLException, ClassNotFoundException {
+        return userDAO.checkMember(user);
+    }
+
+    public boolean changeNonmemberStatus(MemberDashboard user) throws SQLException, ClassNotFoundException {
+        return userDAO.changeNonMemberToMember(user);
     }
 
     public boolean validateEmail(AAddUsers user) throws SQLException, ClassNotFoundException {

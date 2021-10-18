@@ -100,7 +100,6 @@ public class AddUsersServlet extends HttpServlet {
         if (checkMail && !user.getForWhom().equals("member")) {
 
             try {
-                System.out.println(user);
                 added = service.addOfficials(user, uid, user.getForWhom());
 
             } catch (SQLException throwables) {
@@ -110,10 +109,35 @@ public class AddUsersServlet extends HttpServlet {
             }
         }
 
-        //add member part here yo!
-//        else{
-//
-//        }
+        else{
+            boolean  isNonMember = false;
+            MemberDashboard Muser = gson.fromJson(body, MemberDashboard.class);
+
+            try {
+                isNonMember = service.checkMemberStatus(Muser);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            System.out.println(isNonMember);
+            if (isNonMember){
+                try {
+                    added = service.changeNonmemberStatus(Muser);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            else{
+                try {
+                    added = service.addMembers(Muser,uid);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
 
         Gson g = new Gson();
         String res;
