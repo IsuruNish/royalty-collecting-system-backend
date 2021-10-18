@@ -3,10 +3,7 @@ package org.osca.controller;
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
-import org.osca.model.AAddUsers;
-import org.osca.model.AdminDashboard;
-import org.osca.model.Respond;
-import org.osca.model.ShowOrganizer;
+import org.osca.model.*;
 import org.osca.service.*;
 
 import javax.servlet.*;
@@ -16,10 +13,9 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-@WebServlet(name = "AAddOfficialsServlet", value = "/AAddOfficialsServlet")
-public class AAddOfficialsServlet extends HttpServlet {
+@WebServlet(name = "AddUsersServlet", value = "/AddUsersServlet")
+public class AddUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HeaderAndBody data = new HeaderAndBody();
@@ -34,9 +30,33 @@ public class AAddOfficialsServlet extends HttpServlet {
         }
 
         int utype = tokennObj.getUserType(token);
+        int uid = tokennObj.getUserID(token);
+
+        ImageService dp = new ImageService();
+        String path = null;
+        try {
+            path = dp.getEmpDP(uid);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        SAdashboardService fnameS = new SAdashboardService();
+        String fname = "";
+        try {
+            fname = fnameS.getSuperadminName(uid);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         AdminDashboard a = new AdminDashboard();
         a.setUtype(utype);
+        a.setDPpath(path);
+        a.setFname(fname);
+
         Gson gson = new Gson();
         String saobj =gson.toJson(a);
         response.setContentType("application/json");
@@ -50,7 +70,6 @@ public class AAddOfficialsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HeaderAndBody data = new HeaderAndBody();
-        System.out.println("ok ok");
         String header = data.getAuthenticationHeader(request);
         String body = data.getBody(request);
         String token = header.substring(7);
@@ -61,43 +80,58 @@ public class AAddOfficialsServlet extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-//        String email = tokennObj.getEmail(token);
         int uid = tokennObj.getUserID(token);
 
-
-//        System.out.println(body);
-
-        AAddUsers user=new AAddUsers();
+        AAddUsers user;
         Gson gson = new Gson();
         user = gson.fromJson(body, AAddUsers.class);
-        user.setUserType(3);
-        AAddUsersService service = new AAddUsersService();
+        AddUsersService service = new AddUsersService();
 
         boolean added = false;
-         int isuru=0;
+        boolean checkMail = false;
         try {
-            System.out.println(user);
-            added = service.addOscaOfficials(user,uid);
-            if(added)isuru=1;
-
-
+            checkMail = service.validateEmail(user);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-//        String token2 = new JWebToken(user.getFname(), user.getLname(), user.getEmail(), user.getUserType()).toString();
-//        System.out.println(user.getUserType());
-//
-//        AAddUsers RealUser = new AAddUsers(user.getUserType(), token2);
+        if (checkMail && !user.getForWhom().equals("member")) {
 
-//        Gson g = new Gson();
-//        String res =g.toJson(new Respond(isuru));
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
+            try {
+                System.out.println(user);
+                added = service.addOfficials(user, uid, user.getForWhom());
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //add member part here yo!
+//        else{
 //
-//        response.getWriter().println(res);
+//        }
+
+        Gson g = new Gson();
+        String res;
+        if (!checkMail){
+            res = g.toJson(new Respond(-1));
+        }
+
+        else if (added){
+           res = g.toJson(new Respond(1));
+        }
+
+        else{
+            res = g.toJson(new Respond(0));
+        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        response.getWriter().println(res);
 
     }
 

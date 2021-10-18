@@ -15,7 +15,7 @@ public class AAddUsers {
     private String deletedOn;
 
     private String token;
-
+    private String forWhom;
 
     public AAddUsers() {
     }
@@ -141,9 +141,17 @@ public class AAddUsers {
         this.token = token;
     }
 
+    public String getForWhom() {
+        return forWhom;
+    }
+
+    public void setForWhom(String forWhom) {
+        this.forWhom = forWhom;
+    }
+
     @Override
     public String toString() {
-        return "ShowOrganizer{" +
+        return "AAddUsers{" +
                 "uid=" + uid +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
@@ -156,6 +164,7 @@ public class AAddUsers {
                 ", deletedBy=" + deletedBy +
                 ", deletedOn='" + deletedOn + '\'' +
                 ", token='" + token + '\'' +
+                ", forWhom='" + forWhom + '\'' +
                 '}';
     }
 }

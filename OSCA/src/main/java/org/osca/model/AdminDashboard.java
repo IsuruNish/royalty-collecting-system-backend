@@ -157,6 +157,22 @@ public class AdminDashboard {
         this.oscaIncome = oscaIncome;
     }
 
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getDPpath() {
+        return DPpath;
+    }
+
+    public void setDPpath(String DPpath) {
+        this.DPpath = DPpath;
+    }
+
     @Override
     public String toString() {
         return "AdminDashboard{" +
