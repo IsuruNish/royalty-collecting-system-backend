@@ -45,7 +45,7 @@ public class AddUsersDAOImpl implements AddUsersDAO {
         }
 
         int type = 0;
-        if(emp == "admin"){
+        if(emp.equals("admin")){
             type = 2;
         }
         else{
