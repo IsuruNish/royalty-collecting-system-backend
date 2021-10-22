@@ -29,7 +29,6 @@ public class SignupServlet extends HttpServlet {
 
         String header = data.getAuthenticationHeader(request);
         String body = data.getBody(request);
-//        System.out.println(body);
 
         ShowOrganizer basicUser;
         Gson gson = new Gson();
@@ -53,7 +52,8 @@ public class SignupServlet extends HttpServlet {
         if (added) {
 
             String token = new JWebToken(uid, basicUser.getUserType()).toString();
-            System.out.println(basicUser.getUserType());
+//            System.out.println(token);
+//            System.out.println(basicUser.getUserType());
 
             ShowOrganizer RealUser = new ShowOrganizer(basicUser.getUserType(), token);
             Gson g = new Gson();

@@ -12,12 +12,27 @@ public class ShowOrganizer {
     private int userType;
     private int deletedBy;
     private String deletedOn;
-
     private String token;
     private String DPpath;
-
+    private String reqType;
+    private int acceptedLicense;
+    private int rejectedLicense;
+    private String nextEventDate;
 
     public ShowOrganizer() {
+    }
+
+    public ShowOrganizer(int userType, int uid, String fname, String lname, String phone, String email, String DPpath, int acceptedLicense, int rejectedLicense, String nextEventDate) {
+        this.userType = userType;
+        this.uid = uid;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.email = email;
+        this.DPpath = DPpath;
+        this.acceptedLicense = acceptedLicense;
+        this.rejectedLicense = rejectedLicense;
+        this.nextEventDate = nextEventDate;
     }
 
     public ShowOrganizer(int userType) {
@@ -178,6 +193,39 @@ public class ShowOrganizer {
         this.DPpath = DPpath;
     }
 
+    public String getReqType() {
+        return reqType;
+    }
+
+    public void setReqType(String reqType) {
+        this.reqType = reqType;
+    }
+
+    public int getAcceptedLicense() {
+        return acceptedLicense;
+    }
+
+    public void setAcceptedLicense(int acceptedLicense) {
+        this.acceptedLicense = acceptedLicense;
+    }
+
+    public int getRejectedLicense() {
+        return rejectedLicense;
+    }
+
+    public void setRejectedLicense(int rejectedLicense) {
+        this.rejectedLicense = rejectedLicense;
+    }
+
+    public String getNextEventDate() {
+        return nextEventDate;
+    }
+
+    public void setNextEventDate(String nextEventDate) {
+        this.nextEventDate = nextEventDate;
+    }
+
+
     @Override
     public String toString() {
         return "ShowOrganizer{" +
@@ -193,6 +241,11 @@ public class ShowOrganizer {
                 ", deletedBy=" + deletedBy +
                 ", deletedOn='" + deletedOn + '\'' +
                 ", token='" + token + '\'' +
+                ", DPpath='" + DPpath + '\'' +
+                ", reqType='" + reqType + '\'' +
+                ", acceptedLicense=" + acceptedLicense +
+                ", rejectedLicense=" + rejectedLicense +
+                ", nextEventDate='" + nextEventDate + '\'' +
                 '}';
     }
 }

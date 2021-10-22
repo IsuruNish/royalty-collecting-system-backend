@@ -29,9 +29,7 @@ public class SAdashboardServlet extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-//        String fname = tokennObj.getFirstName(token);
-//        String lname = tokennObj.getLastName(token);
-//        String email = tokennObj.getEmail(token);
+
         assert tokennObj != null;
         int uid = tokennObj.getUserID(token);
         int userType = tokennObj.getUserType(token);
