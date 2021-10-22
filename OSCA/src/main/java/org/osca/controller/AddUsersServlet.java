@@ -109,7 +109,7 @@ public class AddUsersServlet extends HttpServlet {
             }
         }
 
-        else{
+        else if (checkMail && user.getForWhom().equals("member")){
             boolean  isNonMember = false;
             MemberDashboard Muser = gson.fromJson(body, MemberDashboard.class);
 

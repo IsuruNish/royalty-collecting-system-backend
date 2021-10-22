@@ -52,8 +52,24 @@ public class ForgotPasswordDAOImpl implements ForgotPasswordDAO {
         preparedStatement.setInt(4,uid);
         preparedStatement.setInt(5,ut);
 
+        String q = "SELECT first_name AS uid FROM officials WHERE emp_ID=?  UNION SELECT first_name AS uid FROM members WHERE member_id=?  UNION SELECT first_name AS uid FROM basic_users WHERE user_id=? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+        stmt.setInt(2,uid);
+        stmt.setInt(3,uid);
+
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String name =null;
+
+        if(resultSet.next()){
+            name = resultSet.getString(1);
+        }
+
         try {
-            javaMailUtil.sendMail(fp.getEmail(),"http://127.0.0.1:5500/landing_page/forgotpwChangePW.html?="+pin);
+            javaMailUtil.sendMail(fp.getEmail(),"http://127.0.0.1:5500/landing_page/forgotpwChangePW.html?="+pin,name);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

@@ -38,31 +38,38 @@ public class AddUsersDAOImpl implements AddUsersDAO {
 //        } catch (NoSuchAlgorithmException e) {
 //            e.printStackTrace();
 //        }
-        try {
-            javaMailUtil.notifyUser(user.getEmail(),""+password);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+
 
         int type = 0;
-        if(emp.equals("admin")){
+        if (emp.equals("admin")) {
             type = 2;
+        } else {
+            type = 3;
         }
-        else{
-            type =3;
-        }
-        preparedStatement.setString(1,user.getNic());
-        preparedStatement.setString(2,user.getFname());
-        preparedStatement.setString(3,user.getLname());
-        preparedStatement.setString(4,"OSCA Official");
-        preparedStatement.setString(5,user.getPhone());
-        preparedStatement.setString(6,user.getEmail());
-        preparedStatement.setInt(7,0);
-        preparedStatement.setString(8,sha256hex);
-        preparedStatement.setInt(9,type);
-        preparedStatement.setInt(10,uid);
+        preparedStatement.setString(1, user.getNic());
+        preparedStatement.setString(2, user.getFname());
+        preparedStatement.setString(3, user.getLname());
+        preparedStatement.setString(4, "OSCA Official");
+        preparedStatement.setString(5, user.getPhone());
+        preparedStatement.setString(6, user.getEmail());
+        preparedStatement.setInt(7, 0);
+        preparedStatement.setString(8, sha256hex);
+        preparedStatement.setInt(9, type);
+        preparedStatement.setInt(10, uid);
 
-        return preparedStatement.executeUpdate() > 0;
+        int a = preparedStatement.executeUpdate();
+
+        if (a>0) {
+            try {
+                javaMailUtil.notifyUser(user.getEmail(), "" + password, user.getFname());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+
+        return false;
 
     }
 
@@ -136,13 +143,7 @@ public class AddUsersDAOImpl implements AddUsersDAO {
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
 
-        try {
-            javaMailUtil.notifyUser(user.getEmail(),""+password);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
 
-        System.out.println(user);
         preparedStatement.setString(1,user.getNic());
         preparedStatement.setString(2,user.getFname());
         preparedStatement.setString(3,user.getLname());
@@ -157,7 +158,17 @@ public class AddUsersDAOImpl implements AddUsersDAO {
         preparedStatement.setInt(12,4);
         preparedStatement.setInt(13,uid);
 
-        return preparedStatement.executeUpdate() > 0;
+        int a = preparedStatement.executeUpdate();
+
+        if (a>0){
+            try {
+                javaMailUtil.notifyUser(user.getEmail(),""+password, user.getFname());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        return false;
     }
 
 }

@@ -59,7 +59,7 @@ public class signupDAOimp implements signupDAO {
         String s="Hi...   "+user.getFname();
         Mail javaMailUtil=new Mail();
         try {
-            javaMailUtil.welcome(s,""+user.getEmail());
+            javaMailUtil.welcome(s,""+user.getEmail(), user.getFname());
         } catch (MessagingException e) {
             e.printStackTrace();
         }
