@@ -29,9 +29,9 @@ public class MemdbDAOImpl implements MemdbDAO{
         }
 
 
-        q = "SELECT income FROM song_income WHERE member_id =? AND status = 2 AND GETDATE()>=concert_date;";
+        String q1 = "SELECT income FROM song_income WHERE member_id =? AND status = 2 AND CURRENT_DATE>=concert_date;";
 
-        stmt = connection.prepareStatement(q);
+        stmt = connection.prepareStatement(q1);
 
         stmt.setInt(1,uid);
 
@@ -44,9 +44,9 @@ public class MemdbDAOImpl implements MemdbDAO{
             x.add("0");
         }
 
-        q = "SELECT income FROM song_income WHERE member_id = ? AND status = 2 AND GETDATE()<concert_date;";
+        String q2 = "SELECT income FROM song_income WHERE member_id = ? AND status = 2 AND CURRENT_DATE <concert_date;";
 
-        stmt = connection.prepareStatement(q);
+        stmt = connection.prepareStatement(q2);
 
         stmt.setInt(1,uid);
 

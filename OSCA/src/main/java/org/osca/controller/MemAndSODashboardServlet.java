@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.MemberDashboard;
+import org.osca.model.Respond;
 import org.osca.model.ShowOrganizer;
 import org.osca.service.ImageService;
 import org.osca.service.MemberService;
@@ -69,16 +70,23 @@ public class MemAndSODashboardServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
-            mem.setUserType(Integer.parseInt(details.get(0)));
-            mem.setId(uid);
-            mem.setFname(details.get(1));
-            mem.setLname(details.get(2));
-            mem.setEmail(details.get(3));
-            mem.setPhoneNo(details.get(4));
-            mem.setUpcomingIncome(Integer.parseInt(details.get(5)));
-            mem.setPastIncome(Integer.parseInt(details.get(6)));
+            sa.setUserType(Integer.parseInt(details.get(0)));
+            sa.setUid(uid);
+            sa.setFname(details.get(1));
+            sa.setLname(details.get(2));
+            sa.setEmail(details.get(3));
+            sa.setPhone(details.get(4));
+            sa.setAcceptedLicense(Integer.parseInt(details.get(5)));
+            sa.setRejectedLicense(Integer.parseInt(details.get(6)));
+            sa.setNextEventDate(details.get(7));
             sa.setDPpath(path);
 
+            Gson gson = new Gson();
+//            System.out.println(sa);
+            String saobj =gson.toJson(sa);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println(saobj);
         }
 
         else if (userType == 4){
@@ -106,26 +114,39 @@ public class MemAndSODashboardServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
-            sa.setUserType(Integer.parseInt(details.get(0)));
-            sa.setUid(uid);
-            sa.setFname(details.get(1));
-            sa.setLname(details.get(2));
-            sa.setEmail(details.get(3));
-            sa.setPhone(details.get(4));
-            sa.setAcceptedLicense(Integer.parseInt(details.get(5)));
-            sa.setRejectedLicense(Integer.parseInt(details.get(6)));
-            sa.setNextEventDate(details.get(7));
-            sa.setDPpath(path);
+            mem.setUserType(Integer.parseInt(details.get(0)));
+            mem.setId(uid);
+            mem.setFname(details.get(1));
+            mem.setLname(details.get(2));
+            mem.setEmail(details.get(3));
+            mem.setPhoneNo(details.get(4));
+            mem.setUpcomingIncome(Integer.parseInt(details.get(5)));
+            mem.setPastIncome(Integer.parseInt(details.get(6)));
+            mem.setDPpath(path);
+
+            Gson gson = new Gson();
+            String saobj =gson.toJson(mem);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println(saobj);
 
         }
 
+        else{
+            Respond op = new Respond();
+            op.setUserType(0);
+            Gson gson = new Gson();
+            String saobj =gson.toJson(op);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println(saobj);
+        }
 
-        Gson gson = new Gson();
-        System.out.println(sa);
-        String saobj =gson.toJson(sa);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().println(saobj);
+  
+
+
+
+
 
 
 
