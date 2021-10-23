@@ -1,17 +1,27 @@
 package org.osca.model;
 
 public class MemberDashboard {
-    int utype;
-    int id;
-    String nic;
-    String fname;
-    String lname;
-    String email;
-    String phoneNo;
-    String DPpath;
-    String bankName;
-    String bankBranch;
-    String accNo;
+    private int utype;
+    private int id;
+    private String nic;
+    private String fname;
+    private String lname;
+    private String email;
+    private String phoneNo;
+    private String password;
+    private String DPpath;
+    private String bankName;
+    private String bankBranch;
+    private String accNo;
+    private String activeStatus;
+    private int deleteStatus;
+    private int userType;
+    private int deletedBy;
+    private String deletedOn;
+    private String token;
+    private String reqType;
+    private double upcomingIncome;
+    private double pastIncome;
 
     public MemberDashboard() {
     }
@@ -105,6 +115,86 @@ public class MemberDashboard {
         this.accNo = accNo;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(String activeStatus) {
+        this.activeStatus = activeStatus;
+    }
+
+    public int getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(int deleteStatus) {
+        this.deleteStatus = deleteStatus;
+    }
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
+    public int getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(int deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public String getDeletedOn() {
+        return deletedOn;
+    }
+
+    public void setDeletedOn(String deletedOn) {
+        this.deletedOn = deletedOn;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getReqType() {
+        return reqType;
+    }
+
+    public void setReqType(String reqType) {
+        this.reqType = reqType;
+    }
+
+    public double getUpcomingIncome() {
+        return upcomingIncome;
+    }
+
+    public void setUpcomingIncome(double upcomingIncome) {
+        this.upcomingIncome = upcomingIncome;
+    }
+
+    public double getPastIncome() {
+        return pastIncome;
+    }
+
+    public void setPastIncome(double pastIncome) {
+        this.pastIncome = pastIncome;
+    }
+
     @Override
     public String toString() {
         return "MemberDashboard{" +
@@ -115,10 +205,20 @@ public class MemberDashboard {
                 ", lname='" + lname + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
+                ", password='" + password + '\'' +
                 ", DPpath='" + DPpath + '\'' +
                 ", bankName='" + bankName + '\'' +
                 ", bankBranch='" + bankBranch + '\'' +
                 ", accNo='" + accNo + '\'' +
+                ", activeStatus='" + activeStatus + '\'' +
+                ", deleteStatus=" + deleteStatus +
+                ", userType=" + userType +
+                ", deletedBy=" + deletedBy +
+                ", deletedOn='" + deletedOn + '\'' +
+                ", token='" + token + '\'' +
+                ", reqType='" + reqType + '\'' +
+                ", upcomingIncome=" + upcomingIncome +
+                ", pastIncome=" + pastIncome +
                 '}';
     }
 }

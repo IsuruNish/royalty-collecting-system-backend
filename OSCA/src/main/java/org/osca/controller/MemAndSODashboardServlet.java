@@ -3,8 +3,10 @@ package org.osca.controller;
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
+import org.osca.model.MemberDashboard;
 import org.osca.model.ShowOrganizer;
 import org.osca.service.ImageService;
+import org.osca.service.MemberService;
 import org.osca.service.ShowOrganizerService;
 
 import javax.servlet.ServletException;
@@ -40,7 +42,7 @@ public class MemAndSODashboardServlet extends HttpServlet {
         int userType = tokennObj.getUserType(token);
 
         ShowOrganizer sa = new ShowOrganizer();
-        System.out.println(userType);
+        MemberDashboard mem = new MemberDashboard();
 
         if (userType == 5){
 
@@ -60,6 +62,43 @@ public class MemAndSODashboardServlet extends HttpServlet {
 
             try {
                 path = dp.getUserDP(uid);
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            mem.setUserType(Integer.parseInt(details.get(0)));
+            mem.setId(uid);
+            mem.setFname(details.get(1));
+            mem.setLname(details.get(2));
+            mem.setEmail(details.get(3));
+            mem.setPhoneNo(details.get(4));
+            mem.setUpcomingIncome(Integer.parseInt(details.get(5)));
+            mem.setPastIncome(Integer.parseInt(details.get(6)));
+            sa.setDPpath(path);
+
+        }
+
+        else if (userType == 4){
+
+            MemberService Mserivice=new MemberService();
+            ArrayList<String> details = new ArrayList<>();
+
+            try {
+                details = Mserivice.getDashboardDetails(uid);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            ImageService dp = new ImageService();
+            String path = null;
+
+            try {
+                path = dp.getMemDP(uid);
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
