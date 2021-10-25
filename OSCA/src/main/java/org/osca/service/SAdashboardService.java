@@ -22,4 +22,12 @@ public class SAdashboardService {
     public String getSuperadminName(int uid) throws SQLException, ClassNotFoundException {
         return sadbDAO.getSAName(uid);
     }
+
+    public String getMemberName(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getMName(uid);
+    }
+
+    public String getShowOrganizerName(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getSOName(uid);
+    }
 }

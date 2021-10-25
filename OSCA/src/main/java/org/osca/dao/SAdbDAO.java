@@ -7,4 +7,6 @@ public interface SAdbDAO {
     public ArrayList<String> getDetails(int uid) throws SQLException, ClassNotFoundException;
 
     public String getSAName(int uid) throws SQLException, ClassNotFoundException;
+    public String getMName(int uid) throws SQLException, ClassNotFoundException;
+    public String getSOName(int uid) throws SQLException, ClassNotFoundException;
 }

@@ -1,7 +1,8 @@
 package org.osca.model;
 
+import java.util.ArrayList;
+
 public class MemberDashboard {
-    private int utype;
     private int id;
     private String nic;
     private String fname;
@@ -23,16 +24,18 @@ public class MemberDashboard {
     private double upcomingIncome;
     private double pastIncome;
 
+    private ArrayList<String> memberNames;
+    private ArrayList<String> memberIDs;
+
     public MemberDashboard() {
     }
 
-
-    public int getUtype() {
-        return utype;
-    }
-
-    public void setUtype(int utype) {
-        this.utype = utype;
+    public MemberDashboard(int userType, ArrayList<String> memberNames, ArrayList<String> memberIDs, String DPpath, String fname) {
+        this.userType = userType;
+        this.memberNames = memberNames;
+        this.memberIDs = memberIDs;
+        this.DPpath = DPpath;
+        this.fname = fname;
     }
 
     public int getId() {
@@ -195,10 +198,26 @@ public class MemberDashboard {
         this.pastIncome = pastIncome;
     }
 
+    public ArrayList<String> getMemberNames() {
+        return memberNames;
+    }
+
+    public void setMemberNames(ArrayList<String> memberNames) {
+        this.memberNames = memberNames;
+    }
+
+    public ArrayList<String> getMemberIDs() {
+        return memberIDs;
+    }
+
+    public void setMemberIDs(ArrayList<String> memberIDs) {
+        this.memberIDs = memberIDs;
+    }
+
+
     @Override
     public String toString() {
         return "MemberDashboard{" +
-                "utype=" + utype +
                 ", id=" + id +
                 ", nic='" + nic + '\'' +
                 ", fname='" + fname + '\'' +
@@ -219,6 +238,8 @@ public class MemberDashboard {
                 ", reqType='" + reqType + '\'' +
                 ", upcomingIncome=" + upcomingIncome +
                 ", pastIncome=" + pastIncome +
+                ", memberNames=" + memberNames +
+                ", memberIDs=" + memberIDs +
                 '}';
     }
 }

@@ -135,4 +135,41 @@ public class SAdbDAOImpl implements SAdbDAO {
         return x;
     }
 
+
+    public String getMName(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT first_name FROM Members WHERE member_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+        }
+        return x;
+    }
+
+    public String getSOName(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT first_name FROM basic_users WHERE user_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+        }
+        return x;
+    }
+
 }
