@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.CloudinaryImage;
 import org.osca.controller.httpRequest.HeaderAndBody;
-import org.osca.model.AdminDashboard;
-import org.osca.model.ForgetPassword;
-import org.osca.model.MemberDashboard;
-import org.osca.model.Songs;
+import org.osca.model.*;
 import org.osca.service.ImageService;
 import org.osca.service.SAchangeinfoService;
 import org.osca.service.SAdashboardService;
@@ -189,7 +186,7 @@ public class SongRegistrationServlet extends HttpServlet {
 
             try {
                 System.out.println("er;nf");
-                songService.addMemberSingers(tempSongID, idList.get(0),"N");
+                done =songService.addMemberSingers(tempSongID, idList.get(0),"N");
                 System.out.println("fffffffff");
 
             } catch (SQLException | ClassNotFoundException throwables) {
@@ -197,21 +194,30 @@ public class SongRegistrationServlet extends HttpServlet {
             }
 
             try {
-                songService.addMemberComposers(tempSongID, idList.get(1),"N");
+                done = songService.addMemberComposers(tempSongID, idList.get(1),"N");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
 
             try {
-                songService.addMemberWritters(tempSongID, idList.get(2),"N");
+                done = songService.addMemberWritters(tempSongID, idList.get(2),"N");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
-
-
-
-
         }
+
+        Gson g = new Gson();
+        String res;
+        if (done){
+            res = g.toJson(new Respond(1));
+        }
+        else{
+            res = g.toJson(new Respond(0));
+        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        response.getWriter().println(res);
 
     }
 
@@ -220,7 +226,6 @@ public class SongRegistrationServlet extends HttpServlet {
     public ArrayList<List<String>> giveNonMembersInDB(List<String> temp1, List<String> temp2, List<String> temp3, int songID) throws SQLException, ClassNotFoundException {
         ArrayList<ArrayList<String>> AllNoneMemberMDetails = new ArrayList<>();
         SongRegistrationService songService = new SongRegistrationService();
-        System.out.println("coome come come");
         try {
             AllNoneMemberMDetails = songService.checkNoneMemberInDB();
         } catch (SQLException | ClassNotFoundException throwables) {
@@ -244,8 +249,6 @@ public class SongRegistrationServlet extends HttpServlet {
             for (int j = 0; j < idsMem.size(); j++) {
 
                 if (k[0].equals(fnamesMem.get(j)) && k[1].equals(lnamesMem.get(j))) {
-                    System.out.println(k[0]);
-                    System.out.println(k[1]);
                     sIDS.add(idsMem.get(j));
                     flag = 1;
                     break;
@@ -271,7 +274,6 @@ public class SongRegistrationServlet extends HttpServlet {
         idsMem = AllNoneMemberMDetails.get(0);
         fnamesMem  = AllNoneMemberMDetails.get(1);
         lnamesMem = AllNoneMemberMDetails.get(2);
-        System.out.println("towwwww");
 
         System.out.println(fnamesMem);
         System.out.println(lnamesMem);
@@ -282,8 +284,6 @@ public class SongRegistrationServlet extends HttpServlet {
             int flag = 0;
             int id = 0;
             for (int j = 0; j < idsMem.size(); j++) {
-                System.out.println("lets goooo");
-
                 if (k[0].equals(fnamesMem.get(j)) && k[1].equals(lnamesMem.get(j))) {
                     System.out.println(k[0]);
                     System.out.println(k[1]);
@@ -295,17 +295,9 @@ public class SongRegistrationServlet extends HttpServlet {
             System.out.println(flag);
 
             if (flag == 0){
-                System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-                System.out.println(k[0]);
-                System.out.println(k[1]);
-
                 songService.addNoneMem(k[0], k[1]);
-                System.out.println("idfluiaesejhcfbejhcfbaemfaejbfeku");
-
                 id = songService.getMemberID(k[0], k[1]);
                 cIDS.add(String.valueOf(id));
-                System.out.println("id: "+id);
-
             }
         }
 
@@ -321,7 +313,6 @@ public class SongRegistrationServlet extends HttpServlet {
         idsMem = AllNoneMemberMDetails.get(0);
         fnamesMem  = AllNoneMemberMDetails.get(1);
         lnamesMem = AllNoneMemberMDetails.get(2);
-        System.out.println("threeeee");
 
         for (String s : temp3) {
             String[] k = s.split(" ");
@@ -340,8 +331,6 @@ public class SongRegistrationServlet extends HttpServlet {
                 songService.addNoneMem(k[0], k[1]);
                 id = songService.getMemberID(k[0], k[1]);
                 wIDS.add(String.valueOf(id));
-                System.out.println("id: "+id);
-
             }
         }
 
