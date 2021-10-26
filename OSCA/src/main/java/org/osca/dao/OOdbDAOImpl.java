@@ -50,7 +50,7 @@ public class OOdbDAOImpl implements OOdbDAO {
         }
 
         //License req count
-        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE status = 0 AND l_flag = 0) AS t;";
+        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE status = 0 AND rejected = 0) AS t;";
         stmt = connection.prepareStatement(q);
 
         resultSet = stmt.executeQuery();
@@ -71,7 +71,7 @@ public class OOdbDAOImpl implements OOdbDAO {
 
 
         //member income
-        q = "SELECT SUM(Fee_without_commission) FROM(SELECT Fee_without_commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND l_flag = 1 AND type = ? ) AS t;";
+        q = "SELECT SUM(Fee_without_commission) FROM(SELECT Fee_without_commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1 AND type = ? ) AS t;";
         stmt = connection.prepareStatement(q);
         stmt.setString(1,"Close");
         resultSet = stmt.executeQuery();
@@ -81,7 +81,7 @@ public class OOdbDAOImpl implements OOdbDAO {
         }
 
         //Concert count
-        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND l_flag = 1) AS t;";
+        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1) AS t;";
         stmt = connection.prepareStatement(q);
 
         resultSet = stmt.executeQuery();
@@ -94,7 +94,7 @@ public class OOdbDAOImpl implements OOdbDAO {
 
         double tot = 0;
         //osca income
-        q = "SELECT SUM(Commission) FROM(SELECT Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND l_flag = 1) AS t;";
+        q = "SELECT SUM(Commission) FROM(SELECT Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1) AS t;";
         stmt = connection.prepareStatement(q);
         resultSet = stmt.executeQuery();
 
@@ -102,7 +102,7 @@ public class OOdbDAOImpl implements OOdbDAO {
             tot = resultSet.getInt(1);
         }
 
-        q = "SELECT SUM(Fee_Without_Commission) FROM(SELECT Fee_Without_Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND l_flag = 1 AND type = ? ) AS t;";
+        q = "SELECT SUM(Fee_Without_Commission) FROM(SELECT Fee_Without_Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1 AND type = ? ) AS t;";
         stmt = connection.prepareStatement(q);
         stmt.setString(1,"Open");
         resultSet = stmt.executeQuery();
