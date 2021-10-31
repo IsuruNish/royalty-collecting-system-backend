@@ -21,14 +21,21 @@ public class SARemoveSODAOImpl implements SARemoveSODAO {
         ArrayList<ShowOrganizer> users = new ArrayList<>();
 
         while(resultSet.next()) {
+            String path = null;
             if (resultSet != null) {
+                if(resultSet.getString(6) == null){
+                    path = "https://res.cloudinary.com/osca-lk/image/upload/v1633546048/0_byxn7o.jpg";
+                }
+                else{
+                    path = resultSet.getString(6);
+                }
                 users.add(new ShowOrganizer(
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
                         resultSet.getString(5),
                         resultSet.getString(4),
-                        resultSet.getString(6)
+                        path
                 ));
             }
         }
