@@ -51,5 +51,18 @@ public class ApplyLicenseService {
         return obj.getLicenseCommision();
     }
 
+    public double getTotalFee(int id) throws SQLException, ClassNotFoundException {
+        return obj.getTotFee(id);
+    }
+
+    public int getCloseConcertID(License license, int uid) throws SQLException, ClassNotFoundException{
+        return obj.getConcertIDClose(license, uid);
+    }
+
+    public int getOpenConcertID(License license, int uid) throws SQLException, ClassNotFoundException{
+        return obj.getConcertIDOpen(license, uid);
+    }
+
+
 }
 

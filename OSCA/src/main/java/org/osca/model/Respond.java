@@ -3,6 +3,7 @@ package org.osca.model;
 public class Respond {
     int ok;
     int userType;
+    int numbers;
 
     public Respond(int ok) {
         this.ok = ok;
@@ -25,5 +26,13 @@ public class Respond {
 
     public void setUserType(int userType) {
         this.userType = userType;
+    }
+
+    public int getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(int numbers) {
+        this.numbers = numbers;
     }
 }

@@ -143,6 +143,7 @@ public class ApplyLicenseServlet extends HttpServlet {
         System.out.println(detail);
         boolean changed = false;
         double commisionPercentage = 0;
+        int number = 0;
 
         System.out.println(detail.getRequestType());
         if (detail.getRequestType() == 2) {
@@ -180,6 +181,12 @@ public class ApplyLicenseServlet extends HttpServlet {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
+
+                try {
+                    number = service.getCloseConcertID(detail, uid);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
 
@@ -190,17 +197,25 @@ public class ApplyLicenseServlet extends HttpServlet {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+
+            try {
+                number = service.getOpenConcertID(detail, uid);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
         }
 
-
-            System.out.println(changed);
         Gson g = new Gson();
         String res;
+        Respond a = new Respond();
 
-        if (changed){
-            res = g.toJson(new Respond(1));
+        if (changed && number != 0){
+            a.setOk(1);
+            a.setNumbers(number);
+            res = g.toJson(a);
         }else{
-            res = g.toJson(new Respond(0));
+            a.setOk(0);
+            res = g.toJson(a);
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

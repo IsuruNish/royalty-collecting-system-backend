@@ -21,5 +21,8 @@ public interface ApplyLicenseDAO {
     public double getLicenseCommision() throws SQLException, ClassNotFoundException;
 
 
+    public double getTotFee(int id) throws SQLException, ClassNotFoundException;
+    public int getConcertIDClose(License license, int uid) throws SQLException, ClassNotFoundException;
+    public int getConcertIDOpen(License license, int uid) throws SQLException, ClassNotFoundException;
 
     }

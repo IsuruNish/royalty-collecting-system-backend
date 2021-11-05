@@ -241,4 +241,65 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
 
     }
 
+
+
+    public double getTotFee(int id) throws SQLException, ClassNotFoundException{
+
+        Connection connection = DBConnection.getObj().getConnection();
+        String q1 = "SELECT total_fee FROM concert WHERE concert_id = ?; ";
+
+        PreparedStatement stmt = connection.prepareStatement(q1);
+
+        stmt.setInt(1,id);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        double x = 0;
+        if(resultSet.next()){
+            x = resultSet.getDouble(1);
+        }
+
+        return x;
+    }
+
+
+    public int getConcertIDClose(License license, int uid) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getObj().getConnection();
+        String q3 = "SELECT concert_id FROM concert WHERE user_id = ? AND concert_name = ? AND venue = ? AND no_of_songs = ? AND status = 0 AND rejected = 0 AND cancelled = 0 AND Date_applied = CURRENT_DATE;";
+        PreparedStatement stmt = connection.prepareStatement(q3);
+
+        stmt.setInt(1, uid);
+        stmt.setString(2, license.getConcertName());
+        stmt.setString(3, license.getVenue());
+        stmt.setInt(4, license.getSongIds().size());
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        int concertID = 0;
+        if (resultSet.next()) {
+            concertID = resultSet.getInt(1);
+        }
+
+        return concertID;
+    }
+
+
+    public int getConcertIDOpen(License license, int uid) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getObj().getConnection();
+        String q3 = "SELECT concert_id FROM concert WHERE user_id = ? AND concert_name = ? AND venue = ? AND status = 0 AND rejected = 0 AND cancelled = 0 AND Date_applied = CURRENT_DATE;";
+        PreparedStatement stmt = connection.prepareStatement(q3);
+
+        stmt.setInt(1, uid);
+        stmt.setString(2, license.getConcertName());
+        stmt.setString(3, license.getVenue());
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        int concertID = 0;
+        if (resultSet.next()) {
+            concertID = resultSet.getInt(1);
+        }
+
+        return concertID;
+    }
 }

@@ -11,6 +11,8 @@ public class License {
     private ArrayList<ArrayList<String>> fNames= new ArrayList<>();
     private ArrayList<ArrayList<String>> lNames= new ArrayList<>();
     private int requestType;
+    private int concertID;
+    private double totalFee;
 
     private String concertName;
     private String venue;
@@ -124,6 +126,22 @@ public class License {
         this.date = date;
     }
 
+    public double getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(double totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    public int getConcertID() {
+        return concertID;
+    }
+
+    public void setConcertID(int concertID) {
+        this.concertID = concertID;
+    }
+
     @Override
     public String toString() {
         return "License{" +
@@ -134,6 +152,7 @@ public class License {
                 ", fNames=" + fNames +
                 ", lNames=" + lNames +
                 ", requestType=" + requestType +
+                ", concertID=" + concertID +
                 ", concertName='" + concertName + '\'' +
                 ", venue='" + venue + '\'' +
                 ", date='" + date + '\'' +
