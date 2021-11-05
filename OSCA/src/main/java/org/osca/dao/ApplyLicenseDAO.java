@@ -13,9 +13,12 @@ public interface ApplyLicenseDAO {
     public ArrayList<ArrayList<String>> getSingersLastName(ArrayList<Integer> tempSongID) throws SQLException, ClassNotFoundException;
 
 
-    public boolean setConcertClose(License license, int uid) throws SQLException, ClassNotFoundException;
-    public boolean setConcertOpen(License license, int uid) throws SQLException, ClassNotFoundException;
+    public boolean setConcertClose(License license, int uid, double commison, double totFee, double feeWithNoCommison,int songsNo) throws SQLException, ClassNotFoundException;
+    public boolean setConcertOpen(License license, int uid,double fee) throws SQLException, ClassNotFoundException;
     public boolean setConcertSongsClose(License license, int uid) throws SQLException, ClassNotFoundException;
+
+
+    public double getLicenseCommision() throws SQLException, ClassNotFoundException;
 
 
 

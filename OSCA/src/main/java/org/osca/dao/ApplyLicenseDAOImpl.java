@@ -1,13 +1,7 @@
 package org.osca.dao;
 
-import com.google.common.hash.Hashing;
-import org.osca.controller.login.Mail;
 import org.osca.database.DBConnection;
 import org.osca.model.License;
-
-import javax.mail.MessagingException;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -137,42 +131,28 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
 
 
 
-    public boolean setConcertClose(License license, int uid) throws SQLException, ClassNotFoundException{
+    public boolean setConcertClose(License license, int uid, double commison, double totFee, double feeWithNoCommison,int songsNo) throws SQLException, ClassNotFoundException{
 
-//        Connection connection = DBConnection.getObj().getConnection();
-//
-//        String q1 = "INSERT INTO concert (user_id, concert_name, venue, type, total_fee,Fee_without_commission,Payment_status,Date_Applied,No_of_Songs,Status,Rejected,Commission,Cancelled,) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_DATE );";
-//        PreparedStatement preparedStatement = connection.prepareStatement(q1);
-//
-//
-//        preparedStatement.setString(1,user.getNic());
-//        preparedStatement.setString(2,user.getFname());
-//        preparedStatement.setString(3,user.getLname());
-//        preparedStatement.setString(4,user.getPhoneNo());
-//        preparedStatement.setString(5,user.getEmail());
-//        preparedStatement.setString(6,user.getAccNo());
-//        preparedStatement.setString(7,user.getBankName());
-//        preparedStatement.setString(8,user.getBankBranch());
-//        preparedStatement.setString(9,"M");
-//        preparedStatement.setInt(10,0);
-//        preparedStatement.setString(11,sha256hex);
-//        preparedStatement.setInt(12,4);
-//        preparedStatement.setInt(13,uid);
-//
-//        int a = preparedStatement.executeUpdate();
-//
-//        if (a>0){
-//            try {
-//                javaMailUtil.notifyUser(user.getEmail(),""+password, user.getFname());
-//            } catch (MessagingException e) {
-//                e.printStackTrace();
-//            }
-//            return true;
-//        }
-//        return false;
+        Connection connection = DBConnection.getObj().getConnection();
+        String q1 = "INSERT INTO concert (user_id, concert_name, concert_date, venue, type, total_fee,Fee_without_commission,Payment_status,No_of_Songs,Status,Rejected,Commission,Cancelled,Date_Applied) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_DATE );";
+        PreparedStatement preparedStatement = connection.prepareStatement(q1);
 
-        return false;
 
+        preparedStatement.setInt(1,uid);
+        preparedStatement.setString(2,license.getConcertName());
+        preparedStatement.setDate(3, java.sql.Date.valueOf(license.getDate()));
+        preparedStatement.setString(4,license.getVenue());
+        preparedStatement.setString(5,"Close");
+        preparedStatement.setDouble(6,totFee);
+        preparedStatement.setDouble(7,feeWithNoCommison);
+        preparedStatement.setInt(8,0);
+        preparedStatement.setInt(9,songsNo);
+        preparedStatement.setInt(10,0);
+        preparedStatement.setInt(11,0);
+        preparedStatement.setDouble(12,commison);
+        preparedStatement.setInt(13,0);
+
+        return preparedStatement.executeUpdate() > 0;
 
 
     }
@@ -181,13 +161,83 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
 
 
     public boolean setConcertSongsClose(License license, int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q3 = "SELECT concert_id FROM concert WHERE user_id = ? AND concert_name = ? AND venue = ? AND no_of_songs = ? AND status = 0 AND rejected = 0 AND cancelled = 0 AND Date_applied = CURRENT_DATE;";
+        PreparedStatement stmt = connection.prepareStatement(q3);
+
+        stmt.setInt(1, uid);
+        stmt.setString(2, license.getConcertName());
+        stmt.setString(3, license.getVenue());
+        stmt.setInt(4, license.getSongIds().size());
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        int concertID= 0;
+        if(resultSet.next()) {
+            concertID = resultSet.getInt(1);
+        }
+
+        int added = 0;
+        for (int i = 0; i < license.getSongIds().size(); i++){
+            String q1 = "INSERT INTO concert_songs (concert_id, song_id, approved) VALUE(?,?,?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(q1);
+            preparedStatement.setInt(1,concertID);
+            preparedStatement.setInt(2,license.getSongIds().get(i));
+            preparedStatement.setInt(3,0);
+
+            added = preparedStatement.executeUpdate();
+
+        }
 
 
-        return false;
+        return added > 0;
     }
 
-    public boolean setConcertOpen(License license, int uid) throws SQLException, ClassNotFoundException{
-        return false;
+    public boolean setConcertOpen(License license, int uid, double fee) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q1 = "INSERT INTO concert (user_id, concert_name, concert_date, venue, type, total_fee,Fee_without_commission,Payment_status,Status,Rejected,Commission,Cancelled,Date_Applied) VALUE(?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_DATE );";
+        PreparedStatement preparedStatement = connection.prepareStatement(q1);
+
+        preparedStatement.setInt(1,uid);
+        preparedStatement.setString(2,license.getConcertName());
+        preparedStatement.setDate(3, java.sql.Date.valueOf(license.getDate()));
+        preparedStatement.setString(4,license.getVenue());
+        preparedStatement.setString(5,"Open");
+        preparedStatement.setDouble(6,fee);
+        preparedStatement.setDouble(7,fee);
+        preparedStatement.setInt(8,0);
+        preparedStatement.setInt(9,0);
+        preparedStatement.setInt(10,0);
+        preparedStatement.setDouble(11,fee);
+        preparedStatement.setInt(12,0);
+
+        return preparedStatement.executeUpdate() > 0;
+    }
+
+    public double getLicenseCommision() throws SQLException, ClassNotFoundException{
+        double x = 0.0;
+        String q1 = null;
+        String q2 = null;
+
+        Connection connection = DBConnection.getObj().getConnection();
+        q1 = "SELECT prev_value FROM system_details WHERE starting_date > CURRENT_DATE AND key_id = 1; ";
+
+        PreparedStatement stmt = connection.prepareStatement(q1);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if(resultSet.next()){
+            x = resultSet.getDouble(1);
+        }
+
+        q2 = "SELECT new_value FROM system_details WHERE starting_date <= CURRENT_DATE AND key_id = 1; ";
+        stmt = connection.prepareStatement(q2);
+        resultSet = stmt.executeQuery();
+
+        if(resultSet.next()){
+            x = resultSet.getDouble(1);
+        }
+
+        return x;
 
     }
 

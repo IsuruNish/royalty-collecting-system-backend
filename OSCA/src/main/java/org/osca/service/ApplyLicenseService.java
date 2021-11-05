@@ -35,16 +35,20 @@ public class ApplyLicenseService {
         return obj.getSingersLastName(tempSongID);
     }
 
-    public boolean setCloseConcertInfo(License license,int uid) throws SQLException, ClassNotFoundException {
-        return obj.setConcertClose(license, uid);
+    public boolean setCloseConcertInfo(License license, int uid, double commison, double totFee, double feeWithNoCommison,int songsNo) throws SQLException, ClassNotFoundException {
+        return obj.setConcertClose(license, uid,commison,totFee,feeWithNoCommison, songsNo);
     }
 
     public boolean setCloseConcertSongInfo(License license,int uid) throws SQLException, ClassNotFoundException {
         return obj.setConcertSongsClose(license, uid);
     }
 
-    public boolean setOpenConcertInfo(License license,int uid) throws SQLException, ClassNotFoundException {
-        return obj.setConcertOpen(license, uid);
+    public boolean setOpenConcertInfo(License license,int uid, double fee) throws SQLException, ClassNotFoundException {
+        return obj.setConcertOpen(license, uid, fee);
+    }
+
+    public double getLicenseCommisonPercentage() throws SQLException, ClassNotFoundException {
+        return obj.getLicenseCommision();
     }
 
 }

@@ -142,37 +142,69 @@ public class ApplyLicenseServlet extends HttpServlet {
 
         System.out.println(detail);
         boolean changed = false;
+        double commisionPercentage = 0;
 
+        System.out.println(detail.getRequestType());
         if (detail.getRequestType() == 2) {
-//            try {
-//                changed = service.setCloseConcertInfo();
-//            } catch (SQLException | ClassNotFoundException throwables) {
-//                throwables.printStackTrace();
-//            }
-//        }
+            double feePerSong = 5000;
+            double commision = 0;
 
+            //for Request perpose (not relevant for this servlet)
+            int forSingers = 0;
+            int forComposers = 1;
+            int forWritters = 1;
 
-//
-//        else if(detail.getRequestType() == 2){
-//            try {
-//                changed = service.
-//            } catch (SQLException | ClassNotFoundException throwables) {
-//                throwables.printStackTrace();
-//            }
-//        }
-//
-//        Gson g = new Gson();
-//        String res;
-//
-//        if (changed){
-//            res = g.toJson(new Respond(1));
-//        }else{
-//            res = g.toJson(new Respond(0));
-//        }
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//
-//        response.getWriter().println(res);
+            int songNo = detail.getSongIds().size();
+
+            try {
+                commisionPercentage = service.getLicenseCommisonPercentage();
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            double totFee = feePerSong * songNo;
+            commision = totFee * commisionPercentage;
+            totFee = totFee + commision;
+
+            try {
+                changed = service.setCloseConcertInfo(detail, uid, commision, totFee, totFee - commision, songNo);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            if (changed) {
+                try {
+                    changed = service.setCloseConcertSongInfo(detail, uid);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
+        else if(detail.getRequestType() == 1){
+            double fee = 5000;
+            try {
+                changed = service.setOpenConcertInfo(detail, uid, fee);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+
+            System.out.println(changed);
+        Gson g = new Gson();
+        String res;
+
+        if (changed){
+            res = g.toJson(new Respond(1));
+        }else{
+            res = g.toJson(new Respond(0));
+        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        response.getWriter().println(res);
     }
 }

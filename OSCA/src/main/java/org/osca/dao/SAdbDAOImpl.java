@@ -95,7 +95,7 @@ public class SAdbDAOImpl implements SAdbDAO {
 
         double tot = 0;
         //osca income
-        q = "SELECT SUM(Commission) FROM(SELECT Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1) AS t;";
+        q = "SELECT SUM(Commission) FROM(SELECT Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 0) AS t;";
         stmt = connection.prepareStatement(q);
         resultSet = stmt.executeQuery();
 
@@ -103,7 +103,7 @@ public class SAdbDAOImpl implements SAdbDAO {
             tot = resultSet.getInt(1);
         }
 
-        q = "SELECT SUM(Fee_Without_Commission) FROM(SELECT Fee_Without_Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1 AND type = ? ) AS t;";
+        q = "SELECT SUM(Fee_Without_Commission) FROM(SELECT Fee_Without_Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 0 AND type = ? ) AS t;";
         stmt = connection.prepareStatement(q);
         stmt.setString(1,"Open");
         resultSet = stmt.executeQuery();
