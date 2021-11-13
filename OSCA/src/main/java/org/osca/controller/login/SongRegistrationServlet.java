@@ -140,16 +140,13 @@ public class SongRegistrationServlet extends HttpServlet {
 
             try {
                 done = songService.addMemberSingers(tempSongID, song.getMemSingers(), "M");
-                System.out.println("kk");
 
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
-            System.out.println("ss");
 
             try {
                 done = songService.addMemberComposers(tempSongID, song.getMemComposers(),"M");
-                System.out.println("hello");
 
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
@@ -160,7 +157,6 @@ public class SongRegistrationServlet extends HttpServlet {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
-            System.out.println("before");
 //            ArrayList<ArrayList<String>> AllNoneMemberMDetails = new ArrayList<>();
 //
 //            try {
@@ -185,9 +181,7 @@ public class SongRegistrationServlet extends HttpServlet {
             System.out.println(idList);
 
             try {
-                System.out.println("er;nf");
                 done =songService.addMemberSingers(tempSongID, idList.get(0),"N");
-                System.out.println("fffffffff");
 
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
