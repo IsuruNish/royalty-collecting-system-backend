@@ -19,8 +19,13 @@ public class License {
     private String date;
 
     private int utype;
+    private int uid;
     private String fname;
     private String DPpath;
+
+    public License() {
+    }
+
 
     public ArrayList<Integer> getSongTempIds() {
         return songTempIds;
@@ -134,6 +139,15 @@ public class License {
         this.totalFee = totalFee;
     }
 
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+
     public int getConcertID() {
         return concertID;
     }
@@ -153,10 +167,12 @@ public class License {
                 ", lNames=" + lNames +
                 ", requestType=" + requestType +
                 ", concertID=" + concertID +
+                ", totalFee=" + totalFee +
                 ", concertName='" + concertName + '\'' +
                 ", venue='" + venue + '\'' +
                 ", date='" + date + '\'' +
                 ", utype=" + utype +
+                ", uid=" + uid +
                 ", fname='" + fname + '\'' +
                 ", DPpath='" + DPpath + '\'' +
                 '}';
