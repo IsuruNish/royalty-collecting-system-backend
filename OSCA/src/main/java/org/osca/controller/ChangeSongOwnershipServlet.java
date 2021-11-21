@@ -129,14 +129,19 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 CloudinaryImage obj = new CloudinaryImage();
                 url = obj.storeImage(file);
                 ChangeSongOwnershipService songService = new ChangeSongOwnershipService();
-                System.out.println("2");
+                SongRegistrationService sService = new SongRegistrationService();
 
                 try {
                     done = songService.storeSongDetails(uid, ut,song,url);
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
-                System.out.println("3");
+
+                try {
+                    done = sService.makeDownloadableURL(url);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
 
                 try {
                     tempSongID = songService.getTempSongID(url);
