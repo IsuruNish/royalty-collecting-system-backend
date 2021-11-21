@@ -132,6 +132,12 @@ public class SongRegistrationServlet extends HttpServlet {
             }
 
             try {
+                done = songService.makeDownloadableURL(url);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            try {
                 tempSongID = songService.getTempSongID(url);
 
             } catch (SQLException | ClassNotFoundException throwables) {

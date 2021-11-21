@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SongRegistrationDAOImpl implements SongRegistrationDAO{
@@ -202,13 +203,25 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
         String q = "INSERT INTO members (First_name, last_name, Member_Active_Status, Delete_status, user_type) VALUE(?,?,?,?,4);";
         PreparedStatement preparedStatement = connection.prepareStatement(q);
 
-
         preparedStatement.setString(1, fname);
         preparedStatement.setString(2, lname);
         preparedStatement.setString(3, "N");
         preparedStatement.setInt(4, 0);
 
-
         return preparedStatement.executeUpdate()>0;
+    }
+
+    public boolean makeURLDownloadable(String url)throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "UPDATE song_requests SET Documentation_link = ? WHERE Documentation_link = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        String[] nowURl = url.split("/");
+        String newURl = nowURl[0] +"/" + nowURl[1] +"/"+ nowURl[2] +"/"+ nowURl[3] +"/"+ nowURl[4] + "/" + nowURl[5] + "/f_auto,fl_attachment:Documentation/" +nowURl[7];
+
+        stmt.setString(1,newURl);
+        stmt.setString(2, url);
+
+        return stmt.executeUpdate() > 0;
     }
 }

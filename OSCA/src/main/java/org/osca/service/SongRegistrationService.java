@@ -49,4 +49,8 @@ public class SongRegistrationService {
     public Boolean addNoneMem(String fname, String lname) throws SQLException, ClassNotFoundException {
         return memDAO.addNoneMemToSystem(fname, lname);
     }
+
+    public Boolean makeDownloadableURL(String url) throws SQLException, ClassNotFoundException {
+        return memDAO.makeURLDownloadable(url);
+    }
 }
