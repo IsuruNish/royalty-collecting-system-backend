@@ -50,7 +50,7 @@ public class SongRegistrationService {
         return memDAO.addNoneMemToSystem(fname, lname);
     }
 
-    public Boolean makeDownloadableURL(String url) throws SQLException, ClassNotFoundException {
+    public String makeDownloadableURL(String url) throws SQLException, ClassNotFoundException {
         return memDAO.makeURLDownloadable(url);
     }
 }

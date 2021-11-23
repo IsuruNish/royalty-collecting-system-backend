@@ -17,8 +17,9 @@ public interface ChangeSongOwnershipDAO {
 
 
 
-    public Boolean storeSong(int uid, int ut, SongOwnerhip song, String link) throws SQLException, ClassNotFoundException;
+    public Boolean storeSong(int uid, int ut, SongOwnerhip song, String link, int currentID) throws SQLException, ClassNotFoundException;
     public int getID(String link) throws SQLException, ClassNotFoundException;
+    public int getTempID(int id) throws SQLException, ClassNotFoundException;
 
 
     public boolean addMemSingers(int songID, List<String> names, String status)throws SQLException, ClassNotFoundException;

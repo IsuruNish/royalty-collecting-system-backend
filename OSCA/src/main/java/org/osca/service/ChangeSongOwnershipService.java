@@ -38,12 +38,16 @@ public class ChangeSongOwnershipService {
 
 
 
-    public Boolean storeSongDetails(int uid, int ut, SongOwnerhip song, String url) throws SQLException, ClassNotFoundException {
-        return obj.storeSong(uid,ut,song,url);
+    public Boolean storeSongDetails(int uid, int ut, SongOwnerhip song, String url, int currentID) throws SQLException, ClassNotFoundException {
+        return obj.storeSong(uid,ut,song,url, currentID);
     }
 
     public int getTempSongID(String url) throws SQLException, ClassNotFoundException {
         return obj.getID(url);
+    }
+
+    public int getTempSongID(int id) throws SQLException, ClassNotFoundException {
+        return obj.getTempID(id);
     }
 
     //need to check//

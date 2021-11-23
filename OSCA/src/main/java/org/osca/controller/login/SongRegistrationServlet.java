@@ -120,6 +120,7 @@ public class SongRegistrationServlet extends HttpServlet {
             File file = new File("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
 
             String url = null;
+            String NEWurl = null;
             int tempSongID = 0;
             CloudinaryImage obj = new CloudinaryImage();
             url = obj.storeImage(file);
@@ -132,13 +133,13 @@ public class SongRegistrationServlet extends HttpServlet {
             }
 
             try {
-                done = songService.makeDownloadableURL(url);
+                NEWurl = songService.makeDownloadableURL(url);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
 
             try {
-                tempSongID = songService.getTempSongID(url);
+                tempSongID = songService.getTempSongID(NEWurl);
 
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();

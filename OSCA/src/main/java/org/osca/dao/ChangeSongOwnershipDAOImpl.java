@@ -166,17 +166,17 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
 
 
 
-    public Boolean storeSong(int uid, int ut, SongOwnerhip song, String link) throws SQLException, ClassNotFoundException{
+    public Boolean storeSong(int uid, int ut, SongOwnerhip song, String link, int currentID) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
 
         String q = null;
 
 
         if(ut == 4){
-            q = "INSERT INTO song_requests (member_id,song_Name,version, published_year, status,s_flag,Documentation_link,date) VALUE(?,?,?,?,?,?,?,CURRENT_DATE );";
+            q = "INSERT INTO song_requests (member_id,song_Name,version, published_year, status,s_flag,Documentation_link,Type_of_request,Corresponding_id,date) VALUE(?,?,?,?,?,?,?,?,?,CURRENT_DATE );";
         }
         else if(ut == 3){
-            q = "INSERT INTO song_requests (emp_id,song_Name,version, published_year, status,s_flag,Documentation_link,date) VALUE(?,?,?,?,?,?,?,CURRENT_DATE );";
+            q = "INSERT INTO song_requests (emp_id,song_Name,version, published_year, status,s_flag,Documentation_link,Type_of_request,Corresponding_id,date) VALUE(?,?,?,?,?,?,?,?,?,CURRENT_DATE );";
         }
         PreparedStatement preparedStatement = connection.prepareStatement(q);
 
@@ -188,6 +188,8 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
         preparedStatement.setInt(5,0);
         preparedStatement.setInt(6,0);
         preparedStatement.setString(7,link);
+        preparedStatement.setInt(8,2);
+        preparedStatement.setInt(9,currentID);
 
         return preparedStatement.executeUpdate()>0;
     }
@@ -207,6 +209,22 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
 
         return id;
     }
+
+    public int getTempID(int id) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT Temp_song_id FROM song WHERE song_id = ?;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+        stmt.setInt(1,id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        int Tid = 0;
+        if (resultSet.next()){
+            Tid = resultSet.getInt(1);
+        }
+
+        return Tid;
+    }
+
 
 
     public boolean addMemSingers(int songID, List<String> names, String status)throws SQLException, ClassNotFoundException{

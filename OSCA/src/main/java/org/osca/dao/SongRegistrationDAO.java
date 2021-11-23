@@ -19,7 +19,7 @@ public interface SongRegistrationDAO {
     public ArrayList<ArrayList<String>> checkNoneMembers()throws SQLException, ClassNotFoundException;
     public boolean addNoneMemToSystem(String fname, String lname)throws SQLException, ClassNotFoundException;
     public int getIDmem(String fname, String lname)throws SQLException, ClassNotFoundException;
-    public boolean makeURLDownloadable(String url)throws SQLException, ClassNotFoundException;
+    public String makeURLDownloadable(String url)throws SQLException, ClassNotFoundException;
 
 
     }

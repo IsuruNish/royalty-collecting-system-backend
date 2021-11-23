@@ -46,10 +46,10 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
 
 
         if(ut == 4){
-            q = "INSERT INTO song_requests (member_id,song_Name,version, published_year, status,s_flag,Documentation_link,date) VALUE(?,?,?,?,?,?,?,CURRENT_DATE );";
+            q = "INSERT INTO song_requests (member_id,song_Name,version, published_year, status,s_flag,Documentation_link,Type_of_request,date) VALUE(?,?,?,?,?,?,?,?,CURRENT_DATE );";
         }
         else if(ut == 3){
-            q = "INSERT INTO song_requests (emp_id,song_Name,version, published_year, status,s_flag,Documentation_link,date) VALUE(?,?,?,?,?,?,?,CURRENT_DATE );";
+            q = "INSERT INTO song_requests (emp_id,song_Name,version, published_year, status,s_flag,Documentation_link,Type_of_request,date) VALUE(?,?,?,?,?,?,?,?,CURRENT_DATE );";
         }
         PreparedStatement preparedStatement = connection.prepareStatement(q);
 
@@ -61,6 +61,7 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
         preparedStatement.setInt(5,0);
         preparedStatement.setInt(6,0);
         preparedStatement.setString(7,link);
+        preparedStatement.setInt(8,1);
 
         return preparedStatement.executeUpdate()>0;
     }
@@ -116,6 +117,7 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
         int checked = 1;
         for (String name : names) {
             System.out.println(name);
+            System.out.println(songID);
             PreparedStatement preparedStatement = connection.prepareStatement(q);
             preparedStatement.setInt(1, songID);
             preparedStatement.setInt(2, Integer.parseInt(name));
@@ -211,7 +213,7 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
         return preparedStatement.executeUpdate()>0;
     }
 
-    public boolean makeURLDownloadable(String url)throws SQLException, ClassNotFoundException{
+    public String makeURLDownloadable(String url)throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
         String q = "UPDATE song_requests SET Documentation_link = ? WHERE Documentation_link = ? ;";
         PreparedStatement stmt = connection.prepareStatement(q);
@@ -222,6 +224,14 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
         stmt.setString(1,newURl);
         stmt.setString(2, url);
 
-        return stmt.executeUpdate() > 0;
+        boolean done = stmt.executeUpdate() > 0;
+
+        if (done) {
+            return newURl;
+        }
+
+        else{
+            return null;
+        }
     }
 }

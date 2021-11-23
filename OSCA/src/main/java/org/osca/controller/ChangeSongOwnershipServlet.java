@@ -124,7 +124,9 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 File file = new File("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
 
                 String url = null;
+                String NEWurl = null;
                 int tempSongID = 0;
+                int currentID = 0;
 
                 CloudinaryImage obj = new CloudinaryImage();
                 url = obj.storeImage(file);
@@ -132,19 +134,25 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 SongRegistrationService sService = new SongRegistrationService();
 
                 try {
-                    done = songService.storeSongDetails(uid, ut,song,url);
+                    currentID = songService.getTempSongID(Integer.parseInt(song.getInfo().get(0)));
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
 
                 try {
-                    done = sService.makeDownloadableURL(url);
+                    done = songService.storeSongDetails(uid, ut,song,url, currentID);
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
 
                 try {
-                    tempSongID = songService.getTempSongID(url);
+                    NEWurl = sService.makeDownloadableURL(url);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                try {
+                    tempSongID = songService.getTempSongID(NEWurl);
 
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
