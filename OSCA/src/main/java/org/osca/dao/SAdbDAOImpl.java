@@ -172,4 +172,67 @@ public class SAdbDAOImpl implements SAdbDAO {
         return x;
     }
 
+
+
+    public String getSAFULLName(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT first_name, last_name FROM officials WHERE Emp_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+        String y = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+            y = resultSet.getString(2);
+        }
+        return x+" "+y;
+    }
+
+
+    public String getMFULLName(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT first_name, last_name FROM Members WHERE member_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+        String y = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+            y = resultSet.getString(2);
+        }
+        return x+" "+y;
+    }
+
+    public String getSOFULLName(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT first_name,last_name FROM basic_users WHERE user_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+        String y = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+            y = resultSet.getString(2);
+        }
+        return x+" "+y;
+    }
+
 }

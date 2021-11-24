@@ -30,4 +30,17 @@ public class SAdashboardService {
     public String getShowOrganizerName(int uid) throws SQLException, ClassNotFoundException {
         return sadbDAO.getSOName(uid);
     }
+
+
+    public String getSuperadminFULLName(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getSAFULLName(uid);
+    }
+
+    public String getMemberFULLName(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getMFULLName(uid);
+    }
+
+    public String getShowOrganizerFULLName(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getSOFULLName(uid);
+    }
 }

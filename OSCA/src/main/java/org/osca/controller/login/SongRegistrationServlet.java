@@ -5,10 +5,7 @@ import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.CloudinaryImage;
 import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.*;
-import org.osca.service.ImageService;
-import org.osca.service.SAchangeinfoService;
-import org.osca.service.SAdashboardService;
-import org.osca.service.SongRegistrationService;
+import org.osca.service.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -204,6 +201,24 @@ public class SongRegistrationServlet extends HttpServlet {
                 done = songService.addMemberWritters(tempSongID, idList.get(2),"N");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
+            }
+
+            NotificationService nService = new NotificationService();
+            SAdashboardService saService = new SAdashboardService();
+            String fullname = null;
+
+            try {
+                fullname = saService.getMemberFULLName(uid);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            if (done){
+                try {
+                    done = nService.setNotificationSongRegRequest(uid, ut-1, fullname + " has sent a request for a song registration");
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
 

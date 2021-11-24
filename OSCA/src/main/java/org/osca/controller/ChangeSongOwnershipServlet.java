@@ -223,6 +223,24 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
+
+                NotificationService nService = new NotificationService();
+                SAdashboardService saService = new SAdashboardService();
+                String fullname = null;
+
+                try {
+                    fullname = saService.getMemberFULLName(uid);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                if (done){
+                    try {
+                        done = nService.setNotificationSongRegRequest(uid, ut-1, fullname + " has sent a request for a song ownership change");
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
             }
 
             Gson g = new Gson();

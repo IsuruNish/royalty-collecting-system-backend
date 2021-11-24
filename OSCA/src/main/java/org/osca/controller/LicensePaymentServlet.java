@@ -5,11 +5,9 @@ import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.CloudinaryImage;
 import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.model.License;
+import org.osca.model.Notification;
 import org.osca.model.Respond;
-import org.osca.service.ApplyLicenseService;
-import org.osca.service.ImageService;
-import org.osca.service.SAdashboardService;
-import org.osca.service.SongRegistrationService;
+import org.osca.service.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -135,6 +133,9 @@ public class LicensePaymentServlet extends HttpServlet {
             int concertID = Integer.parseInt(request.getParameter("concertID").substring(1, request.getParameter("concertID").length()-1));
             a.setConcertID(concertID);
 
+            NotificationService nService = new NotificationService();
+            SAdashboardService saService = new SAdashboardService();
+
             Part p = request.getPart("file");
             if (p != null) {
                 p.write("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
@@ -151,6 +152,23 @@ public class LicensePaymentServlet extends HttpServlet {
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
+
+                String fullname = null;
+
+                try {
+                    fullname = saService.getShowOrganizerFULLName(uid);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                if (done){
+                    try {
+                        done = nService.setNotificationLicenseRequest(uid, fullname + " has sent a request for a license application");
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+
 
                 Respond res = new Respond();
 
