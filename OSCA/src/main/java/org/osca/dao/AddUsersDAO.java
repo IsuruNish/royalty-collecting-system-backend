@@ -12,4 +12,6 @@ public interface AddUsersDAO {
     public boolean checkMember(MemberDashboard user) throws SQLException, ClassNotFoundException;
     public boolean changeNonMemberToMember(MemberDashboard user) throws SQLException, ClassNotFoundException;
     public boolean checkEmail(AAddUsers user) throws SQLException, ClassNotFoundException;
+    public int checkMember2(MemberDashboard user) throws SQLException, ClassNotFoundException;
+    public boolean changeNonMemberToMember2(MemberDashboard user, int uid, int madeID) throws SQLException, ClassNotFoundException;
 }

@@ -35,4 +35,11 @@ public class AddUsersService {
         return userDAO.checkEmail(user);
     }
 
+    public int checkMemberStatus2(MemberDashboard user) throws SQLException, ClassNotFoundException {
+        return userDAO.checkMember2(user);
+    }
+
+    public boolean changeNonmemberStatus2(MemberDashboard user, int uid, int madeID) throws SQLException, ClassNotFoundException {
+        return userDAO.changeNonMemberToMember2(user, uid, madeID);
+    }
 }

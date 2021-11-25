@@ -110,19 +110,19 @@ public class AddUsersServlet extends HttpServlet {
         }
 
         else if (checkMail && user.getForWhom().equals("member")){
-            boolean  isNonMember = false;
+            int isNonMember = 0;
             MemberDashboard Muser = gson.fromJson(body, MemberDashboard.class);
 
             try {
-                isNonMember = service.checkMemberStatus(Muser);
+                isNonMember = service.checkMemberStatus2(Muser);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
 
             System.out.println(isNonMember);
-            if (isNonMember){
+            if (isNonMember != 0){
                 try {
-                    added = service.changeNonmemberStatus(Muser);
+                    added = service.changeNonmemberStatus2(Muser, isNonMember, uid);
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }

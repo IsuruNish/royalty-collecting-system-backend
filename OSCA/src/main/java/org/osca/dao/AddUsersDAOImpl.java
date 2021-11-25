@@ -171,4 +171,59 @@ public class AddUsersDAOImpl implements AddUsersDAO {
         return false;
     }
 
+    public int checkMember2(MemberDashboard user) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+
+        String q = "SELECT member_id FROM members WHERE first_name = ? AND last_name = ? AND Member_Active_Status = 'N';";
+        PreparedStatement preparedStatement = connection.prepareStatement(q);
+
+
+        preparedStatement.setString(1,user.getFname());
+        preparedStatement.setString(2, user.getLname());
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        int uid = 0;
+        if(resultSet.next()){
+            uid = resultSet.getInt(1);
+        }
+        return uid;
+    }
+
+    public boolean changeNonMemberToMember2(MemberDashboard user, int uid, int madeID) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "UPDATE members SET Member_Active_Status = ? , email = ? , nic = ? , Phone_number = ? , bank_no = ? , bank_name = ? , bank_branch = ? , Password = ? , created_by = ? , created_on = CURRENT_DATE WHERE member_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        Mail javaMailUtil=new Mail();
+        SecureRandom rand = new SecureRandom();
+        String pin=""+rand.nextInt(1000000);
+        String password="OSCAinLK@"+pin;
+        String sha256hex = Hashing.sha256()
+                .hashString(password, StandardCharsets.UTF_8)
+                .toString();
+
+        stmt.setString(1,"M");
+        stmt.setString(2,user.getEmail());
+        stmt.setString(3,user.getNic());
+        stmt.setString(4,user.getPhoneNo());
+        stmt.setString(5,user.getAccNo());
+        stmt.setString(6,user.getBankName());
+        stmt.setString(7,user.getBankBranch());
+        stmt.setString(8,sha256hex);
+        stmt.setInt(9,madeID);
+        stmt.setInt(10,uid);
+
+        boolean a = stmt.executeUpdate() > 0;
+
+        if (a){
+            try {
+                javaMailUtil.notifyUser(user.getEmail(),""+password, user.getFname());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        return false;
+    }
 }

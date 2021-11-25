@@ -9,6 +9,11 @@ public class Respond {
         this.ok = ok;
     }
 
+    public Respond(int ok, int numbers) {
+        this.ok = ok;
+        this.numbers = numbers;
+    }
+
     public Respond() {
     }
 
@@ -34,5 +39,14 @@ public class Respond {
 
     public void setNumbers(int numbers) {
         this.numbers = numbers;
+    }
+
+    @Override
+    public String toString() {
+        return "Respond{" +
+                "ok=" + ok +
+                ", userType=" + userType +
+                ", numbers=" + numbers +
+                '}';
     }
 }

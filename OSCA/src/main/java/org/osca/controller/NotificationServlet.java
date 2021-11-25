@@ -206,14 +206,23 @@ public class NotificationServlet extends HttpServlet {
         if (detail.getRequestType() == 1 && (utype == 5 || utype == 4)){
             try {
                 notifyNo = nService.newNotificationNumberUsingUID(uid);
+                done = true;
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
         }
 
         else if (detail.getRequestType() == 1 && (utype == 1 || utype == 2 || utype == 3)){
+            int ut = 0;
+            if(utype == 3){
+                ut = 3;
+            }
+            else{
+                ut = 2;
+            }
             try {
-                notifyNo = nService.newNotificationNumberUsingUTYPE(utype);
+                notifyNo = nService.newNotificationNumberUsingUTYPE(ut);
+                done = true;
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
@@ -244,6 +253,9 @@ public class NotificationServlet extends HttpServlet {
         else{
             res.setOk(0);
         }
+
+        System.out.println(notifyNo);
+        System.out.println(res);
 
         Gson g = new Gson();
         String sa;
