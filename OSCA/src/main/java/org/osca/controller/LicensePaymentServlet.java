@@ -47,25 +47,42 @@ public class LicensePaymentServlet extends HttpServlet {
         String path = null;
         try {
             path = dp.getUserDP(uid);
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         SAdashboardService fnameS = new SAdashboardService();
+        ShowOrganizerService SOserivice=new ShowOrganizerService();
         String fname = "";
+        String fullName = "";
+        ArrayList<String> SOdetails = new ArrayList<>();
+
         try {
             fname = fnameS.getShowOrganizerName(uid);
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        }
+
+        try {
+            fullName = fnameS.getShowOrganizerFULLName(uid);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+
+        try {
+            SOdetails = SOserivice.getDashboardDetails(uid);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
         }
 
 
+        System.out.println(SOdetails);
+
         License a = new License();
         a.setFname(fname);
+        a.setLname(SOdetails.get(2));
+        a.setEmail(SOdetails.get(3));
+        a.setPhoen(SOdetails.get(4));
         a.setDPpath(path);
         a.setUtype(utype);
         a.setUid(uid);
@@ -126,9 +143,31 @@ public class LicensePaymentServlet extends HttpServlet {
                 response.getWriter().println(saobj);
             }
 
-//            else if (detail.getRequestType() == 2){
-//
-//            }
+            else if (detail.getRequestType() == 2){
+                boolean x = false;
+                try {
+                    x = service.setPaymentSuccessful(detail.getConcertID());
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                Respond res = new Respond();
+
+                if (x){
+                    res.setOk(1);
+                }
+                else{
+                    res.setOk(0);
+                }
+                System.out.println(res);
+
+                gson = new Gson();
+                String saobj = gson.toJson(res);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().println(saobj);
+
+            }
         } else {
             int concertID = Integer.parseInt(request.getParameter("concertID").substring(1, request.getParameter("concertID").length()-1));
             a.setConcertID(concertID);

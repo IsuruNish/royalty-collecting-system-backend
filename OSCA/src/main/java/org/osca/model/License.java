@@ -21,6 +21,9 @@ public class License {
     private int utype;
     private int uid;
     private String fname;
+    private String lname;
+    private String email;
+    private String phoen;
     private String DPpath;
 
     public License() {
@@ -156,6 +159,30 @@ public class License {
         this.concertID = concertID;
     }
 
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoen() {
+        return phoen;
+    }
+
+    public void setPhoen(String phoen) {
+        this.phoen = phoen;
+    }
+
     @Override
     public String toString() {
         return "License{" +
@@ -174,6 +201,9 @@ public class License {
                 ", utype=" + utype +
                 ", uid=" + uid +
                 ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoen='" + phoen + '\'' +
                 ", DPpath='" + DPpath + '\'' +
                 '}';
     }

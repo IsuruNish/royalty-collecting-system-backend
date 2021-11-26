@@ -313,4 +313,15 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
 
         return stmt.executeUpdate() > 0;
     }
+
+    public boolean setSlipPayment(int concertID) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "UPDATE concert SET Payment_status = 1 WHERE concert_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,concertID);
+
+        return stmt.executeUpdate() > 0;
+    }
+
 }

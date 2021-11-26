@@ -27,5 +27,6 @@ public interface ApplyLicenseDAO {
 
 
     public boolean setSlipPayment(int concertID, String url) throws SQLException, ClassNotFoundException;
+    public boolean setSlipPayment(int concertID) throws SQLException, ClassNotFoundException;
 
     }
