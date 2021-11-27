@@ -12,7 +12,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public ArrayList<ArrayList<String>> getAllNotificationsFromUID(int uid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT notification_id, message, create_date, create_time, isRead FROM notification WHERE user_id = ? AND delete_flag = 0 ORDER BY create_date DESC , create_time DESC ;";
+        String q = "SELECT notification_id, message, create_date, create_time, isRead FROM notification WHERE user_id = ? AND delete_flag = 0 AND forEmp = 0 ORDER BY create_date DESC , create_time DESC ;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
         stmt.setInt(1, uid);
@@ -44,7 +44,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public ArrayList<ArrayList<String>> getAllNotificationsFromUtype(int utype) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT notification_id, message, create_date, create_time,isRead FROM notification WHERE user_type = ? AND delete_flag = 0 ORDER BY create_date DESC , create_time DESC;";
+        String q = "SELECT notification_id, message, create_date, create_time,isRead FROM notification WHERE user_type = ? AND delete_flag = 0 AND forEmp = 1 ORDER BY create_date DESC , create_time DESC;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
         stmt.setInt(1, utype);
@@ -198,7 +198,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public boolean setNotificationForLicenseRequest(int uid, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id,user_type, create_date ,create_time) VALUE(?,?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id,user_type, forEmp, create_date ,create_time) VALUE(?,?,?,1,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -210,7 +210,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public boolean setNotificationForLicenseAcceptedOrDenied(int uid, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id,create_date ,create_time) VALUE(?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id,forEmp,create_date ,create_time) VALUE(?,?,0,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -221,7 +221,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public boolean setNotificationForSongRegRequest(int uid, int utype, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id,user_type, create_date ,create_time) VALUE(?,?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id,user_type, forEmp, create_date ,create_time) VALUE(?,?,?,1,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -233,7 +233,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public boolean setNotificationForSongRegAcceptedOrDenied(int uid, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id, create_date ,create_time) VALUE(?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id, forEmp,create_date ,create_time) VALUE(?,?,0,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -244,7 +244,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public boolean setNotificationForSongOwnRequest(int uid, int utype, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id,user_type, create_date ,create_time) VALUE(?,?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id,user_type,forEmp,create_date ,create_time) VALUE(?,?,?,1,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -255,7 +255,7 @@ public class NotificationDAOImpl implements NotificationDAO{
     }
     public boolean setNotificationForSongOwnAcceptedOrDenied(int uid, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id, create_date ,create_time) VALUE(?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id, forEmp,create_date ,create_time) VALUE(?,?,0,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -266,7 +266,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public boolean setNotificationForSongDelRequest(int uid, int utype, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id,user_type, create_date ,create_time) VALUE(?,?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id,user_type, forEmp, create_date ,create_time) VALUE(?,?,?,1,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -278,7 +278,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public boolean setNotificationForSongDelAcceptedOrDenied(int uid, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String query = "INSERT INTO notification (message,user_id, create_date ,create_time) VALUE(?,?,CURRENT_DATE ,CURRENT_TIME)";
+        String query = "INSERT INTO notification (message,user_id, forEmp, create_date ,create_time) VALUE(?,?,0,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1,msg);
@@ -318,7 +318,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public int newNotificationNumberUID(int uid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT COUNT(*) FROM notification WHERE user_id = ? AND delete_flag = 0 AND isRead = 0;";
+        String q = "SELECT COUNT(*) FROM notification WHERE user_id = ? AND delete_flag = 0 AND isRead = 0 AND forEmp = 0;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
         stmt.setInt(1, uid);
@@ -333,7 +333,7 @@ public class NotificationDAOImpl implements NotificationDAO{
 
     public int newNotificationNumberUTYPE(int utype) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT COUNT(*) FROM notification WHERE user_type = ? AND delete_flag = 0 AND isRead = 0;";
+        String q = "SELECT COUNT(*) FROM notification WHERE user_type = ? AND delete_flag = 0 AND isRead = 0 AND forEmp = 1;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
         stmt.setInt(1, utype);

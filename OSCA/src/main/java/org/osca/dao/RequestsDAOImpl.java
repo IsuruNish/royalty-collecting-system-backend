@@ -400,20 +400,25 @@ public class RequestsDAOImpl implements RequestsDAO{
 
     public Boolean deleteSong(int id) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "UPDATE song_requests SET s_flag = 1 WHERE temp_song_id = ? AND type_of_request = 3;";
-        PreparedStatement stmt = connection.prepareStatement(q);
-
+        String q0 = "SELECT Corresponding_id FROM song_requests WHERE temp_song_id =?;";
+        PreparedStatement stmt = connection.prepareStatement(q0);
         stmt.setInt(1,id);
+        ResultSet resultSet = stmt.executeQuery();
 
-       boolean done1 =  stmt.executeUpdate() > 0;
+        int tempID = 0;
+        if (resultSet.next()){
+            tempID = resultSet.getInt(1);
+        }
+
+        String q = "UPDATE song_requests SET s_flag = 1 WHERE temp_song_id = ?";
+        PreparedStatement stmt2 = connection.prepareStatement(q);
+        stmt2.setInt(1,tempID);
+        boolean done1 =  stmt2.executeUpdate() > 0;
 
         String q1 = "UPDATE song SET Delete_status = 1, Approved_Date = CURRENT_DATE WHERE temp_song_id = ? ;";
         PreparedStatement preparedStatement = connection.prepareStatement(q1);
-
-        preparedStatement.setInt(1,id);
-
+        preparedStatement.setInt(1,tempID);
         boolean done2 =   preparedStatement.executeUpdate() > 0;
-
 
         return done1 && done2;
     }
