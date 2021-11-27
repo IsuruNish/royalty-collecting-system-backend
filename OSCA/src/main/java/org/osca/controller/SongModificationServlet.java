@@ -150,7 +150,7 @@ public class SongModificationServlet extends HttpServlet {
         }
 
         try {
-            done = nService.setNotificationSongDelRequest(uid,userType-1,"Song delete request was sent by "+fname+" for the "+detail.getSongName()+" song");
+            done = nService.setNotificationSongDelRequest(userType-1,"Song delete request was sent by "+fname+" for the "+detail.getSongName()+" song");
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -162,9 +162,6 @@ public class SongModificationServlet extends HttpServlet {
         else{
             res.setOk(0);
         }
-
-        System.out.println(res);
-        System.out.println("sssssssssssssssssssssssssssssssssssssssssssss");
 
         Gson gson2 = new Gson();
         String saobj =gson2.toJson(res);

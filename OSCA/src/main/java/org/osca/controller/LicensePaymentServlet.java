@@ -202,7 +202,7 @@ public class LicensePaymentServlet extends HttpServlet {
 
                 if (done){
                     try {
-                        done = nService.setNotificationLicenseRequest(uid, fullname + " has sent a request for a license application");
+                        done = nService.setNotificationLicenseRequest(fullname + " has sent a request for a license application");
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }

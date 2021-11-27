@@ -18,49 +18,57 @@ public class NotificationService {
         return obj.getAllNotificationsFromUID(uid);
     }
 
-    public ArrayList<ArrayList<String>> getNotificationsUtype(int utype) throws SQLException, ClassNotFoundException {
-        return obj.getAllNotificationsFromUtype(utype);
-    }
-
-//    public ArrayList<ArrayList<String>> getREADNotificationsUID(int uid) throws SQLException, ClassNotFoundException {
-//        return obj.getAllREADNotificationsFromUID(uid);
-//    }
-//
-//    public ArrayList<ArrayList<String>> getREADNotificationsUtype(int utype) throws SQLException, ClassNotFoundException {
-//        return obj.getAllREADNotificationsFromUtype(utype);
+//    public ArrayList<ArrayList<String>> getNotificationsUtype(int utype) throws SQLException, ClassNotFoundException {
+//        return obj.getAllNotificationsFromUtype(utype);
 //    }
 
 
-    public Boolean setNotificationLicenseRequest(int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForLicenseRequest(utype,msg);
+    public Boolean setNotificationLicenseRequest(String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForLicenseRequest(msg);
     }
-    public Boolean setNotificationLicenseAcceptedOrDenied(int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForLicenseAcceptedOrDenied(utype,msg);
+    public Boolean setNotificationLicenseAccepted(int uid, String msg, int stage) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForLicenseAccepted(uid,msg, stage);
+    }
+    public Boolean setNotificationLicenseDenied(int uid, String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForLicenseDenied(uid,msg);
+    }
+
+//////////
+    public Boolean setNotificationSongRegRequest(int ut,String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongRegRequest(ut, msg);
+    }
+    public Boolean setNotificationSongRegAccepted(int uid, String msg, int stage) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongRegAccepted(uid,msg, stage);
+    }
+    public Boolean setNotificationSongRegDenied(int uid, String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongRegDenied(uid,msg);
     }
 
 
-    public Boolean setNotificationSongRegRequest(int uid,int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForSongRegRequest(uid,utype,msg);
+
+    public Boolean setNotificationSongOwnRequest(int uid, String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongOwnRequest(uid,msg);
     }
-    public Boolean setNotificationSongRegAcceptedOrDenied(int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForSongRegAcceptedOrDenied(utype,msg);
+    public Boolean setNotificationSongOwnAccepted(int utype, String msg, int stage) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongOwnAccepted(utype,msg, stage);
+    }
+    public Boolean setNotificationSongOwnDenied(int utype, String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongOwnDenied(utype,msg);
     }
 
 
-    public Boolean setNotificationSongOwnRequest(int uid, int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForSongOwnRequest(uid, utype,msg);
+
+    public Boolean setNotificationSongDelRequest(int uid, String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongDelRequest(uid,msg);
     }
-    public Boolean setNotificationSongOwnAcceptedOrDenied(int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForSongOwnAcceptedOrDenied(utype,msg);
+    public Boolean setNotificationSongDelAccepted(int uid, String msg, int stage) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongDelAccepted(uid,msg, stage);
+    }
+    public Boolean setNotificationSongDelDenied(int uid, String msg) throws SQLException, ClassNotFoundException {
+        return obj.setNotificationForSongDelDenied(uid,msg);
     }
 
 
-    public Boolean setNotificationSongDelRequest(int uid,int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForSongDelRequest(uid,utype,msg);
-    }
-    public Boolean setNotificationSongDelAcceptedOrDenied(int utype, String msg) throws SQLException, ClassNotFoundException {
-        return obj.setNotificationForSongDelAcceptedOrDenied(utype,msg);
-    }
 
 
     public Boolean deleteNotification(int nid) throws SQLException, ClassNotFoundException {
@@ -74,8 +82,8 @@ public class NotificationService {
     public int newNotificationNumberUsingUID(int uid) throws SQLException, ClassNotFoundException {
         return obj.newNotificationNumberUID(uid);
     }
-
-    public int newNotificationNumberUsingUTYPE(int utype) throws SQLException, ClassNotFoundException {
-        return obj.newNotificationNumberUTYPE(utype);
-    }
+//
+//    public int newNotificationNumberUsingUTYPE(int utype) throws SQLException, ClassNotFoundException {
+//        return obj.newNotificationNumberUTYPE(utype);
+//    }
 }

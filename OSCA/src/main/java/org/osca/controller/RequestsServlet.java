@@ -154,7 +154,7 @@ public class RequestsServlet extends HttpServlet {
 
         boolean done = false;
 
-        if (detail.getReqType() == 1  && detail.getIsAccepted() == 1){
+        if (detail.getReqType() == 1  && detail.getIsAccepted() == 1 && ut == 3){
             try {
                 done = service.AcceptLicenseRequest(detail.getLicenseID(),type);
             } catch (SQLException | ClassNotFoundException throwables) {
@@ -162,15 +162,26 @@ public class RequestsServlet extends HttpServlet {
             }
 
 
-            if (type == 2){
-                try {
-                    done = nService.setNotificationLicenseAcceptedOrDenied(ut,"license application request accepted");
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
-                }
+            try {
+                done = nService.setNotificationLicenseAccepted(2,"New license application for "+ detail.getConcertName()+" concert",1);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
             }
         }
+        else if (detail.getReqType() == 1  && detail.getIsAccepted() == 1 && (ut == 2 || ut == 1)){
+            try {
+                done = service.AcceptLicenseRequest(detail.getLicenseID(),type);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
 
+
+            try {
+                done = nService.setNotificationLicenseAccepted(detail.getShowOrganizerID(),"license application request for "+detail.getConcertName()+" is accepted",2);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+        }
         else if (detail.getReqType() == 1  && detail.getIsAccepted() == 0){
             try {
                 done = service.DenyLicenseRequest(detail.getLicenseID());
@@ -179,28 +190,42 @@ public class RequestsServlet extends HttpServlet {
             }
 
             try {
-                done = nService.setNotificationLicenseAcceptedOrDenied(ut,"license application request rejected");
+                done = nService.setNotificationLicenseDenied(detail.getShowOrganizerID(),"license application request for "+ detail.getConcertName()+" is rejected");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
         }
 
-        else if (detail.getReqType() == 2  && detail.getIsAccepted() == 1){
+
+
+
+
+        else if (detail.getReqType() == 2  && detail.getIsAccepted() == 1 && ut == 3){
             try {
                 done = service.AcceptSongRegRequest(detail.getSongID(),type);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
 
-            if (type == 2){
-                try {
-                    done = nService.setNotificationSongRegAcceptedOrDenied(ut, "Song registration request accepted");
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
-                }
+            try {
+                done = nService.setNotificationSongRegAccepted(2, "Song registration request for "+ detail.getSongName()+" is accepted",1);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
             }
         }
+        else if (detail.getReqType() == 2  && detail.getIsAccepted() == 1 && (ut == 2 || ut == 1)){
+            try {
+                done = service.AcceptSongRegRequest(detail.getSongID(),type);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
 
+            try {
+                done = nService.setNotificationSongRegAccepted(detail.getMemberID(), "Song registration request for "+ detail.getSongName()+" song is accepted",2);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+        }
         else if (detail.getReqType() == 2  && detail.getIsAccepted() == 0){
             try {
                 done = service.DenySongRegRequest(detail.getSongID());
@@ -209,25 +234,42 @@ public class RequestsServlet extends HttpServlet {
             }
 
             try {
-                done = nService.setNotificationSongRegAcceptedOrDenied(ut, "Song registration request rejected");
+                done = nService.setNotificationSongRegDenied(detail.getMemberID(), "Song registration request for "+detail.getSongName()+" is rejected");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
         }
 
-        else if (detail.getReqType() == 3  && detail.getIsAccepted() == 1){
+
+
+
+
+        else if (detail.getReqType() == 3  && detail.getIsAccepted() == 1 && ut == 3){
             try {
                 done = service.AcceptSongOwnRequest(detail.getSongID(),type);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
 
-            if (type == 2){
-                try {
-                    done =  nService.setNotificationSongOwnAcceptedOrDenied(ut, "Song ownership change request accepted");
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
-                }
+            try {
+                System.out.println("awaaaaa");
+                done =  nService.setNotificationSongOwnAccepted(2, "Song ownership change request for "+detail.getSongName()+" is accepted",1);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        else if (detail.getReqType() == 3  && detail.getIsAccepted() == 1 && (ut == 2 || ut == 1)){
+            try {
+                done = service.AcceptSongOwnRequest(detail.getSongID(),type);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            //put id here and song name
+            try {
+                done =  nService.setNotificationSongOwnAccepted(detail.getMemberID(), "Song ownership change request for "+detail.getSongName()+" is accepted",2);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
             }
         }
         else if (detail.getReqType() == 3  && detail.getIsAccepted() == 0){
@@ -237,26 +279,42 @@ public class RequestsServlet extends HttpServlet {
                 throwables.printStackTrace();
             }
 
+            //put id here and song name
             try {
-                done = nService.setNotificationSongOwnAcceptedOrDenied(ut, "Song ownership change request rejected");
+                done = nService.setNotificationSongOwnDenied(detail.getMemberID(), "Song ownership change request for "+detail.getSongName()+" is rejected");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
         }
 
-        else if (detail.getReqType() == 4  && detail.getIsAccepted() == 1){
+
+
+        //put id here and song name
+
+        else if (detail.getReqType() == 4  && detail.getIsAccepted() == 1 && ut == 3){
             try {
                 done = service.AccpetSongDelRequest(detail.getSongID(),type);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
 
-            if (type == 2){
-                try {
-                    done = nService.setNotificationSongDelAcceptedOrDenied(ut, "Song removal request accepted");
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
-                }
+            try {
+                done = nService.setNotificationSongDelAccepted(2, "Song removal request for "+detail.getSongName()+" is accepted",1);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        else if (detail.getReqType() == 4  && detail.getIsAccepted() == 1 && (ut == 2 || ut == 1)){
+            try {
+                done = service.AccpetSongDelRequest(detail.getSongID(),type);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            try {
+                done = nService.setNotificationSongDelAccepted(detail.getMemberID(), "Song removal request for "+ detail.getSongName()+" is accepted",2);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
             }
         }
         else if (detail.getReqType() == 4  && detail.getIsAccepted() == 0){
@@ -267,7 +325,7 @@ public class RequestsServlet extends HttpServlet {
             }
 
             try {
-                done = nService.setNotificationSongDelAcceptedOrDenied(ut, "Song removal request rejected");
+                done = nService.setNotificationSongDelDenied(detail.getMemberID(), "Song removal request for "+detail.getSongName()+" is rejected");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }

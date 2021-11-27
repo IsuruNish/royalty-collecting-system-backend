@@ -46,29 +46,23 @@ public class SongRegistrationServlet extends HttpServlet {
 
         try {
             path = dp.getMemDP(uid);
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
         SongRegistrationService songReg = new SongRegistrationService();
         ArrayList<ArrayList<String>> details = new ArrayList<>();
         try {
             details = songReg.getMemberDetails();
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         SAdashboardService fnameService = new SAdashboardService();
         String fname = null;
         try {
             fname = fnameService.getMemberName(uid);
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         MemberDashboard mem = new MemberDashboard(utype,details.get(0),details.get(1), path, fname);
@@ -215,7 +209,7 @@ public class SongRegistrationServlet extends HttpServlet {
 
             if (done){
                 try {
-                    done = nService.setNotificationSongRegRequest(uid, ut-1, fullname + " has sent a request for a song registration");
+                    done = nService.setNotificationSongRegRequest(ut-1, fullname + " has sent a request for a song registration");
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }

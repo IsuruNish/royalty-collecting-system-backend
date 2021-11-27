@@ -115,7 +115,7 @@ public class NotificationServlet extends HttpServlet {
         }
         else if(utype == 3){
             try {
-                msg = nService.getNotificationsUtype(3);
+                msg = nService.getNotificationsUID(3);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
@@ -128,7 +128,7 @@ public class NotificationServlet extends HttpServlet {
         }
         else{
             try {
-                msg = nService.getNotificationsUtype(2);
+                msg = nService.getNotificationsUID(2);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
@@ -150,7 +150,7 @@ public class NotificationServlet extends HttpServlet {
 
         else if (utype == 1 || utype == 2 || utype == 3){
             try {
-                notifyNo = nService.newNotificationNumberUsingUTYPE(utype);
+                notifyNo = nService.newNotificationNumberUsingUID(utype);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
@@ -221,7 +221,7 @@ public class NotificationServlet extends HttpServlet {
                 ut = 2;
             }
             try {
-                notifyNo = nService.newNotificationNumberUsingUTYPE(ut);
+                notifyNo = nService.newNotificationNumberUsingUID(ut);
                 done = true;
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();

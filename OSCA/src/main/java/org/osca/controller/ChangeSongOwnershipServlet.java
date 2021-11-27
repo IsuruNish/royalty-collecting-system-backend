@@ -236,7 +236,7 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
 
                 if (done){
                     try {
-                        done = nService.setNotificationSongRegRequest(uid, ut-1, fullname + " has sent a request for a song ownership change");
+                        done = nService.setNotificationSongRegRequest(ut-1, fullname + " has sent a request for a song ownership change");
                     } catch (SQLException | ClassNotFoundException throwables) {
                         throwables.printStackTrace();
                     }

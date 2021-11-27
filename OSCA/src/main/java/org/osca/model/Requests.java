@@ -10,7 +10,13 @@ public class Requests {
     ArrayList<ArrayList<String>> songDelReq;
 
     int licenseID;
+    int showOrganizerID;
+
+    String concertName;
     int songID;
+    int memberID;
+    String songName;
+
     int reqType;
     int isAccepted;
 
@@ -89,6 +95,38 @@ public class Requests {
     public Requests() {
     }
 
+    public int getShowOrganizerID() {
+        return showOrganizerID;
+    }
+
+    public void setShowOrganizerID(int showOrganizerID) {
+        this.showOrganizerID = showOrganizerID;
+    }
+
+    public int getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(int memberID) {
+        this.memberID = memberID;
+    }
+
+    public String getSongName() {
+        return songName;
+    }
+
+    public void setSongName(String songName) {
+        this.songName = songName;
+    }
+
+    public String getConcertName() {
+        return concertName;
+    }
+
+    public void setConcertName(String concertName) {
+        this.concertName = concertName;
+    }
+
     @Override
     public String toString() {
         return "Requests{" +
@@ -98,7 +136,11 @@ public class Requests {
                 ", songOwnReq=" + songOwnReq +
                 ", songDelReq=" + songDelReq +
                 ", licenseID=" + licenseID +
+                ", showOrganizerID=" + showOrganizerID +
+                ", concertName='" + concertName + '\'' +
                 ", songID=" + songID +
+                ", memberID=" + memberID +
+                ", songName='" + songName + '\'' +
                 ", reqType=" + reqType +
                 ", isAccepted=" + isAccepted +
                 '}';
