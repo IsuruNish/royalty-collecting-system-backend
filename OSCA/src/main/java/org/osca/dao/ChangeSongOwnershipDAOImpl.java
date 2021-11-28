@@ -48,6 +48,46 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
     }
 
 
+//    public ArrayList<ArrayList<String>> getAllSingers(int id) throws SQLException, ClassNotFoundException{
+//        ArrayList<ArrayList<String>> MemIds = new ArrayList<>();
+//        ArrayList<String> temp = new ArrayList<>();
+//        ArrayList<String> fname = new ArrayList<>();
+//        ArrayList<String> lname = new ArrayList<>();
+//
+//        Connection connection = DBConnection.getObj().getConnection();
+//        String q1 = "SELECT Member_id FROM song_singers WHERE song_id = ? ";
+//        PreparedStatement stmt = connection.prepareStatement(q1);
+//
+//        stmt.setInt(1, id);
+//
+//        ResultSet resultSet = stmt.executeQuery();
+//
+//        while (resultSet.next()) {
+//            temp.add(String.valueOf(resultSet.getInt(1)));
+//        }
+//
+//        MemIds.add(temp);
+//
+//        String q2 = "SELECT first_name, last_name FROM members WHERE Member_id = ? ;";
+//        for (String name : temp) {
+//            PreparedStatement preparedStatement = connection.prepareStatement(q2);
+//            preparedStatement.setInt(1, Integer.parseInt(name));
+//            ResultSet rs = preparedStatement.executeQuery();
+//
+//            if (rs.next()) {
+//                fname.add(rs.getString(1));
+//                lname.add(rs.getString(2));
+//            }
+//
+//        }
+//        MemIds.add(fname);
+//        MemIds.add(lname);
+//
+//        return MemIds;
+//    }
+
+
+
     public ArrayList<ArrayList<String>> getAllSingers(int id) throws SQLException, ClassNotFoundException{
         ArrayList<ArrayList<String>> MemIds = new ArrayList<>();
         ArrayList<String> temp = new ArrayList<>();
@@ -55,15 +95,26 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
         ArrayList<String> lname = new ArrayList<>();
 
         Connection connection = DBConnection.getObj().getConnection();
-        String q1 = "SELECT Member_id FROM song_singers WHERE song_id = ? ";
+
+
+        String q1 = "SELECT temp_song_id FROM song WHERE song_id = ? ";
         PreparedStatement stmt = connection.prepareStatement(q1);
-
         stmt.setInt(1, id);
-
         ResultSet resultSet = stmt.executeQuery();
 
-        while (resultSet.next()) {
-            temp.add(String.valueOf(resultSet.getInt(1)));
+        int tempSongID = 0;
+        if (resultSet.next()) {
+            tempSongID = resultSet.getInt(1);
+        }
+
+
+        String q3 = "SELECT Member_id FROM song_requests_singers WHERE temp_song_id = ? ";
+        PreparedStatement stmt2 = connection.prepareStatement(q3);
+        stmt2.setInt(1, tempSongID);
+        ResultSet resultSet2 = stmt2.executeQuery();
+
+        while (resultSet2.next()) {
+            temp.add(String.valueOf(resultSet2.getInt(1)));
         }
 
         MemIds.add(temp);
@@ -93,15 +144,26 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
         ArrayList<String> lname = new ArrayList<>();
 
         Connection connection = DBConnection.getObj().getConnection();
-        String q1 = "SELECT Member_id FROM song_composers WHERE song_id = ? ";
+
+
+        String q1 = "SELECT temp_song_id FROM song WHERE song_id = ? ";
         PreparedStatement stmt = connection.prepareStatement(q1);
-
         stmt.setInt(1, id);
-
         ResultSet resultSet = stmt.executeQuery();
 
-        while (resultSet.next()) {
-            temp.add(String.valueOf(resultSet.getInt(1)));
+        int tempSongID = 0;
+        if (resultSet.next()) {
+            tempSongID = resultSet.getInt(1);
+        }
+
+
+        String q3 = "SELECT Member_id FROM song_request_composers WHERE temp_song_id = ? ";
+        PreparedStatement stmt2 = connection.prepareStatement(q3);
+        stmt2.setInt(1, tempSongID);
+        ResultSet resultSet2 = stmt2.executeQuery();
+
+        while (resultSet2.next()) {
+            temp.add(String.valueOf(resultSet2.getInt(1)));
         }
 
         MemIds.add(temp);
@@ -131,15 +193,26 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
         ArrayList<String> lname = new ArrayList<>();
 
         Connection connection = DBConnection.getObj().getConnection();
-        String q1 = "SELECT Member_id FROM song_songwritters WHERE song_id = ? ";
+
+
+        String q1 = "SELECT temp_song_id FROM song WHERE song_id = ? ";
         PreparedStatement stmt = connection.prepareStatement(q1);
-
         stmt.setInt(1, id);
-
         ResultSet resultSet = stmt.executeQuery();
 
-        while (resultSet.next()) {
-            temp.add(String.valueOf(resultSet.getInt(1)));
+        int tempSongID = 0;
+        if (resultSet.next()) {
+            tempSongID = resultSet.getInt(1);
+        }
+
+
+        String q3 = "SELECT Member_id FROM song_request_song_writers WHERE temp_song_id = ? ";
+        PreparedStatement stmt2 = connection.prepareStatement(q3);
+        stmt2.setInt(1, tempSongID);
+        ResultSet resultSet2 = stmt2.executeQuery();
+
+        while (resultSet2.next()) {
+            temp.add(String.valueOf(resultSet2.getInt(1)));
         }
 
         MemIds.add(temp);
@@ -161,6 +234,84 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
 
         return MemIds;
     }
+
+
+
+//    public ArrayList<ArrayList<String>> getAllComposers(int id) throws SQLException, ClassNotFoundException{
+//        ArrayList<ArrayList<String>> MemIds = new ArrayList<>();
+//        ArrayList<String> temp = new ArrayList<>();
+//        ArrayList<String> fname = new ArrayList<>();
+//        ArrayList<String> lname = new ArrayList<>();
+//
+//        Connection connection = DBConnection.getObj().getConnection();
+//        String q1 = "SELECT Member_id FROM song_composers WHERE song_id = ? ";
+//        PreparedStatement stmt = connection.prepareStatement(q1);
+//
+//        stmt.setInt(1, id);
+//
+//        ResultSet resultSet = stmt.executeQuery();
+//
+//        while (resultSet.next()) {
+//            temp.add(String.valueOf(resultSet.getInt(1)));
+//        }
+//
+//        MemIds.add(temp);
+//
+//        String q2 = "SELECT first_name, last_name FROM members WHERE Member_id = ? ;";
+//        for (String name : temp) {
+//            PreparedStatement preparedStatement = connection.prepareStatement(q2);
+//            preparedStatement.setInt(1, Integer.parseInt(name));
+//            ResultSet rs = preparedStatement.executeQuery();
+//
+//            if (rs.next()) {
+//                fname.add(rs.getString(1));
+//                lname.add(rs.getString(2));
+//            }
+//
+//        }
+//        MemIds.add(fname);
+//        MemIds.add(lname);
+//
+//        return MemIds;
+//    }
+
+//    public ArrayList<ArrayList<String>> getAllWriters(int id) throws SQLException, ClassNotFoundException{
+//        ArrayList<ArrayList<String>> MemIds = new ArrayList<>();
+//        ArrayList<String> temp = new ArrayList<>();
+//        ArrayList<String> fname = new ArrayList<>();
+//        ArrayList<String> lname = new ArrayList<>();
+//
+//        Connection connection = DBConnection.getObj().getConnection();
+//        String q1 = "SELECT Member_id FROM song_songwritters WHERE song_id = ? ";
+//        PreparedStatement stmt = connection.prepareStatement(q1);
+//
+//        stmt.setInt(1, id);
+//
+//        ResultSet resultSet = stmt.executeQuery();
+//
+//        while (resultSet.next()) {
+//            temp.add(String.valueOf(resultSet.getInt(1)));
+//        }
+//
+//        MemIds.add(temp);
+//
+//        String q2 = "SELECT first_name, last_name FROM members WHERE Member_id = ? ;";
+//        for (String name : temp) {
+//            PreparedStatement preparedStatement = connection.prepareStatement(q2);
+//            preparedStatement.setInt(1, Integer.parseInt(name));
+//            ResultSet rs = preparedStatement.executeQuery();
+//
+//            if (rs.next()) {
+//                fname.add(rs.getString(1));
+//                lname.add(rs.getString(2));
+//            }
+//
+//        }
+//        MemIds.add(fname);
+//        MemIds.add(lname);
+//
+//        return MemIds;
+//    }
 
 
 
