@@ -121,7 +121,7 @@ public class MemAndSODashboardServlet extends HttpServlet {
             mem.setEmail(details.get(3));
             mem.setPhoneNo(details.get(4));
             mem.setUpcomingIncome(Integer.parseInt(details.get(5)));
-            mem.setPastIncome(Integer.parseInt(details.get(6)));
+            mem.setPastIncome(Double.parseDouble(details.get(6)));
             mem.setDPpath(path);
 
             Gson gson = new Gson();

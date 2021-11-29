@@ -247,7 +247,66 @@ public class RequestsDAOImpl implements RequestsDAO{
             boolean done1 = stmt.executeUpdate() > 0;
             boolean done2 = newLicense(id);
 
-            return done2 && done1;
+            boolean done3 = isCloseConcert(id);
+
+
+
+            ArrayList <Integer> songIDs = new ArrayList<>();
+            ArrayList <Integer> tempSongIDs = new ArrayList<>();
+            ArrayList <Integer> composerIDs = new ArrayList<>();
+            ArrayList <Integer> writterIDs = new ArrayList<>();
+            String concertDate = null;
+            double totalFee = 0;
+
+            boolean done10 = false;
+            boolean done20 = false;
+            System.out.println("hi");
+            if (done3){
+                System.out.println("hillow");
+
+                concertDate = getDateForConcert(id);
+                System.out.println("1");
+
+                songIDs = getSongIDsInConcert(id);
+                System.out.println("2");
+                System.out.println(songIDs);
+
+                tempSongIDs = getTempSongIDsInConcert(songIDs);
+                System.out.println("3");
+
+                totalFee = getTotalFeeForConcert(id);
+
+                System.out.println("4");
+                System.out.println(tempSongIDs);
+
+                int index = 0;
+                for (Integer tempSongID : tempSongIDs) {
+                    System.out.println("repeat");
+
+                    writterIDs = getWrittersForConcert(tempSongID);
+                    System.out.println("5");
+
+                    composerIDs = getComposersForConcert(tempSongID);
+                    System.out.println("6");
+
+                    done10 = putIncomingForMembersComposers(id,totalFee,composerIDs,concertDate, songIDs.get(index));
+                    System.out.println("7");
+
+                    done20 = putIncomingForMembersWritters(id,totalFee,writterIDs,concertDate,songIDs.get(index));
+                    System.out.println("8");
+
+                    index++;
+                    if (!(done10 && done20)){
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+
+            else{
+                return done2 && done1;
+            }
         }
         else{
             return stmt.executeUpdate() > 0;
@@ -423,5 +482,174 @@ public class RequestsDAOImpl implements RequestsDAO{
         return done1 && done2;
     }
 
+    public Boolean isCloseConcert(int id) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q0 = "SELECT type FROM concert WHERE concert_id =?;";
+        PreparedStatement stmt = connection.prepareStatement(q0);
+        stmt.setInt(1,id);
+        ResultSet resultSet = stmt.executeQuery();
 
+        boolean done = false;
+        String whatType = null;
+        if (resultSet.next()){
+            whatType = resultSet.getString(1);
+
+            return whatType.equals("Close");
+        }
+        return false;
+    }
+
+    public ArrayList<Integer> getSongIDsInConcert(int id) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q0 = "SELECT song_id FROM concert_songs WHERE concert_id =?;";
+        PreparedStatement stmt = connection.prepareStatement(q0);
+        stmt.setInt(1,id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<Integer> x = new ArrayList<>();
+        System.out.println("//////////////////////////////////////////////");
+        while (resultSet.next()){
+            x.add(resultSet.getInt(1));
+            System.out.println(x);
+        }
+        System.out.println("//////////////////////////////////////////////");
+
+        return x;
+    }
+
+
+
+    public ArrayList<Integer> getTempSongIDsInConcert(ArrayList<Integer> ids) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+
+        ArrayList<Integer> x = new ArrayList<>();
+        System.out.println(ids);
+
+        for (Integer id: ids){
+            System.out.println(id);
+            String q0 = "SELECT temp_song_id FROM song WHERE song_id =?;";
+            PreparedStatement stmt = connection.prepareStatement(q0);
+            stmt.setInt(1,id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()){
+                x.add(resultSet.getInt(1));
+            }
+        }
+        return x;
+    }
+
+
+    public int getTotalFeeForConcert(int id) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q0 = "SELECT total_fee FROM concert WHERE concert_id =?;";
+        PreparedStatement stmt = connection.prepareStatement(q0);
+        stmt.setInt(1,id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        int x = 0;
+
+        if (resultSet.next()){
+            x = resultSet.getInt(1);
+        }
+        return x;
+    }
+
+
+
+    public String getDateForConcert(int id) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q0 = "SELECT concert_Date FROM concert WHERE concert_id =?;";
+        PreparedStatement stmt = connection.prepareStatement(q0);
+        stmt.setInt(1,id);
+        ResultSet resultSet = stmt.executeQuery();
+
+        String  x = null;
+
+        if (resultSet.next()){
+            x = resultSet.getString(1);
+        }
+        return x;
+    }
+
+
+    public ArrayList<Integer> getComposersForConcert(int Tempid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q0 = "SELECT member_id FROM song_request_composers WHERE temp_song_id = ? AND Member_Active_Status = 'M';";
+        PreparedStatement stmt = connection.prepareStatement(q0);
+        stmt.setInt(1,Tempid);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<Integer> x = new ArrayList<>();
+
+        while (resultSet.next()){
+            x.add(resultSet.getInt(1));
+        }
+        return x;
+    }
+
+    public ArrayList<Integer> getWrittersForConcert(int Tempid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q0 = "SELECT member_id FROM song_request_song_writers WHERE temp_song_id = ? AND Member_Active_Status = 'M';";
+        PreparedStatement stmt = connection.prepareStatement(q0);
+        stmt.setInt(1,Tempid);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<Integer> x = new ArrayList<>();
+
+        while (resultSet.next()){
+            x.add(resultSet.getInt(1));
+        }
+        return x;
+    }
+
+    public Boolean putIncomingForMembersComposers(int id, double amount, ArrayList<Integer> members, String concertDate, int concertID) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+
+        double oneAmount = amount/members.size();
+        boolean done = false;
+        for (Integer member : members) {
+            String query = "INSERT INTO song_income VALUE(?,?,?,?,?,?) ;";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, concertID);
+            preparedStatement.setInt(3, member);
+            preparedStatement.setDate(4, java.sql.Date.valueOf(concertDate));
+            preparedStatement.setDouble(5, oneAmount);
+            preparedStatement.setInt(6, 0);
+
+            done = preparedStatement.executeUpdate() > 0;
+
+            if (!done) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Boolean putIncomingForMembersWritters(int id, double amount, ArrayList<Integer> members, String concertDate, int concertID) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+
+        double oneAmount = amount/members.size();
+        boolean done = false;
+        for (Integer member : members) {
+            String query = "INSERT INTO song_income VALUE(?,?,?,?,?,?) ;";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, concertID);
+            preparedStatement.setInt(3, member);
+            preparedStatement.setDate(4, java.sql.Date.valueOf(concertDate));
+            preparedStatement.setDouble(5, oneAmount);
+            preparedStatement.setInt(6, 0);
+
+            done = preparedStatement.executeUpdate() > 0;
+
+            if (!done) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

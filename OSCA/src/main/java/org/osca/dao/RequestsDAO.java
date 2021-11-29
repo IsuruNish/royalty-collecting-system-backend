@@ -1,5 +1,10 @@
 package org.osca.dao;
 
+import org.osca.database.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -29,4 +34,15 @@ public interface RequestsDAO {
     public Boolean setSongDelReqAccept(int id, int type) throws SQLException, ClassNotFoundException;
     public Boolean setSongDelReqDeny(int id) throws SQLException, ClassNotFoundException;
 
+
+
+    public Boolean isCloseConcert(int id) throws SQLException, ClassNotFoundException;
+    public ArrayList<Integer> getSongIDsInConcert(int id) throws SQLException, ClassNotFoundException;
+    public ArrayList<Integer> getTempSongIDsInConcert(ArrayList<Integer> ids) throws SQLException, ClassNotFoundException;
+    public int getTotalFeeForConcert(int id) throws SQLException, ClassNotFoundException;
+    public String getDateForConcert(int id) throws SQLException, ClassNotFoundException;
+    public ArrayList<Integer> getComposersForConcert(int Tempid) throws SQLException, ClassNotFoundException;
+    public ArrayList<Integer> getWrittersForConcert(int Tempid) throws SQLException, ClassNotFoundException;
+    public Boolean putIncomingForMembersComposers(int id, double amount, ArrayList<Integer> members, String concertDate, int concertID) throws SQLException, ClassNotFoundException;
+    public Boolean putIncomingForMembersWritters(int id, double amount, ArrayList<Integer> members, String concertDate,int concertID) throws SQLException, ClassNotFoundException;
     }
