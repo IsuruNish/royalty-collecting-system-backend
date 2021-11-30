@@ -53,7 +53,7 @@ public class AdbDAOImpl implements AdbDAO{
         }
 
         //License req count
-        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE status = 1 AND rejected = 0) AS t;";
+        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE status = 1 AND rejected = 0 AND cancelled = 0) AS t;";
         stmt = connection.prepareStatement(q);
 
         resultSet = stmt.executeQuery();
@@ -74,7 +74,7 @@ public class AdbDAOImpl implements AdbDAO{
 
 
         //member income
-        q = "SELECT SUM(Fee_without_commission) FROM(SELECT Fee_without_commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1 AND type = ? ) AS t;";
+        q = "SELECT SUM(Fee_without_commission) FROM(SELECT Fee_without_commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 0 AND type = ? AND cancelled = 0  AND status = 2) AS t;";
         stmt = connection.prepareStatement(q);
         stmt.setString(1,"Close");
         resultSet = stmt.executeQuery();
@@ -84,7 +84,7 @@ public class AdbDAOImpl implements AdbDAO{
         }
 
         //Concert count
-        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1) AS t;";
+        q = "SELECT COUNT(*) FROM( SELECT * FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 0) AS t;";
         stmt = connection.prepareStatement(q);
 
         resultSet = stmt.executeQuery();
@@ -105,7 +105,7 @@ public class AdbDAOImpl implements AdbDAO{
             tot = resultSet.getInt(1);
         }
 
-        q = "SELECT SUM(Fee_Without_Commission) FROM(SELECT Fee_Without_Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1 AND type = ? ) AS t;";
+        q = "SELECT SUM(Fee_Without_Commission) FROM(SELECT Fee_Without_Commission FROM concert WHERE MONTH(concert_date) = MONTH(CURRENT_DATE) AND rejected = 1 AND type = ? AND cancelled = 0  AND status = 2) AS t;";
         stmt = connection.prepareStatement(q);
         stmt.setString(1,"Open");
         resultSet = stmt.executeQuery();
