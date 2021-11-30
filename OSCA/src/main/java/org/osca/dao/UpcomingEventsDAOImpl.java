@@ -111,7 +111,7 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
 
     public ArrayList<ArrayList<String>> getEmpUpcomingEvents() throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied, user_id FROM concert WHERE status = 2 AND rejected = 0 AND cancelled = 0;";
+        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied, user_id,Commission FROM concert WHERE status = 2 AND rejected = 0 AND cancelled = 0;";
         PreparedStatement stmt = connection.prepareStatement(q);
         ResultSet resultSet = stmt.executeQuery();
         ArrayList<ArrayList<String>> finaOne = new ArrayList<>();
@@ -124,7 +124,16 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
             x.add(resultSet.getString(3));
             x.add(resultSet.getString(4));
             x.add(resultSet.getString(5));
-            x.add(resultSet.getString(6));
+
+            double fee = 0;
+            if (resultSet.getString(5).equals("Open")){
+                fee = resultSet.getDouble(6) + resultSet.getDouble(9);
+            }
+            else{
+                fee = resultSet.getDouble(9);
+            }
+
+            x.add(String.valueOf(fee));
             x.add(resultSet.getString(7));
             x.add(getName(resultSet.getInt(8)));
             finaOne.add(x);
