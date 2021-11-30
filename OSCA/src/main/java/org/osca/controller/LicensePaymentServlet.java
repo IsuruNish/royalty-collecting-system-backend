@@ -121,6 +121,10 @@ public class LicensePaymentServlet extends HttpServlet {
         ApplyLicenseService service = new ApplyLicenseService();
 
         if (!typeOfRequest.equals("multipart")) {
+            NotificationService nService = new NotificationService();
+            SAdashboardService saService = new SAdashboardService();
+
+            boolean done = false;
             String body = data.getBody(request);
             License detail = gson.fromJson(body, License.class);
 
@@ -130,6 +134,19 @@ public class LicensePaymentServlet extends HttpServlet {
 
                 try {
                     x = service.getTotalFee(detail.getConcertID());
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                String fullname = null;
+
+                try {
+                    fullname = saService.getShowOrganizerFULLName(uid);
+                    System.out.println(fullname);
+
+                    done = nService.setNotificationLicenseRequest(fullname + " has sent a request for a license application");
+                    System.out.println(done);
+
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
