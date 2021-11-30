@@ -107,7 +107,86 @@ public class NotificationDAOImpl implements NotificationDAO{
         assert preparedStatement != null;
         return preparedStatement.executeUpdate() > 0;
     }
-    public boolean setNotificationForLicenseDenied(int uid, String msg) throws SQLException, ClassNotFoundException{
+
+
+
+    public ArrayList<ArrayList<String>> getSongIDandSongNames(int concertID) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT song_id FROM concert_songs WHERE concert_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+        stmt.setInt(1, concertID);
+        ResultSet resultSet = stmt.executeQuery();
+        ArrayList<Integer> IDs = new ArrayList<>();
+
+        while (resultSet.next()) {
+            IDs.add(resultSet.getInt(1));
+        }
+
+
+        ArrayList<String> TempIDs = new ArrayList<>();
+
+        for (Integer id: IDs){
+            String q2 = "SELECT temp_song_id FROM song WHERE song_id = ? ;";
+            PreparedStatement stmt2 = connection.prepareStatement(q2);
+            stmt2.setInt(1, id);
+            ResultSet resultSet2 = stmt2.executeQuery();
+
+            if (resultSet2.next()) {
+                TempIDs.add(String.valueOf(resultSet2.getInt(1)));
+            }
+        }
+
+
+
+        ArrayList<String> songNames = new ArrayList<>();
+
+        for (String id: TempIDs){
+            String q3 = "SELECT song_name FROM song_requests WHERE temp_song_id = ? ;";
+            PreparedStatement stmt3 = connection.prepareStatement(q3);
+            stmt3.setInt(1, Integer.parseInt(id));
+            ResultSet resultSet3 = stmt3.executeQuery();
+
+            if (resultSet3.next()) {
+                songNames.add(resultSet3.getString(1));
+            }
+        }
+
+        ArrayList<ArrayList<String>> finalOne = new ArrayList<>();
+        finalOne.add(TempIDs);
+        finalOne.add(songNames);
+
+        return finalOne;
+    }
+
+    public ArrayList<Integer> sendNotificationsForRelaventMembers(int tempSongIDs) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+
+        ArrayList<Integer> memberIds = new ArrayList<>();
+
+        String q3 = "SELECT member_id FROM song_request_composers WHERE temp_song_id = ? AND Member_Active_Status = 'M' ;";
+        PreparedStatement stmt3 = connection.prepareStatement(q3);
+        stmt3.setInt(1, tempSongIDs);
+        ResultSet resultSet3 = stmt3.executeQuery();
+
+        while (resultSet3.next()) {
+            memberIds.add(resultSet3.getInt(1));
+        }
+
+        String q4 = "SELECT member_id FROM song_request_song_writers WHERE temp_song_id = ? AND Member_Active_Status = 'M' ;";
+        PreparedStatement stmt4 = connection.prepareStatement(q4);
+        stmt4.setInt(1, tempSongIDs);
+        ResultSet resultSet4 = stmt4.executeQuery();
+
+        while (resultSet4.next()) {
+            memberIds.add(resultSet4.getInt(1));
+        }
+
+        return memberIds;
+    }
+
+
+
+        public boolean setNotificationForLicenseDenied(int uid, String msg) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
         String query = "INSERT INTO notification (message,user_id,forEmp,create_date ,create_time) VALUE(?,?,0,CURRENT_DATE ,CURRENT_TIME)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);

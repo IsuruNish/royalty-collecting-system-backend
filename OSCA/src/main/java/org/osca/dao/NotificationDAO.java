@@ -13,6 +13,8 @@ public interface NotificationDAO {
 
     public boolean setNotificationForLicenseRequest(String msg) throws SQLException, ClassNotFoundException;
     public boolean setNotificationForLicenseAccepted(int uid, String msg, int stage) throws SQLException, ClassNotFoundException;
+    public ArrayList<ArrayList<String>> getSongIDandSongNames(int concertID) throws SQLException, ClassNotFoundException;
+    public ArrayList<Integer> sendNotificationsForRelaventMembers(int tempSongIDs) throws SQLException, ClassNotFoundException;
     public boolean setNotificationForLicenseDenied(int uid, String msg) throws SQLException, ClassNotFoundException;
 
     public boolean setNotificationForSongRegRequest(int ut, String msg) throws SQLException, ClassNotFoundException;

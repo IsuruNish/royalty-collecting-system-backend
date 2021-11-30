@@ -175,9 +175,20 @@ public class RequestsServlet extends HttpServlet {
                 throwables.printStackTrace();
             }
 
-
+            ArrayList<ArrayList<String>> allDetails = new ArrayList<>();
+            ArrayList<Integer> memIDs = new ArrayList<>();
             try {
                 done = nService.setNotificationLicenseAccepted(detail.getShowOrganizerID(),"license application request for "+detail.getConcertName()+" is accepted",2);
+                allDetails = nService.getAllSongIDandSongNames(detail.getLicenseID());
+
+                for(int index = 0; index < allDetails.get(0).size(); index++){
+
+                    memIDs = nService.sendAllNotificationsForRelaventMembers(Integer.parseInt(allDetails.get(0).get(index)));
+
+                    for(Integer id: memIDs){
+                        done = nService.setNotificationSongDelAccepted(id,allDetails.get(1).get(index)+" song will be used in the "+detail.getConcertName()+" Concert",2);
+                    }
+                }
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }

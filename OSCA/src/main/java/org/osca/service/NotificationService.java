@@ -33,7 +33,16 @@ public class NotificationService {
         return obj.setNotificationForLicenseDenied(uid,msg);
     }
 
-//////////
+    public ArrayList<ArrayList<String>> getAllSongIDandSongNames(int concertID) throws SQLException, ClassNotFoundException {
+        return obj.getSongIDandSongNames(concertID);
+    }
+
+    public ArrayList<Integer> sendAllNotificationsForRelaventMembers(int tempSongIDs) throws SQLException, ClassNotFoundException {
+        return obj.sendNotificationsForRelaventMembers(tempSongIDs);
+    }
+
+
+    //////////
     public Boolean setNotificationSongRegRequest(int ut,String msg) throws SQLException, ClassNotFoundException {
         return obj.setNotificationForSongRegRequest(ut, msg);
     }
