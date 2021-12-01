@@ -141,4 +141,45 @@ public class SAupcomingPaymentDAOImpl implements SAupcomingPaymentDAO{
 
         return stmt.executeUpdate() > 0;
     }
+
+    public ArrayList<String> getSoDetails(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT NIC, phone_number, email FROM basic_users WHERE user_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+        stmt.setInt(1,uid);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<String> x = new ArrayList<>();
+
+        if(resultSet.next()){
+            x.add(resultSet.getString(1));
+            x.add(resultSet.getString(2));
+            x.add(resultSet.getString(3));
+        }
+
+        return x;
+    }
+
+    public ArrayList<String> getMemDetails(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT NIC, phone_number, email, bank_no, bank_name, bank_branch FROM members WHERE member_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+        stmt.setInt(1,uid);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<String> x = new ArrayList<>();
+
+        if(resultSet.next()){
+            x.add(resultSet.getString(1));
+            x.add(resultSet.getString(2));
+            x.add(resultSet.getString(3));
+            x.add(resultSet.getString(4));
+            x.add(resultSet.getString(5));
+            x.add(resultSet.getString(6));
+        }
+
+        return x;
+
+
+    }
 }

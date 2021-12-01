@@ -28,4 +28,13 @@ public class SAupcomingPaymentService {
     public Boolean setPaymentMember(int uid, int concertID, int songID) throws SQLException, ClassNotFoundException {
         return sadbDAO.setPaymentMem(uid, concertID, songID);
     }
+
+
+    public ArrayList<String> getShowOrganizerDetails(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getSoDetails(uid);
+    }
+
+    public ArrayList<String> getMemberDetails(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getMemDetails(uid);
+    }
 }

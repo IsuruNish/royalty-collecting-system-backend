@@ -19,4 +19,7 @@ public interface SAupcomingPaymentDAO {
     public Boolean setPaymentSO(int uid, int concertID) throws SQLException, ClassNotFoundException;
     public Boolean setPaymentMem(int uid, int concertID, int songID) throws SQLException, ClassNotFoundException;
 
+    public ArrayList<String> getSoDetails(int uid) throws SQLException, ClassNotFoundException;
+    public ArrayList<String> getMemDetails(int uid) throws SQLException, ClassNotFoundException;
+
 }

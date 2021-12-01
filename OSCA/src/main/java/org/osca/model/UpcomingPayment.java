@@ -15,6 +15,7 @@ public class UpcomingPayment {
 
     ArrayList<ArrayList<String>> license;
     ArrayList<ArrayList<String>> music;
+    ArrayList<String> data;
 
 
     public UpcomingPayment() {
@@ -98,5 +99,30 @@ public class UpcomingPayment {
 
     public void setSongID(int songID) {
         this.songID = songID;
+    }
+
+    @Override
+    public String toString() {
+        return "UpcomingPayment{" +
+                "fname='" + fname + '\'' +
+                ", DPpath='" + DPpath + '\'' +
+                ", ut=" + ut +
+                ", typeOfreq=" + typeOfreq +
+                ", concertID=" + concertID +
+                ", userID=" + userID +
+                ", memberID=" + memberID +
+                ", songID=" + songID +
+                ", license=" + license +
+                ", music=" + music +
+                ", data=" + data +
+                '}';
+    }
+
+    public ArrayList<String> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<String> data) {
+        this.data = data;
     }
 }
