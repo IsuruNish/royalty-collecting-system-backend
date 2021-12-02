@@ -3,6 +3,8 @@ package org.osca.service;
 import org.osca.dao.RequestsDAO;
 import org.osca.dao.RequestsDAOImpl;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -30,7 +32,7 @@ public class RequestsService {
     }
 
 
-    public Boolean AcceptLicenseRequest(int id, int type) throws SQLException, ClassNotFoundException {
+    public Boolean AcceptLicenseRequest(int id, int type) throws SQLException, ClassNotFoundException, IOException, MessagingException {
         return obj.setLicenseReqAccept(id, type);
     }
     public Boolean DenyLicenseRequest(int id) throws SQLException, ClassNotFoundException {

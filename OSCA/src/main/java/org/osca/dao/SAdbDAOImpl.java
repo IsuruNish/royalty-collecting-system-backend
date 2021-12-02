@@ -235,4 +235,23 @@ public class SAdbDAOImpl implements SAdbDAO {
         return x+" "+y;
     }
 
+    public String getSOEmail(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT email FROM basic_users WHERE user_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+        }
+        return x;
+    }
+
+
 }

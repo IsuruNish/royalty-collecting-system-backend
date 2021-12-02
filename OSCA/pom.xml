@@ -155,6 +155,16 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.pdfcrowd/pdfcrowd -->
+        <dependency>
+            <groupId>com.pdfcrowd</groupId>
+            <artifactId>pdfcrowd</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+
+
+
     </dependencies>
 
     <build>

@@ -43,4 +43,8 @@ public class SAdashboardService {
     public String getShowOrganizerFULLName(int uid) throws SQLException, ClassNotFoundException {
         return sadbDAO.getSOFULLName(uid);
     }
+
+    public String getShowOrganizerEmail(int uid) throws SQLException, ClassNotFoundException {
+        return sadbDAO.getSOEmail(uid);
+    }
 }

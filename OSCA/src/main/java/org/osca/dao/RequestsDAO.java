@@ -2,6 +2,8 @@ package org.osca.dao;
 
 import org.osca.database.DBConnection;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +22,7 @@ public interface RequestsDAO {
 
 
 
-    public Boolean setLicenseReqAccept(int id, int type) throws SQLException, ClassNotFoundException;
+    public Boolean setLicenseReqAccept(int id, int type) throws SQLException, ClassNotFoundException, IOException, MessagingException;
     public Boolean setLicenseReqDeny(int id) throws SQLException, ClassNotFoundException;
     public Boolean newLicense(int id) throws SQLException, ClassNotFoundException;
 

@@ -2,8 +2,11 @@ package org.osca.dao;
 
 import org.osca.controller.login.Mail;
 import org.osca.database.DBConnection;
+import org.osca.service.SAdashboardService;
+import sun.applet.Main;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -235,7 +238,7 @@ public class RequestsDAOImpl implements RequestsDAO{
 
 
 
-    public Boolean setLicenseReqAccept(int id, int type) throws SQLException, ClassNotFoundException{
+    public Boolean setLicenseReqAccept(int id, int type) throws SQLException, ClassNotFoundException, IOException, MessagingException {
         Connection connection = DBConnection.getObj().getConnection();
         String q = "UPDATE concert SET status = ? WHERE concert_id = ? ;";
         PreparedStatement stmt = connection.prepareStatement(q);
@@ -250,6 +253,12 @@ public class RequestsDAOImpl implements RequestsDAO{
             boolean done3 = isCloseConcert(id);
 
 
+            ArrayList<String> dataForEmail = getLicenseEmialDetails(id);
+            Mail objMail = new Mail();
+            SAdashboardService serviceSA = new SAdashboardService();
+            String fulName = serviceSA.getShowOrganizerFULLName(Integer.parseInt(dataForEmail.get(6)));
+            String emailSO = serviceSA.getShowOrganizerEmail(Integer.parseInt(dataForEmail.get(6)));
+            objMail.licenseEmail("",fulName, dataForEmail, emailSO );
 
             ArrayList <Integer> songIDs = new ArrayList<>();
             ArrayList <Integer> tempSongIDs = new ArrayList<>();
@@ -315,6 +324,33 @@ public class RequestsDAOImpl implements RequestsDAO{
 
         return preparedStatement.executeUpdate() > 0;
     }
+
+    public ArrayList<String> getLicenseEmialDetails(int cid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q3 = "SELECT user_id, concert_name, concert_date, venue, type, user_id FROM concert WHERE concert_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q3);
+
+        stmt.setInt(1, cid);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<String> data = new ArrayList<>();
+
+        if (resultSet.next()) {
+
+            data.add(String.valueOf(cid));
+            data.add(String.valueOf(resultSet.getInt(1)));
+            data.add(resultSet.getString(2));
+            data.add(resultSet.getString(5));
+            data.add(resultSet.getString(4));
+            data.add(resultSet.getString(3));
+            data.add(resultSet.getString(6));
+        }
+
+        System.out.println(data);
+        return data;
+    }
+
+
 
 
 

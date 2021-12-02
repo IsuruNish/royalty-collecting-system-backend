@@ -13,4 +13,6 @@ public interface SAdbDAO {
     public String getSAFULLName(int uid) throws SQLException, ClassNotFoundException;
     public String getMFULLName(int uid) throws SQLException, ClassNotFoundException;
     public String getSOFULLName(int uid) throws SQLException, ClassNotFoundException;
+
+    public String getSOEmail(int uid) throws SQLException, ClassNotFoundException;
 }

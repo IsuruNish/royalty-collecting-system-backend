@@ -10,6 +10,7 @@ import org.osca.service.NotificationService;
 import org.osca.service.RequestsService;
 import org.osca.service.SAdashboardService;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -157,7 +158,7 @@ public class RequestsServlet extends HttpServlet {
         if (detail.getReqType() == 1  && detail.getIsAccepted() == 1 && ut == 3){
             try {
                 done = service.AcceptLicenseRequest(detail.getLicenseID(),type);
-            } catch (SQLException | ClassNotFoundException throwables) {
+            } catch (SQLException | ClassNotFoundException | MessagingException throwables) {
                 throwables.printStackTrace();
             }
 
@@ -171,7 +172,7 @@ public class RequestsServlet extends HttpServlet {
         else if (detail.getReqType() == 1  && detail.getIsAccepted() == 1 && (ut == 2 || ut == 1)){
             try {
                 done = service.AcceptLicenseRequest(detail.getLicenseID(),type);
-            } catch (SQLException | ClassNotFoundException throwables) {
+            } catch (SQLException | ClassNotFoundException | MessagingException throwables) {
                 throwables.printStackTrace();
             }
 
