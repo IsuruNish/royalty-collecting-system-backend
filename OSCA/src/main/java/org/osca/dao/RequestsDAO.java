@@ -41,8 +41,8 @@ public interface RequestsDAO {
     public ArrayList<Integer> getTempSongIDsInConcert(ArrayList<Integer> ids) throws SQLException, ClassNotFoundException;
     public int getTotalFeeForConcert(int id) throws SQLException, ClassNotFoundException;
     public String getDateForConcert(int id) throws SQLException, ClassNotFoundException;
-    public ArrayList<Integer> getComposersForConcert(int Tempid) throws SQLException, ClassNotFoundException;
-    public ArrayList<Integer> getWrittersForConcert(int Tempid) throws SQLException, ClassNotFoundException;
+    public ArrayList<ArrayList<Integer>> getComposersForConcert(int Tempid) throws SQLException, ClassNotFoundException;
+    public ArrayList<ArrayList<Integer>> getWrittersForConcert(int Tempid) throws SQLException, ClassNotFoundException;
     public Boolean putIncomingForMembersComposers(int id, double amount, ArrayList<Integer> members, String concertDate, int concertID) throws SQLException, ClassNotFoundException;
     public Boolean putIncomingForMembersWritters(int id, double amount, ArrayList<Integer> members, String concertDate,int concertID) throws SQLException, ClassNotFoundException;
     }

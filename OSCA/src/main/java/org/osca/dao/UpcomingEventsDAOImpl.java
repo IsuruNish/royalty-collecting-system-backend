@@ -38,7 +38,7 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
 
     public ArrayList<ArrayList<String>> getMemUpcomingEvents(int uid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT concert_id, income, song_id FROM song_income WHERE member_id =? AND concert_date > CURRENT_DATE ;";
+        String q = "SELECT concert_id, income, song_id FROM song_income WHERE member_id =? AND concert_date >= CURRENT_DATE AND cancel_status = 0 AND delete_flag = 0;";
         PreparedStatement stmt = connection.prepareStatement(q);
         stmt.setInt(1,uid);
 
