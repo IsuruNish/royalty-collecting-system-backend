@@ -3,10 +3,12 @@ package org.osca.controller;
 import com.google.gson.Gson;
 import org.osca.controller.auth.JWebToken;
 import org.osca.controller.httpRequest.HeaderAndBody;
+import org.osca.controller.login.Mail;
 import org.osca.model.ShowOrganizer;
 import org.osca.model.UserLoginModel;
 import org.osca.service.signupService;
 
+import javax.mail.MessagingException;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -43,10 +45,11 @@ public class SignupServlet extends HttpServlet {
             added = service.addShowOrganizers(basicUser);
             uid = service.getUid(basicUser);
 
-        } catch (SQLException throwables) {
+            Mail javaMailUtil=new Mail();
+            javaMailUtil.verifyEmail(basicUser.getEmail(),"",basicUser.getFname(),uid);
+
+        } catch (SQLException | ClassNotFoundException | MessagingException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         if (added) {

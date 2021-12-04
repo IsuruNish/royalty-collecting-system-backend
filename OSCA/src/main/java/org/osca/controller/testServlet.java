@@ -14,11 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 @WebServlet(name = "testServlet", value = "/testServlet")
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 1,
-        maxFileSize = 1024 * 1024 * 10,
-        maxRequestSize = 1024 * 1024 * 100
-)
 public class testServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -58,12 +58,12 @@ public class signupDAOimp implements signupDAO {
         preparedStatement = connection.prepareStatement(query);
         String s="Hi...   "+user.getFname();
         Mail javaMailUtil=new Mail();
-        try {
-            javaMailUtil.welcome(s,""+user.getEmail(), user.getFname());
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-        System.out.println("ok, this works");
+//        try {
+//            javaMailUtil.welcome(s,""+user.getEmail(), user.getFname());
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+
         preparedStatement.setString(1,user.getNic());
         preparedStatement.setString(2,user.getFname());
         preparedStatement.setString(3,user.getLname());
@@ -103,4 +103,36 @@ public class signupDAOimp implements signupDAO {
 
 
     }
+
+
+    public boolean verifyEmailSO(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q2 = "UPDATE basic_users SET Verify_email = 1 WHERE user_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q2);
+
+        stmt.setInt(1,uid);
+
+        return stmt.executeUpdate() > 0;
+    }
+
+    public boolean verifyEmailMem(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q2 = "UPDATE members SET Verify_email = 1 WHERE member_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q2);
+
+        stmt.setInt(1,uid);
+
+        return stmt.executeUpdate() > 0;
+    }
+
+    public boolean verifyEmailEmp(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q2 = "UPDATE officials SET Verify_email = 1 WHERE emp_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q2);
+
+        stmt.setInt(1,uid);
+
+        return stmt.executeUpdate() > 0;
+    }
+
 }

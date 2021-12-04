@@ -15,4 +15,9 @@ public interface SAdbDAO {
     public String getSOFULLName(int uid) throws SQLException, ClassNotFoundException;
 
     public String getSOEmail(int uid) throws SQLException, ClassNotFoundException;
+    public String getMemEmail(int uid) throws SQLException, ClassNotFoundException;
+    public String getEmpEmail(int uid) throws SQLException, ClassNotFoundException;
+
+    public int getType(int uid) throws SQLException, ClassNotFoundException;
+
 }

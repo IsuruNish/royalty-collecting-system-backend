@@ -56,6 +56,19 @@ public class JWebToken {
         signature = hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY);
     }
 
+    public JWebToken(int uid){
+        this();
+
+        Long now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+
+        payload.put("user ID", uid);
+        payload.put("user type", 4);
+        payload.put("iat", now );
+        payload.put("exp", now + 999999999);
+        payload.put("jti", UUID.randomUUID().toString());
+        signature = hmacSha256(encodedHeader + "." + encode(payload), SECRET_KEY);
+    }
+
 
     public JWebToken(String token) throws NoSuchAlgorithmException {
         this();

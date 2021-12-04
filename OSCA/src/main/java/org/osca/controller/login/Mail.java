@@ -45,7 +45,7 @@ public class Mail {
                 "\n" +
                 "<div style=\"font-size:16px; text-align:center;\">\n" +
                 "Hello "+name+"," +
-                "You can reset your password by clicking the bbutton below.\n" +
+                "You can reset your password by clicking the button below.\n" +
                 "</div>" +
                 "<div style=\"text-align:center;\">\n" +
                 "<a href ="+"'"+ msg+ "'"+" ><button \n" +
@@ -265,6 +265,64 @@ public class Mail {
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
         multipart.addBodyPart(pdfAttachment);
+        message.setContent(multipart);
+        Transport.send(message);
+    }
+
+
+    public void verifyEmail(String recipient,String msg, String name, int uid) throws MessagingException {
+        Properties prop = new Properties();
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host","smtp.gmail.com");
+        prop.put("mail.smtp.port",587);
+        prop.put("mail.smtp.ssl.trust","smtp.gmail.com");
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("osca.g04@gmail.com", "OSCAinLK123");
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("osca.g04@gmail.com"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+        message.setSubject("OSCA");
+
+
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        String text = "<div style=\"text-align:center;\">\n" +
+                "  <img  style=\"width:400px; height:300px;\" src = \"https://res.cloudinary.com/osca-lk/image/upload/v1638560246/email_qoooca.png\">\n" +
+                "</div>\n" +
+                "\n" +
+                "<div> \n" +
+                "<h1 style=\"font-size:50px; text-align:center;\">\n" +
+                "Email Verification</h1>\n" +
+                " </div>\n" +
+                "<div style=\"font-size:16px; text-align:center;\">\n" +
+                "Hello "+name+"! You can verify your email by clicking the button below.\n" +
+                "</div>\n" +
+                "<div style=\"text-align:center; margin-top:10px;\">\n" +
+                "  \n" +
+                "  <a href =\"verifyEmail.html?"+uid+"\"><button style= \"background-color: #008CBA; cursor: pointer;border: none; color: white;  padding: 15px 32px;  text-align: center;text-decoration: none;  display: inline-block;  font-size: 16px;  margin: 4px 2px;  cursor: pointer;\">\n" +
+                "Click Me\n" +
+                "</button></a>\n" +
+                "</div>\n" +
+                "<div style=\"text-align:center; margin-top:60px;\">\n" +
+                "<img style=\"width:100px; height:100px;\" src = \"https://res.cloudinary.com/osca-lk/image/upload/v1634884100/OSCA_maaq1t.jpg\"> </div>\n" +
+                "<div style=\"text-align:center; margin-top:1px; font-size:12px; font-style:italic;\">\n" +
+                "Outstanding Song Creator's Association (OSCA)<br>\n" +
+                "No.73, Sir James Peiris Mawatha, Colombo 02<br>\n" +
+                "Tel: 0094 11 230 5070<br>\n" +
+                "Tel/Fax : 0094 11 230 4070<br>\n" +
+                "e-mail : cineoscasl@gmail.com<br>\n" +
+                "</div>";
+
+        mimeBodyPart.setContent(msg, "text/html");
+        mimeBodyPart.setContent(text, "text/html");
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
         message.setContent(multipart);
         Transport.send(message);
     }

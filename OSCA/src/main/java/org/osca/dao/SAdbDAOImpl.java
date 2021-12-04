@@ -254,4 +254,74 @@ public class SAdbDAOImpl implements SAdbDAO {
     }
 
 
+    public String getMemEmail(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT email FROM members WHERE member_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+        }
+        return x;
+    }
+
+    public String getEmpEmail(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT email FROM officials WHERE emp_id =?;";
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        String x = null;
+
+        if(resultSet.next()){
+            x = resultSet.getString(1);
+        }
+        return x;
+    }
+
+
+    public int getType(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT * FROM basic_users WHERE user_id =?;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+        stmt.setInt(1,uid);
+        ResultSet resultSet = stmt.executeQuery();
+
+        if(resultSet.next()){
+            return 5;
+        }
+
+        String q2 = "SELECT * FROM members WHERE member_id =?;";
+        PreparedStatement stmt2 = connection.prepareStatement(q2);
+        stmt2.setInt(1,uid);
+        ResultSet resultSet2 = stmt2.executeQuery();
+
+        if(resultSet2.next()){
+            return 4;
+        }
+
+        String q3 = "SELECT * FROM officials WHERE emp_id =?;";
+        PreparedStatement stmt3 = connection.prepareStatement(q3);
+        stmt3.setInt(1,uid);
+        ResultSet resultSet3 = stmt3.executeQuery();
+
+        if(resultSet3.next()){
+            return 3;
+        }
+
+        return 0;
+    }
+
+
 }

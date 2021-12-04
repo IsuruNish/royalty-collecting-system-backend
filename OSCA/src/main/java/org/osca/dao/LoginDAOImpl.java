@@ -3,6 +3,7 @@ package org.osca.dao;
 import org.osca.database.DBConnection;
 import org.osca.model.UserLoginModel;
 
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,5 +67,64 @@ public class LoginDAOImpl implements LoginDAO{
             return 0;
         }
     }
+
+    public UserLoginModel login2(UserLoginModel userLoginModel) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT first_name,last_name,email,user_type,password FROM members WHERE email=? AND password=? ";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setString(1,userLoginModel.getEmail());
+        stmt.setString(2, userLoginModel.getPassword());
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            userLoginModel.setFirstName(resultSet.getString(1));
+            userLoginModel.setLastName(resultSet.getString(2));
+            userLoginModel.setEmail(resultSet.getString(3));
+            userLoginModel.setUserType(resultSet.getInt(4));
+            return userLoginModel;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public int getUserID2 (UserLoginModel userLoginModel) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT member_id AS uid FROM members WHERE email=? AND password=? ";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        String hashPass = doHash( userLoginModel.getPassword());
+        stmt.setString(1,userLoginModel.getEmail());
+        stmt.setString(2,hashPass);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public String doHash(final String base) {
+        try{
+            final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            final byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            final StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                final String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1)
+                    hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
 
 }
