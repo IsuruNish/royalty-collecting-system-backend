@@ -305,7 +305,7 @@ public class Mail {
                 "</div>\n" +
                 "<div style=\"text-align:center; margin-top:10px;\">\n" +
                 "  \n" +
-                "  <a href =\"verifyEmail.html?"+uid+"\"><button style= \"background-color: #008CBA; cursor: pointer;border: none; color: white;  padding: 15px 32px;  text-align: center;text-decoration: none;  display: inline-block;  font-size: 16px;  margin: 4px 2px;  cursor: pointer;\">\n" +
+                "  <a href =\"http://127.0.0.1:5500/landing_page/verifyEmail.html?"+uid+"\"><button style= \"background-color: #008CBA; cursor: pointer;border: none; color: white;  padding: 15px 32px;  text-align: center;text-decoration: none;  display: inline-block;  font-size: 16px;  margin: 4px 2px;  cursor: pointer;\">\n" +
                 "Click Me\n" +
                 "</button></a>\n" +
                 "</div>\n" +

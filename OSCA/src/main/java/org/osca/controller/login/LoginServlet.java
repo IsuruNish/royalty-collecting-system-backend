@@ -39,20 +39,20 @@ public class LoginServlet extends HttpServlet {
         LoginService service = new LoginService();
         UserLoginModel RealUser = new UserLoginModel();
 
+        int isValidEmail = 0;
         int id = 0;
         try {
             RealUser = service.getUser(user);
-            System.out.println(user);
-
             id = service.getID(user);
             System.out.println(id);
 
             RealUser.setId(id);
-            System.out.println(RealUser);
-        } catch (SQLException throwables) {
+
+            if (id != 0){
+                isValidEmail = service.isEmailVerified(user);
+            }
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         if(RealUser==null){
@@ -64,13 +64,22 @@ public class LoginServlet extends HttpServlet {
         }
 
         else{
-            String token = new JWebToken(RealUser.getId(), RealUser.getUserType()).toString();
-            RealUser.setToken(token);
-            Gson g = new Gson();
-            String ut =g.toJson(new UserLoginModel(RealUser.getUserType(), RealUser.getToken()));
+            String ut = null;
+            if (isValidEmail == -1){
+                String token = new JWebToken(RealUser.getId(), RealUser.getUserType()).toString();
+                RealUser.setToken(token);
+                Gson g = new Gson();
+                ut =g.toJson(new UserLoginModel(RealUser.getUserType(), RealUser.getToken()));
+            }
+            else{
+                String token = new JWebToken(RealUser.getId(), RealUser.getUserType()).toString();
+                RealUser.setToken(token);
+                Gson g = new Gson();
+                ut =g.toJson(new UserLoginModel(isValidEmail, RealUser.getToken()));
+            }
+
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-
             response.getWriter().println(ut);
         }
     }

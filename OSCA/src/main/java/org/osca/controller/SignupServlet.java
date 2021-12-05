@@ -6,6 +6,7 @@ import org.osca.controller.httpRequest.HeaderAndBody;
 import org.osca.controller.login.Mail;
 import org.osca.model.ShowOrganizer;
 import org.osca.model.UserLoginModel;
+import org.osca.service.LoginService;
 import org.osca.service.signupService;
 
 import javax.mail.MessagingException;
@@ -37,16 +38,20 @@ public class SignupServlet extends HttpServlet {
         basicUser = gson.fromJson(body, ShowOrganizer.class);
         basicUser.setUserType(5);
         signupService service = new signupService();
+        LoginService Lservice = new LoginService();
 
         boolean added = false;
+        int pin = 0;
         int uid = 0;
 
         try {
             added = service.addShowOrganizers(basicUser);
             uid = service.getUid(basicUser);
 
+            pin = Lservice.setEmailIDForShowOrganizers(uid);
+
             Mail javaMailUtil=new Mail();
-            javaMailUtil.verifyEmail(basicUser.getEmail(),"",basicUser.getFname(),uid);
+            javaMailUtil.verifyEmail(basicUser.getEmail(),"",basicUser.getFname(),pin);
 
         } catch (SQLException | ClassNotFoundException | MessagingException throwables) {
             throwables.printStackTrace();
@@ -59,6 +64,7 @@ public class SignupServlet extends HttpServlet {
 //            System.out.println(basicUser.getUserType());
 
             ShowOrganizer RealUser = new ShowOrganizer(basicUser.getUserType(), token);
+            RealUser.setPin(pin);
             Gson g = new Gson();
             String res = g.toJson(RealUser);
             response.setContentType("application/json");

@@ -21,7 +21,7 @@ public class AuthInterceptor implements Filter {
         String url = ((HttpServletRequest) request).getRequestURI();
         PrintWriter out = response.getWriter();
 
-        if (!url.equals("/OSCA_war_exploded/LoginServlet") && !url.equals("/OSCA_war_exploded/SignupServlet") && !url.equals("/OSCA_war_exploded/ForgetPasswordServlet") && !url.equals("/OSCA_war_exploded/ResetPasswordServlet") && !url.equals("/OSCA_war_exploded/ForgotPasswordServlet") && !url.equals("/OSCA_war_exploded/AndroidLoginServlet")) {
+        if (!url.equals("/OSCA_war_exploded/LoginServlet") && !url.equals("/OSCA_war_exploded/SignupServlet") && !url.equals("/OSCA_war_exploded/ForgetPasswordServlet") && !url.equals("/OSCA_war_exploded/ResetPasswordServlet") && !url.equals("/OSCA_war_exploded/ForgotPasswordServlet") && !url.equals("/OSCA_war_exploded/AndroidLoginServlet")&& !url.equals("/OSCA_war_exploded/EmailVerificationServlet")) {
             HeaderAndBody data = new HeaderAndBody();
             String header = data.getAuthenticationHeader(req);
 

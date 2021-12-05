@@ -19,6 +19,8 @@ public class ShowOrganizer {
     private int rejectedLicense;
     private String nextEventDate;
 
+    private int pin;
+
     public ShowOrganizer() {
     }
 
@@ -225,6 +227,13 @@ public class ShowOrganizer {
         this.nextEventDate = nextEventDate;
     }
 
+    public int getPin() {
+        return pin;
+    }
+
+    public void setPin(int pin) {
+        this.pin = pin;
+    }
 
     @Override
     public String toString() {
