@@ -10,6 +10,7 @@ import org.osca.model.ChangeInfoUsers;
 import org.osca.model.ShowOrganizer;
 import org.osca.model.SuperAdminDashboard;
 import org.osca.service.ImageService;
+import org.osca.service.LoginService;
 import org.osca.service.SAchangeinfoService;
 
 import javax.servlet.*;
@@ -168,7 +169,11 @@ public class ChangeInfoServlet extends HttpServlet {
                 ifType = 1;
 
             } else if (Integer.parseInt(requestType) == 2) {
-                done = changePersonalInfo("{" + body.substring(11), userType, uid);
+                try {
+                    done = changePersonalInfo("{" + body.substring(11), userType, uid);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
                 ifType = 2;
 
             }
@@ -234,7 +239,7 @@ public class ChangeInfoServlet extends HttpServlet {
 
 
 
-    public boolean changePersonalInfo(String body, int userType, int  uid) throws IOException {
+    public boolean changePersonalInfo(String body, int userType, int  uid) throws IOException, SQLException, ClassNotFoundException {
         SuperAdminDashboard user;
         Gson g = new Gson();
         user = g.fromJson(body, SuperAdminDashboard.class);
@@ -245,13 +250,16 @@ public class ChangeInfoServlet extends HttpServlet {
 
         try {
             updated = saService.updateUser(uid, user);
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
-        return updated;
+        boolean done = false;
+        if (user.getEmailFlag() == 1){
+            done = saService.setEmailVerificationForOSCA(uid);
+        }
+
+        return updated && done;
     }
 
     public boolean changePassword(String body, int  uid) throws IOException {

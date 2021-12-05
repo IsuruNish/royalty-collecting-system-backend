@@ -15,6 +15,8 @@ public class ChangeInfo {
     String bankBranch;
     String accNo;
 
+    int emailFlag;
+
     public ChangeInfo() {
     }
 
@@ -148,6 +150,14 @@ public class ChangeInfo {
 
     public void setAccNo(String accNo) {
         this.accNo = accNo;
+    }
+
+    public int getEmailFlag() {
+        return emailFlag;
+    }
+
+    public void setEmailFlag(int emailFlag) {
+        this.emailFlag = emailFlag;
     }
 
     @Override

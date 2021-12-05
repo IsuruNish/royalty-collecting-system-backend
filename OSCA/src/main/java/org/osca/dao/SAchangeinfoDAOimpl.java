@@ -3,6 +3,7 @@ package org.osca.dao;
 import org.osca.database.DBConnection;
 import org.osca.model.SuperAdminDashboard;
 
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -105,6 +106,50 @@ public class SAchangeinfoDAOimpl implements SAchangeinfoDAO{
         stmt.setString(1,newPass);
         stmt.setInt(2,uid);
 
+
+        return stmt.executeUpdate() > 0;
+    }
+
+
+
+    public boolean setEmailVerificationForEmp(int uid) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getObj().getConnection();
+
+        SecureRandom rand = new SecureRandom();
+        String pin = "" + rand.nextInt(1000000);
+
+        String q1 = "UPDATE officials SET email_id = ?, Verify_email = 0 WHERE emp_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q1);
+        stmt.setInt(1, Integer.parseInt(pin));
+        stmt.setInt(2, uid);
+
+        return stmt.executeUpdate() > 0;
+    }
+
+    public boolean setEmailVerificationForSO(int uid) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getObj().getConnection();
+
+        SecureRandom rand = new SecureRandom();
+        String pin = "" + rand.nextInt(1000000);
+
+        String q1 = "UPDATE basic_users SET email_id = ? , Verify_email = 0 WHERE user_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q1);
+        stmt.setInt(1, Integer.parseInt(pin));
+        stmt.setInt(2, uid);
+
+        return stmt.executeUpdate() > 0;
+    }
+
+    public boolean setEmailVerificationForMem(int uid) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getObj().getConnection();
+
+        SecureRandom rand = new SecureRandom();
+        String pin = "" + rand.nextInt(1000000);
+
+        String q1 = "UPDATE members SET email_id = ? , Verify_email = 0 WHERE member_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q1);
+        stmt.setInt(1, Integer.parseInt(pin));
+        stmt.setInt(2, uid);
 
         return stmt.executeUpdate() > 0;
     }

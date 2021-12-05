@@ -17,6 +17,8 @@ public class SuperAdminDashboard {
     Double oscaIncome;
     String DPpath;
 
+    int emailFlag;
+
     public SuperAdminDashboard(int utype, String fname, String DPpath) {
         this.utype = utype;
         this.fname = fname;
@@ -200,6 +202,14 @@ public class SuperAdminDashboard {
 
     public void setOscaIncome(Double oscaIncome) {
         this.oscaIncome = oscaIncome;
+    }
+
+    public int getEmailFlag() {
+        return emailFlag;
+    }
+
+    public void setEmailFlag(int emailFlag) {
+        this.emailFlag = emailFlag;
     }
 
     public SuperAdminDashboard() {

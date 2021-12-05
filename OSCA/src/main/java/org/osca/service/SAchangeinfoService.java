@@ -37,4 +37,17 @@ public class SAchangeinfoService {
     }
 
 
+    public boolean setEmailVerificationForOSCA(int uid) throws SQLException, ClassNotFoundException {
+        return saDAO.setEmailVerificationForEmp(uid);
+    }
+
+    public boolean setEmailVerificationForShowOrganizer(int uid) throws SQLException, ClassNotFoundException {
+        return saDAO.setEmailVerificationForSO(uid);
+    }
+
+    public boolean setEmailVerificationForMember(int uid) throws SQLException, ClassNotFoundException {
+        return saDAO.setEmailVerificationForMem(uid);
+    }
+
+
 }

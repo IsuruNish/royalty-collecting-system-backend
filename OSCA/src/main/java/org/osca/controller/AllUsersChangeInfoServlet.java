@@ -9,6 +9,7 @@ import org.osca.model.ShowOrganizer;
 import org.osca.service.AllUsersChangeInfoService;
 import org.osca.model.ChangeInfo;
 import org.osca.service.ImageService;
+import org.osca.service.SAchangeinfoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -214,7 +215,11 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
                     ifType = 1;
 
                 } else if (Integer.parseInt(requestType) == 2) {
-                    done = changePersonalInfo("{" + body.substring(11), userType, uid);
+                    try {
+                        done = changePersonalInfo("{" + body.substring(11), userType, uid);
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
                     ifType = 2;
 
                 }
@@ -322,7 +327,11 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
                     ifType = 1;
 
                 } else if (Integer.parseInt(requestType) == 2) {
-                    done = changePersonalInfo("{" + body.substring(11), userType, uid);
+                    try {
+                        done = changePersonalInfo("{" + body.substring(11), userType, uid);
+                    } catch (SQLException | ClassNotFoundException throwables) {
+                        throwables.printStackTrace();
+                    }
                     ifType = 2;
 
                 }
@@ -388,7 +397,7 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
 
 
 
-    public boolean changePersonalInfo(String body, int userType, int  uid) throws IOException {
+    public boolean changePersonalInfo(String body, int userType, int  uid) throws IOException, SQLException, ClassNotFoundException {
         ChangeInfo user;
         Gson g = new Gson();
         user = g.fromJson(body, ChangeInfo.class);
@@ -396,6 +405,7 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
 
         if (userType == 5){
             AllUsersChangeInfoService saService = new AllUsersChangeInfoService();
+            SAchangeinfoService sService = new SAchangeinfoService();
             boolean updated = false;
 
             try {
@@ -404,11 +414,18 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
                 throwables.printStackTrace();
             }
 
-            return updated;
+
+            boolean done = false;
+            if (user.getEmailFlag() == 1){
+                done = sService.setEmailVerificationForShowOrganizer(uid);
+            }
+
+            return updated && done;
         }
 
         else{
             AllUsersChangeInfoService saService = new AllUsersChangeInfoService();
+            SAchangeinfoService sService = new SAchangeinfoService();
             boolean updated = false;
 
             try {
@@ -417,7 +434,12 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
                 throwables.printStackTrace();
             }
 
-            return updated;
+            boolean done = false;
+            if (user.getEmailFlag() == 1){
+                done = sService.setEmailVerificationForMember(uid);
+            }
+
+            return updated && done;
         }
 
 
