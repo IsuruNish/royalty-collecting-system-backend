@@ -163,6 +163,11 @@
             <version>5.2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>7.54.2</version>
+        </dependency>
 
 
     </dependencies>

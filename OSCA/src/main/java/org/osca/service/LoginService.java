@@ -57,5 +57,11 @@ public class LoginService {
     }
 
 
+    public boolean set2FactorAuth(int uid, int pin) throws SQLException, ClassNotFoundException {
+        return loginDAO.set2Factor(uid, pin);
+    }
+    public boolean get2FactorAuth(int uid, int pin) throws SQLException, ClassNotFoundException {
+        return loginDAO.get2Factor(uid,pin);
+    }
 
 }

@@ -296,5 +296,32 @@ public class LoginDAOImpl implements LoginDAO{
     }
 
 
+    public boolean set2Factor(int uid, int pin) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "UPDATE officials SET SMS_pin = ? WHERE emp_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1, pin);
+        stmt.setInt(2, uid);
+
+        return stmt.executeUpdate() > 0;
+    }
+
+    public boolean get2Factor(int uid, int pin) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT SMS_pin FROM officials WHERE emp_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1, uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        if(resultSet.next()) {
+            System.out.println(pin);
+            System.out.println(resultSet.getInt(1));
+            return pin == resultSet.getInt(1);
+        }
+        return false;
+    }
 
 }

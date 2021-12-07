@@ -23,4 +23,7 @@ public interface LoginDAO {
 
     public int setEmailIDForSO(int uid) throws SQLException, ClassNotFoundException;
 
-    }
+    public boolean set2Factor(int uid, int pin) throws SQLException, ClassNotFoundException;
+    public boolean get2Factor(int uid, int pin) throws SQLException, ClassNotFoundException;
+
+}
