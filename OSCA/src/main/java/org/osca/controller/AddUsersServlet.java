@@ -123,6 +123,8 @@ public class AddUsersServlet extends HttpServlet {
             if (isNonMember != 0){
                 try {
                     added = service.changeNonmemberStatus2(Muser, isNonMember, uid);
+                    //here
+
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }

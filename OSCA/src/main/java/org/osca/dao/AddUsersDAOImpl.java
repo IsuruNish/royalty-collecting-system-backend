@@ -193,8 +193,36 @@ public class AddUsersDAOImpl implements AddUsersDAO {
     public boolean changeNonMemberToMember2(MemberDashboard user, int uid, int madeID) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
         String q = "UPDATE members SET Member_Active_Status = ? , email = ? , nic = ? , Phone_number = ? , bank_no = ? , bank_name = ? , bank_branch = ? , Password = ? , created_by = ? , created_on = CURRENT_DATE WHERE member_id = ? ;";
-        PreparedStatement stmt = connection.prepareStatement(q);
+        String q1 = "UPDATE song_composers SET Member_Active_Status = 'M' WHERE member_id = ? ;";
+        String q2 = "UPDATE song_request_singers SET Member_Active_Status = 'M' WHERE member_id = ? ;";
+        String q3 = "UPDATE song_request_composers SET Member_Active_Status = 'M' WHERE member_id = ? ;";
+        String q4 = "UPDATE song_request_song_writers SET Member_Active_Status = 'M' WHERE member_id = ? ;";
+        String q5 = "UPDATE song_singers SET Member_Active_Status = 'M' WHERE member_id = ? ;";
+        String q6 = "UPDATE song_songwriters SET Member_Active_Status = 'M' WHERE member_id = ? ;";
 
+
+
+        PreparedStatement stmt = connection.prepareStatement(q);
+        PreparedStatement stmt1 = connection.prepareStatement(q1);
+        stmt1.setInt(1,uid);
+        boolean a1 = stmt1.executeUpdate()>0;
+        PreparedStatement stmt2 = connection.prepareStatement(q2);
+        stmt2.setInt(1,uid);
+        boolean a2 = stmt2.executeUpdate()>0;
+        PreparedStatement stmt3 = connection.prepareStatement(q3);
+        stmt3.setInt(1,uid);
+        boolean a3 = stmt3.executeUpdate()>0;
+        PreparedStatement stmt4 = connection.prepareStatement(q4);
+        stmt4.setInt(1,uid);
+        boolean a4 = stmt4.executeUpdate()>0;
+        PreparedStatement stmt5 = connection.prepareStatement(q5);
+        stmt5.setInt(1,uid);
+        boolean a5 = stmt5.executeUpdate()>0;
+        PreparedStatement stmt6 = connection.prepareStatement(q6);
+        stmt6.setInt(1,uid);
+        boolean a6 = stmt6.executeUpdate()>0;
+
+        boolean b = a1 &&a2&&a3&&a4&&a5&&a6;
         Mail javaMailUtil=new Mail();
         SecureRandom rand = new SecureRandom();
         String pin=""+rand.nextInt(1000000);
@@ -216,7 +244,7 @@ public class AddUsersDAOImpl implements AddUsersDAO {
 
         boolean a = stmt.executeUpdate() > 0;
 
-        if (a){
+        if (a && b){
             try {
                 javaMailUtil.notifyUser(user.getEmail(),""+password, user.getFname());
             } catch (MessagingException e) {
