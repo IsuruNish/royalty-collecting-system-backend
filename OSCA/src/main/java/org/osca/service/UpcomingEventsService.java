@@ -28,4 +28,8 @@ public class UpcomingEventsService {
     public ArrayList<String> getSongsForconcert(int concertID) throws SQLException, ClassNotFoundException {
         return obj.getSongs(concertID);
     }
+
+    public ArrayList<ArrayList<String>>  pendingPaymentsForShowOrganizer(int uid) throws SQLException, ClassNotFoundException {
+        return obj.pendingPaymentsForSO(uid);
+    }
 }

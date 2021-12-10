@@ -12,7 +12,7 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
 
     public ArrayList<ArrayList<String>> getSOUpcomingEvents(int uid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied FROM concert WHERE user_id =? AND status =2 AND rejected = 0 AND cancelled = 0;";
+        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied FROM concert WHERE user_id =? AND status =2 AND rejected = 0 AND cancelled = 0 AND Payment_status = 1;";
         PreparedStatement stmt = connection.prepareStatement(q);
         stmt.setInt(1,uid);
 
@@ -225,6 +225,34 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
 
 
         return songNames;
+    }
+
+
+    public ArrayList<ArrayList<String>>  pendingPaymentsForSO(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied, status FROM concert WHERE user_id =? AND rejected = 0 AND cancelled = 0 AND status = 2 AND CURRENT_DATE < concert_date;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+        ArrayList<ArrayList<String>> finaOne = new ArrayList<>();
+
+        while(resultSet.next()){
+            ArrayList<String> x = new ArrayList<>();
+
+            x.add(String.valueOf(resultSet.getInt(1)));
+            x.add(resultSet.getString(2));
+            x.add(resultSet.getString(3));
+            x.add(resultSet.getString(4));
+            x.add(resultSet.getString(5));
+            x.add(resultSet.getString(6));
+            x.add(resultSet.getString(7));
+            x.add(resultSet.getString(8));
+
+            finaOne.add(x);
+        }
+
+        return finaOne;
     }
 
 }

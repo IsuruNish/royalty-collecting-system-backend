@@ -105,10 +105,21 @@ public class SongRegistrationServlet extends HttpServlet {
 
         System.out.println(song);
 
+        System.out.println("a");
+
         Part p = request.getPart("file");
+        System.out.println("b");
+
         if (p != null) {
+            System.out.println("c");
+
+
+//            p.write("..\\..\\..\\..\\..\\webapp\\ProfilePhotos\\1000.pdf");
             p.write("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
+            System.out.println("d");
+
             File file = new File("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
+            System.out.println("e");
 
             String url = null;
             String NEWurl = null;
@@ -122,12 +133,14 @@ public class SongRegistrationServlet extends HttpServlet {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("0");
 
             try {
                 NEWurl = songService.makeDownloadableURL(url);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("1");
 
             try {
                 tempSongID = songService.getTempSongID(NEWurl);
@@ -135,6 +148,7 @@ public class SongRegistrationServlet extends HttpServlet {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("2");
 
             try {
                 done = songService.addMemberSingers(tempSongID, song.getMemSingers(), "M");
@@ -142,6 +156,7 @@ public class SongRegistrationServlet extends HttpServlet {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("3");
 
             try {
                 done = songService.addMemberComposers(tempSongID, song.getMemComposers(),"M");
@@ -149,6 +164,7 @@ public class SongRegistrationServlet extends HttpServlet {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("4");
 
             try {
                 done = songService.addMemberWritters(tempSongID, song.getMemWritters(),"M");
@@ -167,6 +183,7 @@ public class SongRegistrationServlet extends HttpServlet {
 //            ArrayList<String> fnamesMem  = AllNoneMemberMDetails.get(1);
 //            ArrayList<String> lnamesMem = AllNoneMemberMDetails.get(2);
             ArrayList<List<String>> idList = new ArrayList<>();
+            System.out.println("5");
 
             try {
                 idList = giveNonMembersInDB(song.getNOmemSingers(), song.getNOmemComposers(),song.getNOmemWritters(), tempSongID);
@@ -177,6 +194,7 @@ public class SongRegistrationServlet extends HttpServlet {
             }
 
             System.out.println(idList);
+            System.out.println("6");
 
             try {
                 done =songService.addMemberSingers(tempSongID, idList.get(0),"N");
@@ -184,12 +202,14 @@ public class SongRegistrationServlet extends HttpServlet {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("7");
 
             try {
                 done = songService.addMemberComposers(tempSongID, idList.get(1),"N");
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("8");
 
             try {
                 done = songService.addMemberWritters(tempSongID, idList.get(2),"N");
@@ -200,12 +220,14 @@ public class SongRegistrationServlet extends HttpServlet {
             NotificationService nService = new NotificationService();
             SAdashboardService saService = new SAdashboardService();
             String fullname = null;
+            System.out.println("9");
 
             try {
                 fullname = saService.getMemberFULLName(uid);
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
+            System.out.println("last ME");
 
             if (done){
                 try {
@@ -351,5 +373,11 @@ public class SongRegistrationServlet extends HttpServlet {
 
         return tot;
     }
+
+//    public static void main(String[] args) throws IOException {
+//        File file = new File("..\\..\\..\\..\\..\\webapp\\ProfilePhotos\\1001.pdf");
+//
+//
+//    }
 }
 
