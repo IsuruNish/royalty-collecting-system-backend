@@ -3,7 +3,7 @@ package org.osca.dao;
 import org.osca.controller.login.Mail;
 import org.osca.database.DBConnection;
 import org.osca.service.SAdashboardService;
-import sun.applet.Main;
+//import sun.applet.Main;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

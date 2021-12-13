@@ -8,9 +8,9 @@ public class DBConnection {
 
     private final String host = "localhost";
     private final String port = "3306";
-    private final String database = "osca_database";
+    private final String database = "osca_updated_updated";
     private final String username = "root";
-    private final String passdword = "";
+    private final String passdword = "password";
 
     private static Connection connection;
     private static DBConnection dbcon;
