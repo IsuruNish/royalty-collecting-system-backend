@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -113,9 +115,8 @@ public class SongRegistrationServlet extends HttpServlet {
         if (p != null) {
             System.out.println("c");
 
-
-//            p.write("..\\..\\..\\..\\..\\webapp\\ProfilePhotos\\1000.pdf");
-            p.write("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
+            p.write("src\\main\\webapp\\ProfilePhotos\\1000.pdf");
+//            p.write("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
             System.out.println("d");
 
             File file = new File("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\ProfilePhotos\\1000.pdf");
@@ -375,9 +376,15 @@ public class SongRegistrationServlet extends HttpServlet {
     }
 
 //    public static void main(String[] args) throws IOException {
-//        File file = new File("..\\..\\..\\..\\..\\webapp\\ProfilePhotos\\1001.pdf");
+////        File file2 = new File("..\\..\\..\\..\\webapp\\ProfilePhotos\\abc.txt");
+////
+////        file2.createNewFile();
+//        File file = new File("src\\main\\webapp\\ProfilePhotos\\abc.pdf");
+//        file.createNewFile();
 //
-//
+//        Path currentRelativePath = Paths.get("");
+//        String s = currentRelativePath.toAbsolutePath().toString();
+//        System.out.println("Current absolute path is: " + s);
 //    }
 }
 
