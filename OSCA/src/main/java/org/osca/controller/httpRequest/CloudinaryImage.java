@@ -17,7 +17,6 @@ import java.util.Map;
 public class CloudinaryImage {
 
     public String storeImage(File file) throws IOException {
-        System.out.println("come");
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", "osca-lk",
                 "api_key", "876115734312266",

@@ -5,6 +5,8 @@ import org.osca.dao.ApplyLicenseDAO;
 import org.osca.dao.ApplyLicenseDAOImpl;
 import org.osca.model.License;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -67,7 +69,7 @@ public class ApplyLicenseService {
         return obj.setSlipPayment(concertID, url);
     }
 
-    public boolean setPaymentSuccessful(int concertID) throws SQLException, ClassNotFoundException{
+    public boolean setPaymentSuccessful(int concertID) throws SQLException, ClassNotFoundException, IOException, MessagingException {
         return obj.setSlipPayment(concertID);
     }
 }

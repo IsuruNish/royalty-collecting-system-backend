@@ -3,7 +3,7 @@ package org.osca.dao;
 import org.osca.controller.login.Mail;
 import org.osca.database.DBConnection;
 import org.osca.service.SAdashboardService;
-//import sun.applet.Main;
+import sun.applet.Main;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -253,12 +253,12 @@ public class RequestsDAOImpl implements RequestsDAO{
             boolean done3 = isCloseConcert(id);
 
 
-            ArrayList<String> dataForEmail = getLicenseEmialDetails(id);
-            Mail objMail = new Mail();
-            SAdashboardService serviceSA = new SAdashboardService();
-            String fulName = serviceSA.getShowOrganizerFULLName(Integer.parseInt(dataForEmail.get(6)));
-            String emailSO = serviceSA.getShowOrganizerEmail(Integer.parseInt(dataForEmail.get(6)));
-            objMail.licenseEmail("",fulName, dataForEmail, emailSO );
+//            ArrayList<String> dataForEmail = getLicenseEmialDetails(id);
+//            Mail objMail = new Mail();
+//            SAdashboardService serviceSA = new SAdashboardService();
+//            String fulName = serviceSA.getShowOrganizerFULLName(Integer.parseInt(dataForEmail.get(6)));
+//            String emailSO = serviceSA.getShowOrganizerEmail(Integer.parseInt(dataForEmail.get(6)));
+//            objMail.licenseEmail("",fulName, dataForEmail, emailSO );
 
             ArrayList <Integer> songIDs = new ArrayList<>();
             ArrayList <Integer> tempSongIDs = new ArrayList<>();
@@ -275,15 +275,15 @@ public class RequestsDAOImpl implements RequestsDAO{
                 concertDate = getDateForConcert(id);
                 songIDs = getSongIDsInConcert(id);
                 tempSongIDs = getTempSongIDsInConcert(songIDs);
-//                totalFee = getTotalFeeForConcert(id);
-                totalFee = 5000.0;
+                totalFee = getTotalFeeForConcert(id);
+//                totalFee = 5000.0;
 
                 int index = 0;
                 for (Integer tempSongID : tempSongIDs) {
                     writterIDs = getWrittersForConcert(tempSongID);
                     composerIDs = getComposersForConcert(tempSongID);
-                    done10 = putIncomingForMembersComposers(id,totalFee,composerIDs.get(0),concertDate, songIDs.get(index));
-                    done20 = putIncomingForMembersWritters(id,totalFee,writterIDs.get(0),concertDate,songIDs.get(index));
+                    done10 = putIncomingForMembersComposers(id,totalFee/2,composerIDs.get(0),concertDate, songIDs.get(index));
+                    done20 = putIncomingForMembersWritters(id,totalFee/2,writterIDs.get(0),concertDate,songIDs.get(index));
                     done30 = putIncomingForMembersComposers(id,0,composerIDs.get(1),concertDate, songIDs.get(index));
                     done40 = putIncomingForMembersWritters(id,0,writterIDs.get(1),concertDate,songIDs.get(index));
 
@@ -567,17 +567,17 @@ public class RequestsDAOImpl implements RequestsDAO{
     }
 
 
-    public int getTotalFeeForConcert(int id) throws SQLException, ClassNotFoundException{
+    public double getTotalFeeForConcert(int id) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q0 = "SELECT total_fee FROM concert WHERE concert_id =?;";
+        String q0 = "SELECT Fee_without_commission FROM concert WHERE concert_id =?;";
         PreparedStatement stmt = connection.prepareStatement(q0);
         stmt.setInt(1,id);
         ResultSet resultSet = stmt.executeQuery();
 
-        int x = 0;
+        double x = 0;
 
         if (resultSet.next()){
-            x = resultSet.getInt(1);
+            x = resultSet.getDouble(1);
         }
         return x;
     }
@@ -723,9 +723,21 @@ public class RequestsDAOImpl implements RequestsDAO{
     // from here //
     // from here //
     //gets the concert IDs where this non-member had
+    public boolean allDoneForTheNewNonMember(int uid) throws SQLException, ClassNotFoundException {
+        ArrayList<ArrayList<Integer>> concertIDandSongIDs = new ArrayList<>();
+        boolean done = false;
+        boolean done2 = false;
+
+        concertIDandSongIDs = getConcertAndSongIDsOfNonMembers(uid);
+        done = setDeleteInSongIncome(concertIDandSongIDs);
+        done2 = updateSongIncomeTable(concertIDandSongIDs);
+
+        return  done && done2;
+    }
+
     public ArrayList<ArrayList<Integer>> getConcertAndSongIDsOfNonMembers(int uid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q0 = "SELECT concert_id, song_id FROM song_income WHERE member_id = ? AND delete_flag = 0;";
+        String q0 = "SELECT concert_id, song_id FROM song_income WHERE member_id = ? AND delete_flag = 0 cancel_status = 0 AND is_paid = 0;";
         PreparedStatement stmt = connection.prepareStatement(q0);
         stmt.setInt(1,uid);
         ResultSet resultSet = stmt.executeQuery();
@@ -747,7 +759,7 @@ public class RequestsDAOImpl implements RequestsDAO{
         return finalOne;
     }
 
-    //setting the sog IDs as delete
+    //setting the song IDs as delete
     public boolean setDeleteInSongIncome(ArrayList<ArrayList<Integer>> concertAndSongIDs) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
 
@@ -785,12 +797,13 @@ public class RequestsDAOImpl implements RequestsDAO{
 
             concertDate = getDateForConcert(concertAndSongID.get(0));
             tempSongID = getTempSongIDsInConcert2(concertAndSongID.get(1));
-            totalFee = 5000.0;
+            totalFee = getTotalFeeForConcert(concertAndSongID.get(0));
+//            totalFee = 5000.0;
 
             writterIDs = getWrittersForConcert(tempSongID);
             composerIDs = getComposersForConcert(tempSongID);
-            done10 = putIncomingForMembersComposers(concertAndSongID.get(0), totalFee, composerIDs.get(0), concertDate, concertAndSongID.get(1));
-            done20 = putIncomingForMembersWritters(concertAndSongID.get(0), totalFee, writterIDs.get(0), concertDate, concertAndSongID.get(1));
+            done10 = putIncomingForMembersComposers(concertAndSongID.get(0), totalFee/2, composerIDs.get(0), concertDate, concertAndSongID.get(1));
+            done20 = putIncomingForMembersWritters(concertAndSongID.get(0), totalFee/2, writterIDs.get(0), concertDate, concertAndSongID.get(1));
             done30 = putIncomingForMembersComposers(concertAndSongID.get(0), 0, composerIDs.get(1), concertDate, concertAndSongID.get(1));
             done40 = putIncomingForMembersWritters(concertAndSongID.get(0), 0, writterIDs.get(1), concertDate, concertAndSongID.get(1));
 

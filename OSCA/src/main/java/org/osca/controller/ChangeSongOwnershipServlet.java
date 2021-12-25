@@ -167,8 +167,8 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 System.out.println("4");
 
                 try {
-                    List<String> justMadeForFunctionCall = song.getMemSingers();
-                    justMadeForFunctionCall.addAll(song.getDelSinger());
+//                    List<String> justMadeForFunctionCall = song.getMemSingers();
+//                    justMadeForFunctionCall.addAll(song.getDelSinger());
                     done = songService.addMemberSingers(tempSongID, song.getMemSingers(), "M");
 
                 } catch (SQLException | ClassNotFoundException throwables) {
@@ -177,8 +177,8 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 System.out.println("5");
 
                 try {
-                    List<String> justMadeForFunctionCall = song.getMemComposers();
-                    justMadeForFunctionCall.addAll(song.getDelComposers());
+//                    List<String> justMadeForFunctionCall = song.getMemComposers();
+//                    justMadeForFunctionCall.addAll(song.getDelComposers());
                     done = songService.addMemberComposers(tempSongID, song.getMemComposers(),"M");
 
                 } catch (SQLException | ClassNotFoundException throwables) {
@@ -187,8 +187,8 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 System.out.println("6");
 
                 try {
-                    List<String> justMadeForFunctionCall = song.getMemWritters();
-                    justMadeForFunctionCall.addAll(song.getDelWritters());
+//                    List<String> justMadeForFunctionCall = song.getMemWritters();
+//                    justMadeForFunctionCall.addAll(song.getDelWritters());
                     done = songService.addMemberWritters(tempSongID, song.getMemWritters(),"M");
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
@@ -349,6 +349,9 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 songService.addNoneMem(k[0], k[1]);
                 id = songService.getMemberID(k[0], k[1]);
                 sIDS.add(String.valueOf(id));
+                idsMem.add(String.valueOf(id));
+                fnamesMem.add(k[0]);
+                lnamesMem.add(k[1]);
             }
         }
 
@@ -388,6 +391,9 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 songService.addNoneMem(k[0], k[1]);
                 id = songService.getMemberID(k[0], k[1]);
                 cIDS.add(String.valueOf(id));
+                idsMem.add(String.valueOf(id));
+                fnamesMem.add(k[0]);
+                lnamesMem.add(k[1]);
             }
         }
 

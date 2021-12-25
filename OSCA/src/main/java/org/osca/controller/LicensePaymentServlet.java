@@ -9,6 +9,7 @@ import org.osca.model.Notification;
 import org.osca.model.Respond;
 import org.osca.service.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -164,7 +165,7 @@ public class LicensePaymentServlet extends HttpServlet {
                 boolean x = false;
                 try {
                     x = service.setPaymentSuccessful(detail.getConcertID());
-                } catch (SQLException | ClassNotFoundException throwables) {
+                } catch (SQLException | ClassNotFoundException | MessagingException throwables) {
                     throwables.printStackTrace();
                 }
 

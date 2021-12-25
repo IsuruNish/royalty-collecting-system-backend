@@ -113,6 +113,8 @@ public class AddUsersServlet extends HttpServlet {
             int isNonMember = 0;
             MemberDashboard Muser = gson.fromJson(body, MemberDashboard.class);
 
+            RequestsService reqService = new RequestsService();
+
             try {
                 isNonMember = service.checkMemberStatus2(Muser);
             } catch (SQLException | ClassNotFoundException throwables) {
@@ -123,7 +125,7 @@ public class AddUsersServlet extends HttpServlet {
             if (isNonMember != 0){
                 try {
                     added = service.changeNonmemberStatus2(Muser, isNonMember, uid);
-                    //here
+                    reqService.AllDoneForTheNewNonMemberOK(isNonMember);
 
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();

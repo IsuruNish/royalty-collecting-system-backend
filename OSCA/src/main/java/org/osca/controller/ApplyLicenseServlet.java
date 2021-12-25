@@ -84,14 +84,14 @@ public class ApplyLicenseServlet extends HttpServlet {
         }
 
         try {
-            fNames = songs.getFirstNames(songIds.get(1));
+            fNames = songs.getFirstNames(songIds.get(0));
             System.out.println(fNames);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
 
         try {
-            lNames = songs.getlastNames(songIds.get(1));
+            lNames = songs.getlastNames(songIds.get(0));
             System.out.println(lNames);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();

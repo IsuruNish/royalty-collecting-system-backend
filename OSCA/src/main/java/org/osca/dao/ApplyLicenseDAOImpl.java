@@ -1,7 +1,12 @@
 package org.osca.dao;
 
+import org.osca.controller.login.Mail;
 import org.osca.database.DBConnection;
 import org.osca.model.License;
+import org.osca.service.SAdashboardService;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,7 +83,7 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
         Connection connection = DBConnection.getObj().getConnection();
 
         for (Integer integer : tempSongID) {
-            String q3 = "SELECT M.first_name FROM members M LEFT JOIN song_singers SS ON M.Member_id = SS.member_id WHERE SS.song_ID = ?;";
+            String q3 = "SELECT M.first_name FROM members M LEFT JOIN song_requests_singers SS ON M.Member_id = SS.member_id WHERE SS.temp_song_ID = ?;";
             PreparedStatement stmt = connection.prepareStatement(q3);
             stmt.setInt(1, integer);
             System.out.println(integer);
@@ -105,7 +110,7 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
         Connection connection = DBConnection.getObj().getConnection();
 
         for (Integer integer : tempSongID) {
-            String q3 = "SELECT M.last_name FROM members M LEFT JOIN song_singers SS ON M.Member_id = SS.member_id WHERE SS.song_ID = ?;";
+            String q3 = "SELECT M.last_name FROM members M LEFT JOIN song_requests_singers SS ON M.Member_id = SS.member_id WHERE SS.temp_song_ID = ?;";
             PreparedStatement stmt = connection.prepareStatement(q3);
             stmt.setInt(1, integer);
             ResultSet resultSet = stmt.executeQuery();
@@ -179,11 +184,12 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
 
         int added = 0;
         for (int i = 0; i < license.getSongIds().size(); i++){
-            String q1 = "INSERT INTO concert_songs (concert_id, song_id, approved) VALUE(?,?,?);";
+            String q1 = "INSERT INTO concert_songs (concert_id, song_id, approved, Concert_date) VALUE(?,?,?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(q1);
             preparedStatement.setInt(1,concertID);
             preparedStatement.setInt(2,license.getSongIds().get(i));
             preparedStatement.setInt(3,0);
+            preparedStatement.setString(4,license.getDate());
 
             added = preparedStatement.executeUpdate();
 
@@ -314,14 +320,50 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
         return stmt.executeUpdate() > 0;
     }
 
-    public boolean setSlipPayment(int concertID) throws SQLException, ClassNotFoundException{
+    public boolean setSlipPayment(int concertID) throws SQLException, ClassNotFoundException, IOException, MessagingException {
         Connection connection = DBConnection.getObj().getConnection();
         String q = "UPDATE concert SET Payment_status = 1 WHERE concert_id = ? ;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
         stmt.setInt(1,concertID);
 
+        ArrayList<String> dataForEmail = getLicenseEmialDetails(concertID);
+        Mail objMail = new Mail();
+        SAdashboardService serviceSA = new SAdashboardService();
+        String fulName = serviceSA.getShowOrganizerFULLName(Integer.parseInt(dataForEmail.get(6)));
+        String emailSO = serviceSA.getShowOrganizerEmail(Integer.parseInt(dataForEmail.get(6)));
+        objMail.licenseEmail("",fulName, dataForEmail, emailSO );
+
         return stmt.executeUpdate() > 0;
+    }
+
+
+
+
+
+    public ArrayList<String> getLicenseEmialDetails(int cid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q3 = "SELECT user_id, concert_name, concert_date, venue, type, user_id FROM concert WHERE concert_id = ? ;";
+        PreparedStatement stmt = connection.prepareStatement(q3);
+
+        stmt.setInt(1, cid);
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<String> data = new ArrayList<>();
+
+        if (resultSet.next()) {
+
+            data.add(String.valueOf(cid));
+            data.add(String.valueOf(resultSet.getInt(1)));
+            data.add(resultSet.getString(2));
+            data.add(resultSet.getString(5));
+            data.add(resultSet.getString(4));
+            data.add(resultSet.getString(3));
+            data.add(resultSet.getString(6));
+        }
+
+        System.out.println(data);
+        return data;
     }
 
 }

@@ -336,7 +336,12 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
         preparedStatement.setString(2,details.get(1));
         preparedStatement.setString(3,details.get(2));
         preparedStatement.setString(4,details.get(3));
-        preparedStatement.setInt(5,0);
+        if (ut == 4){
+            preparedStatement.setInt(5,0);
+        }
+        else{
+            preparedStatement.setInt(5,1);
+        }
         preparedStatement.setInt(6,0);
         preparedStatement.setString(7,link);
         preparedStatement.setInt(8,2);

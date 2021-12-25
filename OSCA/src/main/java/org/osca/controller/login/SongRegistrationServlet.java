@@ -46,11 +46,26 @@ public class SongRegistrationServlet extends HttpServlet {
         ImageService dp = new ImageService();
         String path = null;
 
-        try {
-            path = dp.getMemDP(uid);
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
+        SAdashboardService fnameService = new SAdashboardService();
+        String fname = null;
+
+        if(utype == 4){
+            try {
+                path = dp.getMemDP(uid);
+                fname = fnameService.getMemberName(uid);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
         }
+        else{
+            try {
+                path = dp.getEmpDP(uid);
+                fname = fnameService.getSuperadminName(uid);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
         SongRegistrationService songReg = new SongRegistrationService();
         ArrayList<ArrayList<String>> details = new ArrayList<>();
         try {
@@ -59,13 +74,13 @@ public class SongRegistrationServlet extends HttpServlet {
             throwables.printStackTrace();
         }
 
-        SAdashboardService fnameService = new SAdashboardService();
-        String fname = null;
-        try {
-            fname = fnameService.getMemberName(uid);
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+//        SAdashboardService fnameService = new SAdashboardService();
+//        String fname = null;
+//        try {
+//            fname = fnameService.getMemberName(uid);
+//        } catch (SQLException | ClassNotFoundException throwables) {
+//            throwables.printStackTrace();
+//        }
 
         MemberDashboard mem = new MemberDashboard(utype,details.get(0),details.get(1), path, fname);
 

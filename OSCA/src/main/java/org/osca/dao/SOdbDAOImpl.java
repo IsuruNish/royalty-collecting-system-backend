@@ -60,7 +60,7 @@ public class SOdbDAOImpl implements SOdbDAO{
             x.add("0");
         }
 
-        q = "SELECT Concert_Date FROM concert WHERE user_id = ? AND status = 2 ORDER BY Concert_Date ASC limit 1;";
+        q = "SELECT Concert_Date FROM concert WHERE user_id = ? AND status = 2 AND CURRENT_DATE <= Concert_Date ORDER BY Concert_Date ASC LIMIT 1;";
 
         stmt = connection.prepareStatement(q);
 

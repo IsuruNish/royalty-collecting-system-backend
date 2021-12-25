@@ -59,4 +59,10 @@ public class RequestsService {
     public Boolean DenySongDelRequest(int id) throws SQLException, ClassNotFoundException {
         return obj.setSongDelReqDeny(id);
     }
-}
+
+
+    public boolean AllDoneForTheNewNonMemberOK(int uid) throws SQLException, ClassNotFoundException{
+        return obj.allDoneForTheNewNonMember(uid);
+    }
+
+    }
