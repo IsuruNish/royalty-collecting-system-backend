@@ -857,7 +857,7 @@ public class RequestsDAOImpl implements RequestsDAO{
     //get concertIDs for the corresponding songID
     public ArrayList<Integer> getConcertIDs(int sid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q0 = "SELECT concert_id FROM song_income WHERE song_id = ? ;";
+        String q0 = "SELECT concert_id FROM song_income WHERE song_id = ? AND cancel_status = 0 AND is_paid = 0 AND delete_flag = 0;";
         PreparedStatement stmt = connection.prepareStatement(q0);
         stmt.setInt(1,sid);
         ResultSet resultSet = stmt.executeQuery();
@@ -905,12 +905,13 @@ public class RequestsDAOImpl implements RequestsDAO{
             boolean done40 = false;
 
             concertDate = getDateForConcert(ids);
-            totalFee = 5000.0;
+            totalFee = getTotalFeeForConcert(ids);
+//            totalFee = 5000.0;
 
             writterIDs = getWrittersForConcert(tempSongID);
             composerIDs = getComposersForConcert(tempSongID);
-            done10 = putIncomingForMembersComposers(ids, totalFee, composerIDs.get(0), concertDate, songID);
-            done20 = putIncomingForMembersWritters(ids, totalFee, writterIDs.get(0), concertDate, songID);
+            done10 = putIncomingForMembersComposers(ids, totalFee/2, composerIDs.get(0), concertDate, songID);
+            done20 = putIncomingForMembersWritters(ids, totalFee/2, writterIDs.get(0), concertDate, songID);
             done30 = putIncomingForMembersComposers(ids, 0, composerIDs.get(1), concertDate, songID);
             done40 = putIncomingForMembersWritters(ids, 0, writterIDs.get(1), concertDate, songID);
 
