@@ -111,9 +111,9 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
             song.setNOmemComposers(new Gson().fromJson(request.getParameter("NOmemComposers"), List.class));
             song.setNOmemWritters(new Gson().fromJson(request.getParameter("NOmemWritters"), List.class));
 
-            song.setDelSinger(new Gson().fromJson(request.getParameter("delSinger"), List.class));
-            song.setDelComposers(new Gson().fromJson(request.getParameter("delComposers"), List.class));
-            song.setDelWritters(new Gson().fromJson(request.getParameter("delWritters"), List.class));
+//            song.setDelSinger(new Gson().fromJson(request.getParameter("delSinger"), List.class));
+//            song.setDelComposers(new Gson().fromJson(request.getParameter("delComposers"), List.class));
+//            song.setDelWritters(new Gson().fromJson(request.getParameter("delWritters"), List.class));
             song.setInfo(new Gson().fromJson(request.getParameter("info"), List.class));
 
             System.out.println("1");

@@ -417,9 +417,13 @@ public class RequestsDAOImpl implements RequestsDAO{
 
             int songID = getSongID(id);
             ArrayList<Integer> concertIds =  getConcertIDs(songID);
+            System.out.println("concertIds");
+            System.out.println(songID);
+            System.out.println(concertIds);
             done3 = setDeleteInSongIncome2(concertIds, songID);
             done4 = updateSongIncomeTable2(concertIds, songID);
 
+            //check updateSongIncomeTable2 and the functions get writers and composers
 
             return done2 && done1 && done3 && done4;
         }
@@ -743,7 +747,7 @@ public class RequestsDAOImpl implements RequestsDAO{
 
     public ArrayList<ArrayList<Integer>> getConcertAndSongIDsOfNonMembers(int uid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q0 = "SELECT concert_id, song_id FROM song_income WHERE member_id = ? AND delete_flag = 0 cancel_status = 0 AND is_paid = 0;";
+        String q0 = "SELECT concert_id, song_id FROM song_income WHERE member_id = ? AND delete_flag = 0 AND cancel_status = 0 AND is_paid = 0;";
         PreparedStatement stmt = connection.prepareStatement(q0);
         stmt.setInt(1,uid);
         ResultSet resultSet = stmt.executeQuery();
@@ -863,7 +867,7 @@ public class RequestsDAOImpl implements RequestsDAO{
     //get concertIDs for the corresponding songID
     public ArrayList<Integer> getConcertIDs(int sid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q0 = "SELECT concert_id FROM song_income WHERE song_id = ? AND cancel_status = 0 AND is_paid = 0 AND delete_flag = 0;";
+        String q0 = "SELECT DISTINCT concert_id FROM song_income WHERE song_id = ? AND cancel_status = 0 AND is_paid = 0 AND delete_flag = 0;";
         PreparedStatement stmt = connection.prepareStatement(q0);
         stmt.setInt(1,sid);
         ResultSet resultSet = stmt.executeQuery();
@@ -899,6 +903,8 @@ public class RequestsDAOImpl implements RequestsDAO{
 
         int tempSongID = getTempSongIDsInConcert2(songID);
 
+        System.out.println(concertIDs);
+
         for (Integer ids : concertIDs) {
 
             ArrayList <ArrayList <Integer>> composerIDs = new ArrayList<>();
@@ -916,10 +922,16 @@ public class RequestsDAOImpl implements RequestsDAO{
             int songNo = getTotSongsForChangeSongOwnership(ids);
             totalFee = totalFee/songNo;
 
+            System.out.println(totalFee);
+
 //            totalFee = 5000.0;
 
             writterIDs = getWrittersForConcert(tempSongID);
             composerIDs = getComposersForConcert(tempSongID);
+
+            System.out.println(writterIDs);
+            System.out.println(composerIDs);
+
             done10 = putIncomingForMembersComposers(ids, totalFee/2, composerIDs.get(0), concertDate, songID);
             done20 = putIncomingForMembersWritters(ids, totalFee/2, writterIDs.get(0), concertDate, songID);
             done30 = putIncomingForMembersComposers(ids, 0, composerIDs.get(1), concertDate, songID);
