@@ -276,6 +276,8 @@ public class RequestsDAOImpl implements RequestsDAO{
                 songIDs = getSongIDsInConcert(id);
                 tempSongIDs = getTempSongIDsInConcert(songIDs);
                 totalFee = getTotalFeeForConcert(id);
+
+                totalFee = totalFee/ tempSongIDs.size();
 //                totalFee = 5000.0;
 
                 int index = 0;
@@ -671,7 +673,7 @@ public class RequestsDAOImpl implements RequestsDAO{
         double oneAmount = amount/members.size();
         boolean done = false;
         for (Integer member : members) {
-            String query = "INSERT INTO song_income VALUE(?,?,?,?,?,?) ;";
+            String query = "INSERT INTO song_income VALUE(?,?,?,?,?,?,?,?) ;";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             preparedStatement.setInt(1, id);
@@ -680,6 +682,8 @@ public class RequestsDAOImpl implements RequestsDAO{
             preparedStatement.setDate(4, java.sql.Date.valueOf(concertDate));
             preparedStatement.setDouble(5, oneAmount);
             preparedStatement.setInt(6, 0);
+            preparedStatement.setInt(7, 0);
+            preparedStatement.setInt(8, 0);
 
             done = preparedStatement.executeUpdate() > 0;
 
@@ -696,7 +700,7 @@ public class RequestsDAOImpl implements RequestsDAO{
         double oneAmount = amount/members.size();
         boolean done = false;
         for (Integer member : members) {
-            String query = "INSERT INTO song_income VALUE(?,?,?,?,?,?) ;";
+            String query = "INSERT INTO song_income VALUE(?,?,?,?,?,?,?,?) ;";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             preparedStatement.setInt(1, id);
@@ -705,6 +709,8 @@ public class RequestsDAOImpl implements RequestsDAO{
             preparedStatement.setDate(4, java.sql.Date.valueOf(concertDate));
             preparedStatement.setDouble(5, oneAmount);
             preparedStatement.setInt(6, 0);
+            preparedStatement.setInt(7, 0);
+            preparedStatement.setInt(8, 0);
 
             done = preparedStatement.executeUpdate() > 0;
 
@@ -906,6 +912,10 @@ public class RequestsDAOImpl implements RequestsDAO{
 
             concertDate = getDateForConcert(ids);
             totalFee = getTotalFeeForConcert(ids);
+
+            int songNo = getTotSongsForChangeSongOwnership(ids);
+            totalFee = totalFee/songNo;
+
 //            totalFee = 5000.0;
 
             writterIDs = getWrittersForConcert(tempSongID);
@@ -920,6 +930,23 @@ public class RequestsDAOImpl implements RequestsDAO{
             }
         }
         return true;
+    }
+
+
+
+    public int getTotSongsForChangeSongOwnership(int concertID) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q0 = "SELECT COUNT(*) FROM (SELECT * FROM song_income WHERE Concert_ID = ? GROUP BY song_ID) AS T;";
+        PreparedStatement stmt = connection.prepareStatement(q0);
+        stmt.setInt(1,concertID);
+        ResultSet resultSet = stmt.executeQuery();
+
+        int x = 0;
+
+        if (resultSet.next()){
+            x = resultSet.getInt(1);
+        }
+        return x;
     }
 
 

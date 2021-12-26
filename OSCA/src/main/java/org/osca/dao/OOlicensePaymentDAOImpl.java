@@ -16,7 +16,7 @@ public class OOlicensePaymentDAOImpl implements OOlicensePaymentDAO{
 
     public ArrayList<ArrayList<String>> getLicensePaymentInfo() throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q3 = "SELECT concert_id, Concert_Name, user_id, concert_date, total_fee, type,  Payment_slip_link  FROM concert WHERE status = 2 AND rejected = 0 AND is_paid = 0 AND cancelled = 0 AND Payment_slip_link IS NOT null;";
+        String q3 = "SELECT concert_id, Concert_Name, user_id, concert_date, total_fee, type,  Payment_slip_link  FROM concert WHERE status = 2 AND rejected = 0 AND Payment_status = 0 AND cancelled = 0 AND Payment_slip_link IS NOT null;";
         PreparedStatement stmt = connection.prepareStatement(q3);
 
         ResultSet resultSet = stmt.executeQuery();
@@ -57,7 +57,7 @@ public class OOlicensePaymentDAOImpl implements OOlicensePaymentDAO{
 
     public Boolean paymentAccepted(int id) throws SQLException, ClassNotFoundException, IOException, MessagingException {
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "UPDATE concert SET is_paid = 1 WHERE concert_id = ? ;";
+        String q = "UPDATE concert SET Payment_status = 1 WHERE concert_id = ? ;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
         stmt.setInt(1,id);

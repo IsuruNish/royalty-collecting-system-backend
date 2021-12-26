@@ -327,12 +327,14 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
 
         stmt.setInt(1,concertID);
 
+        System.out.println(concertID);
+
         ArrayList<String> dataForEmail = getLicenseEmialDetails(concertID);
-        Mail objMail = new Mail();
-        SAdashboardService serviceSA = new SAdashboardService();
-        String fulName = serviceSA.getShowOrganizerFULLName(Integer.parseInt(dataForEmail.get(6)));
-        String emailSO = serviceSA.getShowOrganizerEmail(Integer.parseInt(dataForEmail.get(6)));
-        objMail.licenseEmail("",fulName, dataForEmail, emailSO );
+//        Mail objMail = new Mail();
+//        SAdashboardService serviceSA = new SAdashboardService();
+//        String fulName = serviceSA.getShowOrganizerFULLName(Integer.parseInt(dataForEmail.get(6)));
+//        String emailSO = serviceSA.getShowOrganizerEmail(Integer.parseInt(dataForEmail.get(6)));
+//        objMail.licenseEmail("",fulName, dataForEmail, emailSO );
 
         return stmt.executeUpdate() > 0;
     }
