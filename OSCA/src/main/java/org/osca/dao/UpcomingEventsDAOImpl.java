@@ -212,7 +212,7 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
         }
 
         ArrayList<String> songNames = new ArrayList<>();
-        for (Integer element: x){
+        for (Integer element: tempIDs){
             String q3 = "SELECT song_name FROM song_requests WHERE temp_song_id =?;";
             PreparedStatement stmt3 = connection.prepareStatement(q3);
             stmt3.setInt(1,element);
