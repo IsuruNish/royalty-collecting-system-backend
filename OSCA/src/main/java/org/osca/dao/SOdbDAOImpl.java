@@ -30,7 +30,7 @@ public class SOdbDAOImpl implements SOdbDAO{
         }
 
 
-        q = "SELECT COUNT(*) FROM concert WHERE user_id =? AND status = 2;";
+        q = "SELECT COUNT(*) FROM concert WHERE user_id =? AND status = 2 AND Rejected = 0 AND Cancelled = 0;";
 
         stmt = connection.prepareStatement(q);
 
