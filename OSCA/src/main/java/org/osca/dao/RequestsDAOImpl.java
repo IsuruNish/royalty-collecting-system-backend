@@ -59,7 +59,7 @@ public class RequestsDAOImpl implements RequestsDAO{
 
     public ArrayList<ArrayList<String>> getSongRegReq(int type) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q3 = "SELECT temp_song_id, song_name, version, published_year, documentation_link, member_id, emp_id FROM song_requests WHERE status = ? AND Type_of_request = 1 AND rejected = 0 ;";
+        String q3 = "SELECT temp_song_id, song_name, version, published_year, documentation_link, member_id, emp_id FROM song_requests WHERE status = ? AND Type_of_request = 1 AND rejected = 0 AND is_cancelled = 0;";
         PreparedStatement stmt = connection.prepareStatement(q3);
 
 
@@ -120,7 +120,7 @@ public class RequestsDAOImpl implements RequestsDAO{
 
     public ArrayList<ArrayList<String>> getSongOwnReq(int type) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q3 = "SELECT temp_song_id, song_name, version, published_year, documentation_link, member_id, emp_id FROM song_requests WHERE status = ? AND Type_of_request = 2 AND rejected = 0;";
+        String q3 = "SELECT temp_song_id, song_name, version, published_year, documentation_link, member_id, emp_id FROM song_requests WHERE status = ? AND Type_of_request = 2 AND rejected = 0 AND is_cancelled = 0;";
         PreparedStatement stmt = connection.prepareStatement(q3);
 
         stmt.setInt(1, type);
@@ -179,7 +179,7 @@ public class RequestsDAOImpl implements RequestsDAO{
 
     public ArrayList<ArrayList<String>> getSongDelReq(int type) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q3 = "SELECT temp_song_id, song_name, version, published_year, documentation_link, member_id, emp_id FROM song_requests WHERE status = ? AND Type_of_request = 3 AND rejected = 0;";
+        String q3 = "SELECT temp_song_id, song_name, version, published_year, documentation_link, member_id, emp_id FROM song_requests WHERE status = ? AND Type_of_request = 3 AND rejected = 0 AND is_cancelled = 0;";
         PreparedStatement stmt = connection.prepareStatement(q3);
 
         stmt.setInt(1, type);
