@@ -65,7 +65,7 @@ public class ApplyLicenseService {
         return obj.getConcertIDOpen(license, uid);
     }
 
-    public boolean setPaymentSlip(int concertID, String url) throws SQLException, ClassNotFoundException{
+    public boolean setPaymentSlip(int concertID, String url) throws SQLException, ClassNotFoundException, IOException, MessagingException {
         return obj.setSlipPayment(concertID, url);
     }
 

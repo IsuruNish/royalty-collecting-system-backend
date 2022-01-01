@@ -206,7 +206,7 @@ public class LicensePaymentServlet extends HttpServlet {
 
                 try {
                     done = service.setPaymentSlip(a.getConcertID(), url);
-                } catch (SQLException | ClassNotFoundException throwables) {
+                } catch (SQLException | ClassNotFoundException | MessagingException throwables) {
                     throwables.printStackTrace();
                 }
 

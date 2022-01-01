@@ -249,7 +249,7 @@ public class AddUsersDAOImpl implements AddUsersDAO {
 
         boolean a = stmt.executeUpdate() > 0;
 
-        if (a && b){
+        if (a || b){
             try {
                 javaMailUtil.notifyUser(user.getEmail(),""+password, user.getFname());
             } catch (MessagingException e) {
