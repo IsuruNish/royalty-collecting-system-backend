@@ -225,7 +225,8 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
         PreparedStatement stmt = connection.prepareStatement(q);
 
         String[] nowURl = url.split("/");
-        String newURl = nowURl[0] +"/" + nowURl[1] +"/"+ nowURl[2] +"/"+ nowURl[3] +"/"+ nowURl[4] + "/" + nowURl[5] + "/f_auto,fl_attachment:Documentation/" +nowURl[7];
+//        String newURl = nowURl[0] +"/" + nowURl[1] +"/"+ nowURl[2] +"/"+ nowURl[3] +"/"+ nowURl[4] + "/" + nowURl[5] + "/f_webp,fl_attachment:Documentation/" +nowURl[7];
+        String newURl = nowURl[0] +"/" + nowURl[1] +"/"+ nowURl[2] +"/"+ nowURl[3] +"/"+ nowURl[4] + "/" + nowURl[5] + "/f_auto,fl_attachment:Documentation/" +nowURl[6]+"/"+nowURl[7];
 
         stmt.setString(1,newURl);
         stmt.setString(2, url);
@@ -240,4 +241,14 @@ public class SongRegistrationDAOImpl implements SongRegistrationDAO{
             return null;
         }
     }
+
+//    public static void main(String[] args) {
+//
+//        String url = "https://res.cloudinary.com/osca-lk/image/upload/v1640551645/horxzfpna5jcioyzdkkh.pdf";
+//        String[] nowURl = url.split("/");
+//        String newURl = nowURl[0] +"/" + nowURl[1] +"/"+ nowURl[2] +"/"+ nowURl[3] +"/"+ nowURl[4] + "/" + nowURl[5] + "/f_auto,fl_attachment:Documentation/" +nowURl[6]+"/"+nowURl[7];
+//
+//        System.out.println(newURl);
+//        System.out.println(Arrays.toString(nowURl));
+//    }
 }

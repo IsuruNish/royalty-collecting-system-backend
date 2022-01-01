@@ -314,7 +314,10 @@ public class ApplyLicenseDAOImpl implements ApplyLicenseDAO{
         String q = "UPDATE concert SET Payment_slip_link = ? WHERE concert_id = ? ;";
         PreparedStatement stmt = connection.prepareStatement(q);
 
-        stmt.setString(1,url);
+        String[] nowURl = url.split("/");
+        String newURl = nowURl[0] +"/" + nowURl[1] +"/"+ nowURl[2] +"/"+ nowURl[3] +"/"+ nowURl[4] + "/" + nowURl[5] + "/f_auto,fl_attachment:Documentation/" +nowURl[6]+"/"+nowURl[7];
+
+        stmt.setString(1,newURl);
         stmt.setInt(2,concertID);
 
         return stmt.executeUpdate() > 0;
