@@ -1,6 +1,6 @@
 package org.osca.controller.login;
 
-import org.osca.controller.httpRequest.PDFgenerator;
+//import org.osca.controller.httpRequest.PDFgenerator;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -204,8 +204,8 @@ public class Mail {
 
 
     public void licenseEmail(String msg , String fullname, ArrayList<String> data, String email) throws MessagingException, IOException {
-        PDFgenerator obj = new PDFgenerator();
-        obj.pdf(Integer.parseInt(data.get(0)),Integer.parseInt(data.get(1)),data.get(2),data.get(3),data.get(4),data.get(5));
+//        PDFgenerator obj = new PDFgenerator();
+//        obj.pdf(Integer.parseInt(data.get(0)),Integer.parseInt(data.get(1)),data.get(2),data.get(3),data.get(4),data.get(5));
 
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", true);
@@ -239,7 +239,7 @@ public class Mail {
                 "<div> <h1 style=\"font-size:50px; text-align:center;\"> License request accepted</h1>\n" +
                 "</div> \n" +
                 "\n" +
-                "<div style=\"font-size:16px; text-align:center;\">Hello "+ fullname +"! Your license request is accepted by OSCA. We have attached your OSCA license to this email.\n" +
+                "<div style=\"font-size:16px; text-align:center;\">Hello "+ fullname +"! Your license request is accepted by OSCA. You can claim it by contacting OSCA.\n" +
                 "</div>\n" +
                 "\n" +
                 "<div style=\"text-align:center; margin-top:60px;\">\n" +
@@ -259,12 +259,12 @@ public class Mail {
                 "\n" +
                 "\n";
 
-        pdfAttachment.attachFile("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\PDFs\\OSCA license.pdf");
+//        pdfAttachment.attachFile("C:\\Users\\Asus\\Desktop\\be\\osca-royalty-collector-backend\\OSCA\\src\\main\\webapp\\PDFs\\OSCA license.pdf");
         mimeBodyPart.setContent(msg, "text/html");
         mimeBodyPart.setContent(text, "text/html");
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
-        multipart.addBodyPart(pdfAttachment);
+//        multipart.addBodyPart(pdfAttachment);
         message.setContent(multipart);
         Transport.send(message);
     }
