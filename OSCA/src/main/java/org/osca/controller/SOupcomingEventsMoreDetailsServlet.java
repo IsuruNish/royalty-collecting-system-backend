@@ -44,19 +44,27 @@ public class SOupcomingEventsMoreDetailsServlet extends HttpServlet {
         String fname = "";
 
 
-        try {
-            path = dp.getUserDP(uid);
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
+        if(utype == 5){
+            try {
+                path = dp.getUserDP(uid);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+
+            try {
+                fname = fnameS.getShowOrganizerName(uid);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
         }
-
-        try {
-            fname = fnameS.getShowOrganizerName(uid);
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
+        else{
+            try {
+                path = dp.getEmpDP(uid);
+                fname = fnameS.getSuperadminName(uid);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
         }
-
-
 
         UpcomingEvents a = new UpcomingEvents();
         a.setFname(fname);
