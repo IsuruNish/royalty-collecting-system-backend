@@ -255,4 +255,75 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
         return finaOne;
     }
 
+
+    public ArrayList<ArrayList<String>> getSOPastEvents(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied FROM concert WHERE user_id =? AND status =2 AND rejected = 0 AND cancelled = 0 AND Payment_status = 1 AND concert_date < CURRENT_DATE ;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+        stmt.setInt(1,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+        ArrayList<ArrayList<String>> finaOne = new ArrayList<>();
+
+        while(resultSet.next()){
+            ArrayList<String> x = new ArrayList<>();
+
+            x.add(String.valueOf(resultSet.getInt(1)));
+            x.add(resultSet.getString(2));
+            x.add(resultSet.getString(3));
+            x.add(resultSet.getString(4));
+            x.add(resultSet.getString(5));
+            x.add(resultSet.getString(6));
+            x.add(resultSet.getString(7));
+            x.add("Finished");
+
+            finaOne.add(x);
+        }
+
+
+        String q0 = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied FROM concert WHERE user_id =? AND rejected = 1 AND cancelled = 0 ;";
+        PreparedStatement stmt0 = connection.prepareStatement(q0);
+        stmt0.setInt(1,uid);
+
+        ResultSet resultSet0 = stmt0.executeQuery();
+
+        while(resultSet0.next()){
+            ArrayList<String> x = new ArrayList<>();
+
+            x.add(String.valueOf(resultSet0.getInt(1)));
+            x.add(resultSet0.getString(2));
+            x.add(resultSet0.getString(3));
+            x.add(resultSet0.getString(4));
+            x.add(resultSet0.getString(5));
+            x.add(resultSet0.getString(6));
+            x.add(resultSet0.getString(7));
+            x.add("Rejected");
+
+            finaOne.add(x);
+        }
+
+        String q1 = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied FROM concert WHERE user_id =? AND cancelled = 1 ;";
+        PreparedStatement stmt1 = connection.prepareStatement(q1);
+        stmt1.setInt(1,uid);
+
+        ResultSet resultSet1 = stmt1.executeQuery();
+
+        while(resultSet1.next()){
+            ArrayList<String> x = new ArrayList<>();
+
+            x.add(String.valueOf(resultSet1.getInt(1)));
+            x.add(resultSet1.getString(2));
+            x.add(resultSet1.getString(3));
+            x.add(resultSet1.getString(4));
+            x.add(resultSet1.getString(5));
+            x.add(resultSet1.getString(6));
+            x.add(resultSet1.getString(7));
+            x.add("Cancelled");
+
+            finaOne.add(x);
+        }
+
+        return finaOne;
+    }
+
 }

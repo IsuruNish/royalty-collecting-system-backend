@@ -32,4 +32,8 @@ public class UpcomingEventsService {
     public ArrayList<ArrayList<String>>  pendingPaymentsForShowOrganizer(int uid) throws SQLException, ClassNotFoundException {
         return obj.pendingPaymentsForSO(uid);
     }
+
+    public ArrayList<ArrayList<String>> getPastEventsSO(int uid) throws SQLException, ClassNotFoundException {
+        return obj.getSOPastEvents(uid);
+    }
 }

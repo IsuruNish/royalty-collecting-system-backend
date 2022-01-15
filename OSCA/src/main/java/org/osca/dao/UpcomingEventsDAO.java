@@ -16,4 +16,6 @@ public interface UpcomingEventsDAO {
     public ArrayList<String> getSongs(int concertID) throws SQLException, ClassNotFoundException;
 
     public ArrayList<ArrayList<String>>  pendingPaymentsForSO(int uid) throws SQLException, ClassNotFoundException;
+
+    public ArrayList<ArrayList<String>> getSOPastEvents(int uid) throws SQLException, ClassNotFoundException;
 }
