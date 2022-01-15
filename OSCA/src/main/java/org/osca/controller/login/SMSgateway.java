@@ -15,7 +15,9 @@ public class SMSgateway {
         SecureRandom rand = new SecureRandom();
         String pin=""+rand.nextInt(1000000);
 
-        URL textit = new URL("http://textit.biz/sendmsg/index.php?id=94766699117&pw=8265&to=94766699117&text="+pin);
+        String textForSMS = "Your+PIN+for+OSCA+signup+is+"+pin;
+
+        URL textit = new URL("http://textit.biz/sendmsg/index.php?id=94766699117&pw=8265&to=94766699117&text="+textForSMS);
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(textit.openStream()));
 
