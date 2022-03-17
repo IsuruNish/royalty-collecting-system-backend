@@ -12,7 +12,7 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
 
     public ArrayList<ArrayList<String>> getSOUpcomingEvents(int uid) throws SQLException, ClassNotFoundException{
         Connection connection = DBConnection.getObj().getConnection();
-        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied FROM concert WHERE user_id =? AND status =2 AND rejected = 0 AND cancelled = 0 AND Payment_status = 1;";
+        String q = "SELECT concert_id, concert_name,venue, concert_date, type, total_fee,Date_Applied FROM concert WHERE user_id =? AND status =2 AND rejected = 0 AND cancelled = 0 AND Payment_status = 1 AND CURRENT_DATE <=concert_date ;";
         PreparedStatement stmt = connection.prepareStatement(q);
         stmt.setInt(1,uid);
 
