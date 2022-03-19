@@ -28,8 +28,4 @@ public class SMSgateway {
 
         return Integer.parseInt(pin);
     }
-
-    public void storePinInDatabase(int pin, int uid){
-
-    }
 }

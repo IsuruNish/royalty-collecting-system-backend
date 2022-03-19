@@ -37,12 +37,12 @@ public class MemdbDAOImpl implements MemdbDAO{
 
         resultSet = stmt.executeQuery();
 
-        if(resultSet.next()){
-            x.add(resultSet.getString(1));
+        double totalIncome = 0;
+        while(resultSet.next()){
+            totalIncome = totalIncome + resultSet.getDouble(1);
         }
-        else{
-            x.add("0");
-        }
+
+        x.add(String.valueOf(totalIncome));
 
         String q2 = "SELECT income FROM song_income WHERE member_id = ? AND cancel_status = 0 AND CURRENT_DATE <concert_date AND delete_flag = 0;";
 
@@ -52,12 +52,12 @@ public class MemdbDAOImpl implements MemdbDAO{
 
         resultSet = stmt.executeQuery();
 
-        if(resultSet.next()){
-            x.add(resultSet.getString(1));
+        totalIncome = 0;
+        while(resultSet.next()){
+            totalIncome = totalIncome + resultSet.getDouble(1);
         }
-        else{
-            x.add("0");
-        }
+
+        x.add(String.valueOf(totalIncome));
 
         return x;
     }
