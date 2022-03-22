@@ -120,7 +120,8 @@ public class MemAndSODashboardServlet extends HttpServlet {
             mem.setLname(details.get(2));
             mem.setEmail(details.get(3));
             mem.setPhoneNo(details.get(4));
-            mem.setUpcomingIncome(Integer.parseInt(details.get(5)));
+//            mem.setUpcomingIncome(Integer.parseInt(details.get(5)));
+            mem.setUpcomingIncome(Double.parseDouble(details.get(5)));
             mem.setPastIncome(Double.parseDouble(details.get(6)));
             mem.setDPpath(path);
 
