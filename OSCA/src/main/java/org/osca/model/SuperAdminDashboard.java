@@ -1,5 +1,7 @@
 package org.osca.model;
 
+import java.util.ArrayList;
+
 public class SuperAdminDashboard {
     int utype;
     int id;
@@ -17,6 +19,7 @@ public class SuperAdminDashboard {
     Double oscaIncome;
     String DPpath;
 
+    ArrayList<String> emailListForBackend;
     int emailFlag;
 
     public SuperAdminDashboard(int utype, String fname, String DPpath) {
@@ -70,6 +73,7 @@ public class SuperAdminDashboard {
         return "SuperAdminDashboard{" +
                 "utype=" + utype +
                 ", id=" + id +
+                ", nic='" + nic + '\'' +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 ", email='" + email + '\'' +
@@ -81,6 +85,9 @@ public class SuperAdminDashboard {
                 ", memberIncome=" + memberIncome +
                 ", concerts=" + concerts +
                 ", oscaIncome=" + oscaIncome +
+                ", DPpath='" + DPpath + '\'' +
+                ", emailListForBackend=" + emailListForBackend +
+                ", emailFlag=" + emailFlag +
                 '}';
     }
 
@@ -211,6 +218,16 @@ public class SuperAdminDashboard {
     public void setEmailFlag(int emailFlag) {
         this.emailFlag = emailFlag;
     }
+
+    public ArrayList<String> getEmailListForBackend() {
+        return emailListForBackend;
+    }
+
+    public void setEmailListForBackend(ArrayList<String> emailListForBackend) {
+        this.emailListForBackend = emailListForBackend;
+    }
+
+
 
     public SuperAdminDashboard() {
     }

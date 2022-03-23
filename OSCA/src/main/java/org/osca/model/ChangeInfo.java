@@ -1,5 +1,7 @@
 package org.osca.model;
 
+import java.util.ArrayList;
+
 public class ChangeInfo {
     int utype;
     int id;
@@ -16,6 +18,7 @@ public class ChangeInfo {
     String accNo;
 
     int emailFlag;
+    ArrayList<String> emailListForBackend;
 
     public ChangeInfo() {
     }
@@ -160,6 +163,14 @@ public class ChangeInfo {
         this.emailFlag = emailFlag;
     }
 
+    public ArrayList<String> getEmailListForBackend() {
+        return emailListForBackend;
+    }
+
+    public void setEmailListForBackend(ArrayList<String> emailListForBackend) {
+        this.emailListForBackend = emailListForBackend;
+    }
+
     @Override
     public String toString() {
         return "ChangeInfo{" +
@@ -174,6 +185,8 @@ public class ChangeInfo {
                 ", bankName='" + bankName + '\'' +
                 ", bankBranch='" + bankBranch + '\'' +
                 ", accNo='" + accNo + '\'' +
+                ", emailFlag=" + emailFlag +
+                ", emailListForBackend=" + emailListForBackend +
                 '}';
     }
 }

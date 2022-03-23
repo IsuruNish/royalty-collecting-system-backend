@@ -24,4 +24,7 @@ public interface SAchangeinfoDAO {
     public boolean setEmailVerificationForEmp(int uid) throws SQLException, ClassNotFoundException;
     public boolean setEmailVerificationForSO(int uid) throws SQLException, ClassNotFoundException;
     public boolean setEmailVerificationForMem(int uid) throws SQLException, ClassNotFoundException;
+
+    public ArrayList<String> getAllEmails(int uid) throws SQLException, ClassNotFoundException;
+
 }

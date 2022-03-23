@@ -50,4 +50,9 @@ public class SAchangeinfoService {
     }
 
 
+    public ArrayList<String> getAllEmailsFromBackEnd(int uid) throws SQLException, ClassNotFoundException {
+        return saDAO.getAllEmails(uid);
+    }
+
+
 }

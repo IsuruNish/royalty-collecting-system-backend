@@ -27,4 +27,7 @@ public interface AllUsersChangeInfoDAO{
     public boolean daleteImageSO(int uid) throws SQLException, ClassNotFoundException;
 
     public boolean updateBank(int uid, String accNo, String bankName, String bankBranch) throws SQLException, ClassNotFoundException;
+
+    public ArrayList<String> getAllEmails2(int uid) throws SQLException, ClassNotFoundException;
+
 }

@@ -154,4 +154,23 @@ public class SAchangeinfoDAOimpl implements SAchangeinfoDAO{
         return stmt.executeUpdate() > 0;
     }
 
+    public ArrayList<String> getAllEmails(int uid) throws SQLException, ClassNotFoundException{
+        Connection connection = DBConnection.getObj().getConnection();
+        String q = "SELECT email FROM officials WHERE NOT emp_id = ? UNION SELECT email FROM members WHERE NOT member_id = ? UNION SELECT email FROM basic_users WHERE NOT user_id = ?;";
+        PreparedStatement stmt = connection.prepareStatement(q);
+
+        stmt.setInt(1,uid);
+        stmt.setInt(2,uid);
+        stmt.setInt(3,uid);
+
+        ResultSet resultSet = stmt.executeQuery();
+
+        ArrayList<String> x = new ArrayList<>();
+        while(resultSet.next()){
+            x.add(resultSet.getString(1));
+        }
+        return x;
+    }
+
+
 }

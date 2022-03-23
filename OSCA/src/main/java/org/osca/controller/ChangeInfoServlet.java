@@ -52,13 +52,13 @@ public class ChangeInfoServlet extends HttpServlet {
 
         SAchangeinfoService SAserivice=new SAchangeinfoService();
         ArrayList<String> details = new ArrayList<>();
+        ArrayList<String> emailListFromBackend = new ArrayList<>();
 
         try {
             details = SAserivice.getCIDetails(uid);
-        } catch (SQLException throwables) {
+            emailListFromBackend = SAserivice.getAllEmailsFromBackEnd(uid);
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         ImageService dp = new ImageService();
@@ -66,10 +66,8 @@ public class ChangeInfoServlet extends HttpServlet {
         try {
             path = dp.getEmpDP(uid);
 
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
         SuperAdminDashboard sa = new SuperAdminDashboard(
@@ -81,6 +79,7 @@ public class ChangeInfoServlet extends HttpServlet {
                 details.get(4),
                 path);
 
+        sa.setEmailListForBackend(emailListFromBackend);
         System.out.println(sa);
         Gson gson = new Gson();
         System.out.println(sa);

@@ -84,8 +84,11 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
 
         if (userType == 4){
             AllUsersChangeInfoService serivice = new AllUsersChangeInfoService();
+            ArrayList<String> emailListFromBackend = new ArrayList<>();
+
             try {
                 details = serivice.getDetailsOfMember(uid);
+                emailListFromBackend = serivice.getAllEmailsFromBackEnd2(uid);
 
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
@@ -111,6 +114,7 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
                     details.get(7),
                     details.get(5));
 
+            sa.setEmailListForBackend(emailListFromBackend);
             Gson gson = new Gson();
             String saobj =gson.toJson(sa);
             response.setContentType("application/json");
@@ -120,8 +124,11 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
 
         else{
             AllUsersChangeInfoService serivice = new AllUsersChangeInfoService();
+            ArrayList<String> emailListFromBackend = new ArrayList<>();
+
             try {
                 details = serivice.getDetailsOfShowOrganizer(uid);
+                emailListFromBackend = serivice.getAllEmailsFromBackEnd2(uid);
 
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
@@ -144,6 +151,7 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
                     details.get(4),
                     path);
 
+            sa.setEmailListForBackend(emailListFromBackend);
             Gson gson = new Gson();
             String saobj =gson.toJson(sa);
             response.setContentType("application/json");

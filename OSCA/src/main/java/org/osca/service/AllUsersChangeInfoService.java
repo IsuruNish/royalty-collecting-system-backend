@@ -58,4 +58,9 @@ public class AllUsersChangeInfoService {
     public boolean updateBankDetails(int uid, String accNo, String bankName, String bankBranch) throws SQLException, ClassNotFoundException {
         return saDAO.updateBank(uid,accNo, bankName, bankBranch);
     }
+
+
+    public ArrayList<String> getAllEmailsFromBackEnd2(int uid) throws SQLException, ClassNotFoundException {
+        return saDAO.getAllEmails2(uid);
+    }
 }
