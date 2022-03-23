@@ -14,7 +14,7 @@ public interface ChangeSongOwnershipDAO {
     public ArrayList<ArrayList<String>> getAllComposers(int id) throws SQLException, ClassNotFoundException;
     public ArrayList<ArrayList<String>> getAllWriters(int id) throws SQLException, ClassNotFoundException;
 
-
+    public ArrayList<String> getAllNoneMembers() throws SQLException, ClassNotFoundException;
 
 
     public Boolean storeSong(int uid, int ut, SongOwnerhip song, String link, int currentID) throws SQLException, ClassNotFoundException;

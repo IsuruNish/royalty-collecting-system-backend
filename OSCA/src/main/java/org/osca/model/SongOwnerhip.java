@@ -24,6 +24,8 @@ public class SongOwnerhip {
     private ArrayList<ArrayList<String>> POSTwriters;
     private ArrayList<String> POSTinfo;
 
+    private ArrayList<String> allNoneMemberNames;
+
 
     @Override
     public String toString() {
@@ -44,6 +46,7 @@ public class SongOwnerhip {
                 ", POSTcomposers=" + POSTcomposers +
                 ", POSTwriters=" + POSTwriters +
                 ", POSTinfo=" + POSTinfo +
+                ", allNoneMemberNames=" + allNoneMemberNames +
                 '}';
     }
 
@@ -173,5 +176,13 @@ public class SongOwnerhip {
 
     public void setInfo(List<String> info) {
         this.info = info;
+    }
+
+    public ArrayList<String> getAllNoneMemberNames() {
+        return allNoneMemberNames;
+    }
+
+    public void setAllNoneMemberNames(ArrayList<String> allNoneMemberNames) {
+        this.allNoneMemberNames = allNoneMemberNames;
     }
 }

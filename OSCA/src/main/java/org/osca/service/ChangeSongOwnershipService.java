@@ -33,6 +33,10 @@ public class ChangeSongOwnershipService {
         return obj.getAllWriters(id);
     }
 
+    public ArrayList<String> getAllNoneMembersInSystem() throws SQLException, ClassNotFoundException {
+        return obj.getAllNoneMembers();
+    }
+
 
 
 

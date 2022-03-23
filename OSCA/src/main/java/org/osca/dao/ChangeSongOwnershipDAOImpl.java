@@ -87,6 +87,26 @@ public class ChangeSongOwnershipDAOImpl implements ChangeSongOwnershipDAO{
 //    }
 
 
+    public ArrayList<String> getAllNoneMembers() throws SQLException, ClassNotFoundException{
+        ArrayList<String> names = new ArrayList<>();
+
+        Connection connection = DBConnection.getObj().getConnection();
+
+        String q1 = "SELECT first_name, last_name FROM members WHERE Member_Active_Status = 'N' ";
+        PreparedStatement stmt = connection.prepareStatement(q1);
+        ResultSet resultSet = stmt.executeQuery();
+
+        while (resultSet.next()) {
+            String name = "";
+            name = resultSet.getString(1)+" "+resultSet.getString(2);
+            names.add(name);
+        }
+
+        return names;
+    }
+
+
+
 
     public ArrayList<ArrayList<String>> getAllSingers(int id) throws SQLException, ClassNotFoundException{
         ArrayList<ArrayList<String>> MemIds = new ArrayList<>();

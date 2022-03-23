@@ -270,6 +270,8 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                 ArrayList<ArrayList<String>> composers = new ArrayList<>();
                 ArrayList<ArrayList<String>> writers = new ArrayList<>();
 
+                ArrayList<String> allNoneMemberNames = new ArrayList<>();
+
                 ChangeSongOwnershipService songs = new ChangeSongOwnershipService();
 
                 try {
@@ -296,11 +298,19 @@ public class ChangeSongOwnershipServlet extends HttpServlet {
                     throwables.printStackTrace();
                 }
 
+                try {
+                    allNoneMemberNames = songs.getAllNoneMembersInSystem();
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+
                 SongOwnerhip a = new SongOwnerhip();
                 a.setPOSTsingers(singers);
                 a.setPOSTcomposers(composers);
                 a.setPOSTwriters(writers);
                 a.setPOSTinfo(info);
+
+                a.setAllNoneMemberNames(allNoneMemberNames);
 
                 System.out.println(a);
                 Gson gson2 = new Gson();
