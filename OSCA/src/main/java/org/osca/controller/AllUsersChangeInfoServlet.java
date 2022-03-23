@@ -415,7 +415,7 @@ public class AllUsersChangeInfoServlet extends HttpServlet {
             }
 
 
-            boolean done = false;
+            boolean done = true;
             if (user.getEmailFlag() == 1){
                 done = sService.setEmailVerificationForShowOrganizer(uid);
             }

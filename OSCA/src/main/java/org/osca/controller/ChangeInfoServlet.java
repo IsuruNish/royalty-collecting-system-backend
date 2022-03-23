@@ -254,7 +254,7 @@ public class ChangeInfoServlet extends HttpServlet {
             throwables.printStackTrace();
         }
 
-        boolean done = false;
+        boolean done = true;
         if (user.getEmailFlag() == 1){
             done = saService.setEmailVerificationForOSCA(uid);
         }
