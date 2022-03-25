@@ -140,7 +140,7 @@ public class AMonthlyReportsDAOImpl implements AMonthlyReportsDAO{
 
         ResultSet resultSet1 = stmt1.executeQuery();
 
-        String q2="SELECT User_ID, Concert_Name, Fee_without_commission-Cancellation_Fee as tot From concert WHERE cancelled =1 and YEAR(Concert_Date)=? and MONTH(Concert_Date)=?;";
+        String q2="SELECT User_ID, Concert_Name, Total_Fee-Cancellation_Fee as tot From concert WHERE cancelled =1 and YEAR(Concert_Date)=? and MONTH(Concert_Date)=?;";
         PreparedStatement stmt2 = connection.prepareStatement(q2);
         stmt2.setString(1,year);
         stmt2.setString(2,month);
