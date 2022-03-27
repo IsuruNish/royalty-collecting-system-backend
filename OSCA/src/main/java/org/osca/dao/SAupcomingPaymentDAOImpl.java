@@ -105,7 +105,7 @@ public class SAupcomingPaymentDAOImpl implements SAupcomingPaymentDAO{
 
         String q2 = "SELECT song_name FROM song_requests WHERE temp_song_id = ? ;";
         PreparedStatement stmt2 = connection.prepareStatement(q2);
-        stmt2.setInt(1,id);
+        stmt2.setInt(1,songID);
         ResultSet resultSet2 = stmt2.executeQuery();
 
         String sName = null;
