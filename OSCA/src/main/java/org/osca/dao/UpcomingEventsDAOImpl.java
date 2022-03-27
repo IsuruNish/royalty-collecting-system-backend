@@ -126,7 +126,7 @@ public class UpcomingEventsDAOImpl implements UpcomingEventsDAO{
             x.add(resultSet.getString(5));
 
             double fee = 0;
-            if (resultSet.getString(5).equals("Open")){
+            if (!resultSet.getString(5).equals("Open")){
                 fee = resultSet.getDouble(6) + resultSet.getDouble(9);
             }
             else{
