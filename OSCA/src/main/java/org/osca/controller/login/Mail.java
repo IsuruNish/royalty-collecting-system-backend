@@ -23,7 +23,7 @@ public class Mail {
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("osca.g04@gmail.com", "OSCAinLK123");
+                return new PasswordAuthentication(companyEmail, companyPassword);
             }
         });
 
@@ -90,7 +90,7 @@ public class Mail {
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("osca.g04@gmail.com", "OSCAinLK123");
+                return new PasswordAuthentication(companyEmail, companyPassword);
             }
         });
 
@@ -217,7 +217,7 @@ public class Mail {
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("osca.g04@gmail.com", "OSCAinLK123");
+                return new PasswordAuthentication(companyEmail, companyPassword);
             }
         });
 
@@ -281,7 +281,7 @@ public class Mail {
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("osca.g04@gmail.com", "OSCAinLK123");
+                return new PasswordAuthentication(companyEmail, companyPassword);
             }
         });
 
