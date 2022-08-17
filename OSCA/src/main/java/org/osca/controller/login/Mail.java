@@ -95,7 +95,7 @@ public class Mail {
         });
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("osca.g04@gmail.com"));
+        message.setFrom(new InternetAddress(companyEmail));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
         message.setSubject("OSCA");
 
@@ -153,12 +153,12 @@ public class Mail {
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("osca.g04@gmail.com", "OSCAinLK123");
+                return new PasswordAuthentication(companyEmail, companyPassword);
             }
         });
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("osca.g04@gmail.com"));
+        message.setFrom(new InternetAddress(companyEmail));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
         message.setSubject("OSCA");
 
@@ -222,7 +222,7 @@ public class Mail {
         });
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("osca.g04@gmail.com"));
+        message.setFrom(new InternetAddress(companyEmail));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 //        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("isurunishadha99@gmail.com"));
         message.setSubject("OSCA");
@@ -286,7 +286,7 @@ public class Mail {
         });
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("osca.g04@gmail.com"));
+        message.setFrom(new InternetAddress(companyEmail));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
         message.setSubject("OSCA");
 
