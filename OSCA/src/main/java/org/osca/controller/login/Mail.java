@@ -28,7 +28,7 @@ public class Mail {
         });
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("osca.g04@gmail.com"));
+        message.setFrom(new InternetAddress(companyEmail);
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
         message.setSubject("OSCA");
 
